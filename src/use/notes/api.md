@@ -36,10 +36,6 @@ class ApiDocTest
 }
 ```
 
-以上注释，我们得到的效果如下
-
-![apidoc-api-base-demo](/thinkphp-apidoc/images/apidoc-api-base-demo.png "apidoc-api-base-demo")
-
 
 ## 通用注释
 
