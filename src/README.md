@@ -50,17 +50,7 @@ features:
     icon: typescript
     details: 文档自动生成接口的Json及TypeScript
 
-  - title: 批量测试-（开发中）
-    icon: emmet
-    details: 可创建多个测试用例，一键批量测试接口
-
-  - title: 接口分享-（开发中）
-    icon: share
-    details: 勾选指定的接口进行Api接口文档分享
-
-  - title: Api市场-（开发中）
-    icon: software
-    details: 丰富的常用Api接口市场，一键下载，轻松搞定接口开发
+  
 
 copyright: false
 footer: MIT Licensed | Copyright © 2020-present HG
