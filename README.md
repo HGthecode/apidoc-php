@@ -1,7 +1,9 @@
+<div align="center">
+    <img width="160"  src="https://apidoc-docs.hg-code.com/logo.png">
+</div>
 
-
-<h1 align="center">
-  ApiDoc
+<h1 align="center" style="margin-top: 0;padding-top: 0;">
+  Apidoc
 </h1>
 
 <div align="center">
@@ -12,8 +14,8 @@
 <a href="https://packagist.org/packages/hg/apidoc"><img src="https://img.shields.io/packagist/v/hg/apidoc"></a>
 <a href="https://packagist.org/packages/hg/apidoc"><img src="https://img.shields.io/packagist/dt/hg/apidoc"></a>
 <a href="https://packagist.org/packages/hg/apidoc"><img src="https://img.shields.io/packagist/l/hg/apidoc"></a>
-<a href="https://github.com/HGthecode/apidoc"><img src="https://img.shields.io/github/issues/HGthecode/apidoc-php"></a>
-<a href="https://github.com/HGthecode/apidoc"><img src="https://img.shields.io/github/forks/HGthecode/apidoc-php"></a>
+<a href="https://github.com/HGthecode/apidoc-php"><img src="https://img.shields.io/github/issues/HGthecode/apidoc-php"></a>
+<a href="https://github.com/HGthecode/apidoc-php"><img src="https://img.shields.io/github/forks/HGthecode/apidoc-php"></a>
 
 </div>
 
@@ -40,7 +42,7 @@ Apidoc是一个通过解析注解生成Api接口文档的PHP composer扩展；
 
 ## 📌兼容
 
-以下框架已内置兼容，可开箱即用。其它框架可参考[其它框架安装说明]()进行手动兼容。
+以下框架已内置兼容，可开箱即用。其它框架可参考[其它框架安装说明](https://apidoc-docs.hg-code.com/guide/install/other.html)进行手动兼容。
 
 |框架|版本|说明|
 |-|-|-|
@@ -50,15 +52,23 @@ Apidoc是一个通过解析注解生成Api接口文档的PHP composer扩展；
 |Webman|2.x|需手动配置兼容|
 
 
+## 📖使用文档
+
+[ApiDoc 文档](https://apidoc-docs.hg-code.com/)
 
 
 ## 🏆支持我们
 
 如果本项目对您有所帮助，请点个Star支持我们
 
-
 - [Github](https://github.com/HGthecode/apidoc-php) -> <a href="https://github.com/HGthecode/apidoc-php" target="_blank">
   <img height="22" src="https://img.shields.io/github/stars/HGthecode/apidoc-php?style=social" class="attachment-full size-full" alt="Star me on GitHub" data-recalc-dims="1" /></a>
+
+## 交流群
+
+![QQ群](/qq-qun.png)
+
+
 
 ## 💡鸣谢
 
