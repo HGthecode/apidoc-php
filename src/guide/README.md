@@ -30,13 +30,11 @@ Apidoc是一个通过解析注解生成Api接口文档的PHP composer扩展；
 - Markdown文档：支持.md文件的文档展示。
 - Json/TypeScript生成：文档自动生成接口的Json及TypeScript。
 - 代码生成器：配置+模板即可快速生成代码及数据表的创建，大大提高工作效率。
-<!-- - 批量测试：可创建多个测试用例，一键批量测试接口。
-- Api市场：丰富的常用Api接口市场，一键下载，轻松搞定接口开发。 -->
 
 
 ## 📌兼容
 
-以下框架已内置兼容，可开箱即用。其它框架可参考[其它框架安装说明]()进行手动兼容。
+以下框架已内置兼容，可开箱即用。其它框架可参考[其它框架安装说明](/guide/install/other)进行手动兼容。
 
 |框架|版本|说明|
 |-|-|-|
@@ -54,9 +52,13 @@ Apidoc是一个通过解析注解生成Api接口文档的PHP composer扩展；
   <img height="22" src="https://img.shields.io/github/stars/HGthecode/apidoc-php?style=social" class="attachment-full size-full" alt="Star me on GitHub" data-recalc-dims="1" /></a>
 
 
+## QQ交流群
+
+![QQ群](/qq-qun.png)
+
+
+
 ## 💡鸣谢
-
-
 
 [doctrine/annotations](https://github.com/doctrine/annotations)
 

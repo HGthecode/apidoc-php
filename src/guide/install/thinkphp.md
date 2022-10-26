@@ -38,7 +38,7 @@ composer require hg/apidoc
 
 ## TP5.1配置
 
-TP5.1版本需手动配置，让Apidoc在应用初始化时注册相关服务，如下：
+1、TP5.1版本需手动配置，让Apidoc在应用初始化时注册相关服务，如下：
 
 ```php
 // application/tags.php
@@ -53,5 +53,11 @@ return [
     //...
 ];
 ```
+
+2、手动添加apidoc.php配置文件
+
+手动将 `/vendor/hg/apidoc/src/config.php` 拷贝到`/config/`目录下，并重命名为`apidoc.php`
+
+
 
 
