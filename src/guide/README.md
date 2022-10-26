@@ -52,7 +52,7 @@ Apidoc是一个通过解析注解生成Api接口文档的PHP composer扩展；
   <img height="22" src="https://img.shields.io/github/stars/HGthecode/apidoc-php?style=social" class="attachment-full size-full" alt="Star me on GitHub" data-recalc-dims="1" /></a>
 
 
-## QQ交流群
+## 🌐交流群
 
 ![QQ群](/qq-qun.png)
 
