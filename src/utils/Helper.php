@@ -313,15 +313,17 @@ class Helper
             if (!empty($app['groups']) && count($app['groups']) > 0){
                 $app['groups'] = static::handleGroupsConfig($app['groups']);
             }
-            if (!empty($app['headers']) && count($app['headers']) > 0){
-                $app['headers'] = Lang::getArrayLang($app['headers'],"desc");
+            if (!empty($app['params'])){
+                if (!empty($app['params']['header']) && count($app['params']['header']) > 0){
+                    $app['params']['header'] = Lang::getArrayLang($app['params']['header'],"desc");
+                }
+                if (!empty($app['params']['query']) && count($app['params']['query']) > 0){
+                    $app['params']['query'] = Lang::getArrayLang($app['params']['query'],"desc");
+                }
+                if (!empty($app['params']['body']) && count($app['params']['body']) > 0){
+                    $app['params']['body'] = Lang::getArrayLang($app['params']['body'],"desc");
+                }
             }
-//            if (!empty($app['querys']) && count($app['querys']) > 0){
-//                $app['querys'] = Lang::getArrayLang($app['querys'],"desc");
-//            }
-//            if (!empty($app['params']) && count($app['params']) > 0){
-//                $app['params'] = Lang::getArrayLang($app['params'],"desc");
-//            }
             $appsConfig[] = $app;
         }
         return $appsConfig;

@@ -64,6 +64,9 @@ Apidoc是一个通过解析注解生成Api接口文档的PHP composer扩展；
 - [Github](https://github.com/HGthecode/apidoc-php) -> <a href="https://github.com/HGthecode/apidoc-php" target="_blank">
   <img height="22" src="https://img.shields.io/github/stars/HGthecode/apidoc-php?style=social" class="attachment-full size-full" alt="Star me on GitHub" data-recalc-dims="1" /></a>
 
+- [Gitee](https://gitee.com/hg-code/apidoc-php) -> <a href="https://gitee.com/hg-code/apidoc-php/stargazers"><img src="https://gitee.com/hg-code/apidoc-php/badge/star.svg" alt="star"></a>
+
+
 ## 🌐交流群
 
 ![QQ群](https://apidoc-docs.hg-code.com/qq-qun.png)

@@ -48,17 +48,24 @@ class Controller
         $config = ConfigProvider::get(null,true);
         $config['title'] = Lang::getLang($config['title'] );
         $config['desc'] = Lang::getLang($config['desc']);
-        if (!empty($config['params']) && !empty($config['params']['query'])){
-            $config['params']['query'] = Lang::getArrayLang($config['params']['query'],"desc");
+        if (!empty($config['params'])){
+            if (!empty($config['params']['header'])) {
+                $config['params']['header'] = Lang::getArrayLang($config['params']['header'], "desc");
+            }
+            if (!empty($config['params']['query'])) {
+                $config['params']['query'] = Lang::getArrayLang($config['params']['query'], "desc");
+            }
+            if (!empty($config['params']['body'])) {
+                $config['params']['body'] = Lang::getArrayLang($config['params']['body'], "desc");
+            }
         }
-        if (!empty($config['params']) && !empty($config['params']['body'])){
-            $config['params']['body'] = Lang::getArrayLang($config['params']['body'],"desc");
-        }
-        if (!empty($config['responses']) && !empty($config['responses']['success'])){
-            $config['responses']['success'] = Lang::getArrayLang($config['responses']['success'],"desc");
-        }
-        if (!empty($config['responses']) && !empty($config['responses']['error'])){
-            $config['responses']['error'] = Lang::getArrayLang($config['responses']['error'],"desc");
+        if (!empty($config['responses'])){
+            if (!empty($config['responses']['success'])){
+                $config['responses']['success'] = Lang::getArrayLang($config['responses']['success'],"desc");
+            }
+            if (!empty($config['responses']['error'])){
+                $config['responses']['error'] = Lang::getArrayLang($config['responses']['error'],"desc");
+            }
         }
         if (!empty($config['generator'])){
             $generatorList = [];

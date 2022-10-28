@@ -15,6 +15,13 @@ class LaravelService extends ServiceProvider
 
     use CommonService;
 
+    public function boot()
+    {
+        $this->publishes([
+            __DIR__.'/../config.php' => config_path('apidoc.php'),
+        ]);
+    }
+
     static function getApidocConfig()
     {
         $config = config("apidoc");
