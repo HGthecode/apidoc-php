@@ -22,7 +22,7 @@ class HyperfService
         if ($request->getMethod() == "GET"){
             $params = $request->getQueryParams();
         }else{
-            $params = $request->getBody();
+            $params = $request->getParsedBody();
         }
         $config =  ConfigProvider::get();
         $config['request_params'] = $params;
@@ -47,6 +47,10 @@ class HyperfService
     static function databaseQuery($sql)
     {
         return Db::select($sql);
+    }
+
+    static function getTablePrefix(){
+        return config('databases.default.prefix','');
     }
 
     static function getRootPath()

@@ -10,10 +10,13 @@ class Request
 
     protected $method = "GET";
 
-    public function __construct()
+    protected $config = [];
+
+    public function __construct($config)
     {
         $this->get = $_GET;
         $this->post = $_POST;
+        $this->config = $config;
         $this->method = !empty($_SERVER['REQUEST_METHOD'])?$_SERVER['REQUEST_METHOD']:"";
     }
 
@@ -32,7 +35,7 @@ class Request
     }
 
     public function param(){
-        $config = ConfigProvider::get();
+        $config = $this->config;
         if (!empty($config['request_params'])){
             return $config['request_params'];
         }

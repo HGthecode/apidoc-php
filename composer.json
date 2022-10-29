@@ -42,7 +42,7 @@
             }
         },
         "hyperf": {
-            "config": "hg\\apido\\ConfigProvider"
+            "config": "hg\\apidoc\\ConfigProvider"
         }
     },
     "minimum-stability": "dev"

@@ -27,7 +27,7 @@ class Controller
 
     public function init($checkAuth=false){
         $this->config = ConfigProvider::get();
-        $this->requestParams = (new Request())->param();
+        $this->requestParams = (new Request($this->config))->param();
         if (!empty($this->requestParams['lang']) && !empty($this->config['lang_register_function'])){
             $this->lang = $this->requestParams['lang'];
             $this->config['lang_register_function']($this->lang);

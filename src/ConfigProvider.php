@@ -15,7 +15,7 @@ class ConfigProvider
                 [
                     'id' => 'config',
                     'description' => 'The config of apidoc.',
-                    'source' => __DIR__ . '/../config.php',
+                    'source' => __DIR__ . '/config.php',
                     'destination' => BASE_PATH . '/config/autoload/apidoc.php',
                 ],
             ],
