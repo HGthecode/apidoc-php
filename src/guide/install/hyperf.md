@@ -33,6 +33,17 @@ php bin/hyperf.php vendor:publish hg/apidoc
 
 将以下代码复制到`config/routes.php`
 
+
+```php
+use hg\apidoc\providers\CommonService;
+/**
+ * Apidoc Routes
+ */
+CommonService::registerApidocRoutes(function ($item){
+    Router::addRoute($item['method'],$item['uri'],$item['callback'],['middleware' => [hg\apidoc\providers\HyperfService::class]]);
+});
+```
+
 ## 4、添加前端页面
 
 <ClientOnly>
