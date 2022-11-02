@@ -1,1 +1,1 @@
-const p="/apidoc-php/qq-qun.png";export{p as _};
+const n="/qq-qun.png";export{n as _};
