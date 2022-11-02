@@ -41,6 +41,9 @@ class ParseMarkdown
         $list = [];
         foreach ($menus as $item) {
             $item['title']     = Lang::getLang($item['title']);
+            if (!empty($item['appKey']) && $item['appKey'] != $appKey){
+                continue;
+            }
 
             if (!empty($item['children']) && count($item['children']) > 0) {
                 $item['children']    = $this->handleDocsMenuData($item['children'],$appKey,$lang);

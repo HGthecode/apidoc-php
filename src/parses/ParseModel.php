@@ -64,7 +64,6 @@ class ParseModel
         $reader=static::$reader;
         try {
             $classReflect    = new \ReflectionClass($path);
-
             // 获取所有模型属性
             $propertys = $classReflect->getDefaultProperties();
             $table =static::getTableDocument($model, $propertys);
@@ -124,7 +123,7 @@ class ParseModel
             }
             return $table;
         } catch (\ReflectionException $e) {
-            throw new ErrorException($e->getMessage());
+            throw new ErrorException('Class '.$path.' '.$e->getMessage());
         }
 
     }

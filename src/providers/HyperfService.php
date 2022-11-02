@@ -49,10 +49,6 @@ class HyperfService
         return Db::select($sql);
     }
 
-    static function getTablePrefix(){
-        return config('databases.default.prefix','');
-    }
-
     static function getRootPath()
     {
         return BASE_PATH."/";

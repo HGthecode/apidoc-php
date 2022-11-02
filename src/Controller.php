@@ -27,7 +27,7 @@ class Controller
 
     public function init($checkAuth=false){
         $this->config = ConfigProvider::get();
-        $this->requestParams = (new Request($this->config))->param();
+        $this->requestParams = (new Request())->param();
         if (!empty($this->requestParams['lang']) && !empty($this->config['lang_register_function'])){
             $this->lang = $this->requestParams['lang'];
             $this->config['lang_register_function']($this->lang);
@@ -45,39 +45,7 @@ class Controller
      */
     public function getConfig(){
         $this->init(true);
-        $config = ConfigProvider::get(null,true);
-        $config['title'] = Lang::getLang($config['title'] );
-        $config['desc'] = Lang::getLang($config['desc']);
-        if (!empty($config['params'])){
-            if (!empty($config['params']['header'])) {
-                $config['params']['header'] = Lang::getArrayLang($config['params']['header'], "desc");
-            }
-            if (!empty($config['params']['query'])) {
-                $config['params']['query'] = Lang::getArrayLang($config['params']['query'], "desc");
-            }
-            if (!empty($config['params']['body'])) {
-                $config['params']['body'] = Lang::getArrayLang($config['params']['body'], "desc");
-            }
-        }
-        if (!empty($config['responses'])){
-            if (!empty($config['responses']['success'])){
-                $config['responses']['success'] = Lang::getArrayLang($config['responses']['success'],"desc");
-            }
-            if (!empty($config['responses']['error'])){
-                $config['responses']['error'] = Lang::getArrayLang($config['responses']['error'],"desc");
-            }
-        }
-        if (!empty($config['generator'])){
-            $generatorList = [];
-            $generators= Lang::getArrayLang($config['generator'],"title");
-            foreach ($generators as $item) {
-                if (!empty($item['form']) && !empty($item['form']['items']) && count($item['form']['items'])){
-                    $item['form']['items'] = Lang::getArrayLang( $item['form']['items'],"title");
-                }
-                $generatorList[]=$item;
-            }
-            $config['generator'] = $generatorList;
-        }
+        $config = ConfigProvider::getFeConfig();
         return Helper::showJson(0,"",$config);
     }
 

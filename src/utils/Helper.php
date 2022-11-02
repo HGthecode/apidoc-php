@@ -360,7 +360,6 @@ class Helper
             if (!empty($group['children']) && count($group['children']) > 0) {
                 $group['children'] = static::handleAppsConfig($group['children']);
             }
-
             $groupConfig[] = $group;
         }
         return $groupConfig;

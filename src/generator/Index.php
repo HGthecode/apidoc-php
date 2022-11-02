@@ -3,7 +3,6 @@
 namespace hg\apidoc\generator;
 use hg\apidoc\exception\ErrorException;
 use hg\apidoc\generator\ParseTemplate;
-use hg\apidoc\Utils;
 use hg\apidoc\utils\DirAndFile;
 use hg\apidoc\utils\Helper;
 
@@ -13,12 +12,29 @@ class Index
 
     protected $middlewares = [];
 
-    protected $table_prefix="";
+    protected $databaseConfig = [
+        // 数据库表前缀
+        'prefix'          => '',
+        // 数据库编码，默认为utf8
+        'charset'         =>  'utf8',
+        // 数据库引擎，默认为 InnoDB
+        'engine'          => 'InnoDB',
+    ];
 
     public function __construct($config)
     {
         $this->config = $config;
-        $this->table_prefix = !empty($config['table_prefix'])?$config['table_prefix']:"";
+        if (!empty($config['database'])){
+            if (!empty($config['database']['prefix'])){
+                $this->databaseConfig['prefix'] = $config['database']['prefix'];
+            }
+            if (!empty($config['database']['charset'])){
+                $this->databaseConfig['charset'] = $config['database']['charset'];
+            }
+            if (!empty($config['database']['engine'])){
+                $this->databaseConfig['engine'] = $config['database']['engine'];
+            }
+        }
     }
 
     public function create($params){
@@ -45,10 +61,7 @@ class Index
         }
 
         $this->createModels($checkParams['createModels'],$tplParams);
-
         $this->createFiles($checkParams['createFiles'],$tplParams);
-
-
          //执行after
         if (count($this->middlewares)){
             foreach ($this->middlewares as $middleware) {
@@ -136,8 +149,6 @@ class Index
                     'templatePath'=>$templatePath,
                     'type' => $type
                 ];
-
-
             }
         }
 
@@ -191,7 +202,7 @@ class Index
                 }
                 // 验证表是否存在
                 if ($table['table_name']){
-                    $table_name = $this->table_prefix.$table['table_name'];
+                    $table_name = $this->databaseConfig['prefix'].$table['table_name'];
                     $isTable = $this->config['database_query_function']('SHOW TABLES LIKE '."'".$table_name."'");
                     if ($isTable){
                         throw new ErrorException("datatable already exists",  [
@@ -269,7 +280,7 @@ class Index
         if (!empty($table['table_comment'])){
             $comment =$table['table_comment'];
         }
-        $table_name = $this->table_prefix.$table['table_name'];
+        $table_name = $this->databaseConfig['prefix'].$table['table_name'];
         $table_data = '';
         $main_keys = '';
         $defaultNullTypes = ['timestamp'];
@@ -307,11 +318,13 @@ class Index
             $table_data.=",";
             $primaryKey = "PRIMARY KEY (`$main_keys`)";
         }
+
+        $charset = $this->databaseConfig['charset'];
+        $engine = $this->databaseConfig['engine'];
         $sql = "CREATE TABLE IF NOT EXISTS `$table_name` (
         $table_data
         $primaryKey
-        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='$comment' AUTO_INCREMENT=1 ;";
-
+        ) ENGINE=$engine DEFAULT CHARSET=$charset COMMENT='$comment' AUTO_INCREMENT=1 ;";
 
         try {
             $this->config['database_query_function']($sql);
@@ -323,7 +336,5 @@ class Index
                 'sql'=>$sql
             ]);
         }
-
-
     }
 }

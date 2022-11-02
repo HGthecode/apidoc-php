@@ -289,7 +289,6 @@ class ParseApiDetail
             $methodInfo['method'] = !empty($config['default_method']) ? strtoupper($config['default_method']) : 'GET';
         }
 
-
         // 默认default_author
         if (empty($methodInfo['author']) && !empty($config['default_author']) && !in_array("NotDefaultAuthor", $textAnnotations)) {
             $methodInfo['author'] = $config['default_author'];
@@ -420,7 +419,7 @@ class ParseApiDetail
             $res          = $this->parseAnnotation($refMethod, true);
             return $res;
         } catch (\ReflectionException $e) {
-            throw new ErrorException($e->getMessage());
+            throw new ErrorException('Class '.$classPath.' '.$e->getMessage());
         }
 
     }

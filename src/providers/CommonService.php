@@ -97,8 +97,16 @@ trait CommonService
         $config['handle_response_json'] = function ($res){
             return self::handleResponseJson($res);
         };
-        $config['table_prefix'] = self::getTablePrefix();
-
+        $table_prefix = self::getTablePrefix();
+        if (!empty($config['database'])){
+            if (empty($config['prefix'])){
+                $config['database']['prefix'] = $table_prefix;
+            }
+        }else{
+            $config['database']=[
+                'prefix'=>$table_prefix
+            ];
+        }
 
         ConfigProvider::set($config);
     }
