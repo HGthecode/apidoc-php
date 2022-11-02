@@ -9,7 +9,7 @@ export default defineUserConfig({
   title: "Apidoc",
   description: "Apidoc使用文档",
 
-  base: "/",
+  base: "/apidoc-php/",
 
   theme,
   plugins: [
