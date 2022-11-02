@@ -50,8 +50,28 @@ export default sidebar({
     },
   ],
   "/help/": [
-    "notConfig",
-    "500",
+    {
+      text: "常见问题",
+      icon: "help",
+      prefix: "problems/",
+      children: [
+        "notConfig",
+        "pageError",
+        "404",
+      ],
+    },
+    {
+      text: "使用教程",
+      icon: "book",
+      prefix: "courses/",
+      children: [
+        "tp5-install",
+        "tp6-install",
+        "lv8-install",
+        "hyperf-install",
+        "webman-install",
+      ],
+    }
   ],
 });
 

@@ -4,14 +4,14 @@ icon: home
 title: 主页
 heroImage: /logo.png
 heroText: Apidoc
-tagline: 一个自动生成Api文档的便捷开发工具。
+tagline: 自动生成Api文档的便捷开发工具
 actions:
   - text: 快速上手 💡
     link: /guide/
     type: primary
 
   - text: 演示 🏠
-    link: https://apidoc-tp6.hg-code.com/apidoc/
+    link: https://demo-tp6.apidoc.icu/apidoc/
 
 features:
   - title: 开箱即用

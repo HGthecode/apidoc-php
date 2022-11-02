@@ -26,11 +26,11 @@ window.apidocFeConfig = {
     HOSTS:[
       {
         title: "tp6",
-        host: "http://tp6.apidoc-demo.com",
+        host: "http://tp6.apidoc.icu",
       },
       {
         title: "lv8",
-        host: "http://lv8.apidoc-demo.com",
+        host: "http://lv8.apidoc.icu",
       },
       {
         title: "hyperf",

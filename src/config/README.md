@@ -160,8 +160,8 @@ return [
     ],
     // （选配）Markdown文档
     'docs'              => [
-        // title=文档标题，path=.md文件地址，多级分组使用children嵌套
-        ['title'=>'md语法示例','path'=>'docs/Use'],
+        // title=文档标题，path=.md文件地址，appKey=指定应用/版本，多级分组使用children嵌套
+        ['title'=>'md语法示例','path'=>'docs/Use','appKey'=>'demo'],
         [
             'title'=>'HTTP响应编码',
             'children'=>[

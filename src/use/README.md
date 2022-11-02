@@ -9,7 +9,7 @@ sidebarDepth: 2
 ## 建议
 - 如果你使用PHPStorm的话，建议安装PHP [Annotations插件](https://plugins.jetbrains.com/plugin/7320-php-annotations)，可以支持注解的语法提示及自动完成
 
-- 配合查看[演示项目](https://apidoc.demo.hg-code.com/apidoc/?appKey=admin)与[演示源码](https://github.com/HGthecode/thinkphp-apidoc-demo)上手更快哦！
+- 配合查看[演示项目](https://demo-tp6.apidoc.icu/apidoc/)与[演示源码](https://github.com/HGthecode/apidoc-demos)上手更快哦！
 
 
 
@@ -37,7 +37,7 @@ class Base extends BaseController
      * @Apidoc\Title("基础的接口演示")
      * @Apidoc\Author("HG")
      * @Apidoc\Tag("基础,示例")
-     * @Apidoc\Url ("/demo/base/index")
+     * @Apidoc\Url ("/demo/index")
      * @Apidoc\Method ("GET")
      * @Apidoc\Query("name", type="string",require=true, desc="姓名",mock="@name")
      * @Apidoc\Query("phone", type="string",require=true, desc="手机号",mock="@phone")

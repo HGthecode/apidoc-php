@@ -1,12 +1,19 @@
-# 页面500错误
-
-> 访问apidoc页面时，以下原因有可能导致页面显示 500 错误
+# 页面报错
 
 ## 注解错误
 
+访问apidoc页面时，如出现如下错误信息；通常有具体的描述，根据描述信息排查即可
+
+![error-501](/images/error-501.png)
+
+
+
+## 缺少注解解释文件
+
+
 项目所有被解析文件的注释中存在 @XXX 的，都需`use`引入注释解释文件，如出现以下错误
 
-
+![error-500](/images/error-500.png)
 
 可根据提示在相应的文件里，加上use解释文件
 
@@ -14,7 +21,7 @@
 <?php
 namespace app\controller;
 
-// 加上这句
+// 加上这句，解决Apidoc注解报错
 use hg\apidoc\annotation as Apidoc;
 // 通过use自定义解释文件，解决下面@abc的错误
 // use app\utils\Abc;
@@ -26,13 +33,14 @@ class BaseDemo
 {
     /**
      * @Apidoc\Title("引入通用注释")
-     * @abc 错误示例，这样不存在解释文件的注释会报错；可增加use解释文件，或去除@
+     * @abc 错误示例，这样不存在解释文件的注释会报错；可增加use解释文件，或去除@、或通过配置忽略（推荐）
      */
     public function test(){
         //...
     }
 }
 ```
+
 自定义解释文件
 ```php
 // app/utils/Abc.php 解释文件内容
@@ -58,15 +66,5 @@ class Abc extends Annotation
     'ignored_annitation'=>['abc','name']
 ]
 ```
-
-## 配置错误
-
-通常是config/apidoc.php的配置项配置错误导致此类错误，配置错一般会在页面提示出具体的错误信息，根据提示检查配置项是否配置正确即可
-
-
-## ref引入文件不存在
-
-在接口注解时，使用ref引用了一个不存在的文件，也可能出现该错误
-
 
 

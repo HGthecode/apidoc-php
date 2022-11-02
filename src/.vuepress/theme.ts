@@ -14,7 +14,7 @@ export default hopeTheme({
 
   logo: "/logo.png",
 
-  repo: "HGthecode/thinkphp-apidoc",
+  repo: "HGthecode/apidoc-php",
 
   docsDir: "tree/docs",
 
@@ -24,7 +24,7 @@ export default hopeTheme({
   // sidebar
   sidebar: sidebar,
 
-  footer: `<div>感谢每一位支持的朋友 | 点个Star呗 <a href="https://github.com/HGthecode/thinkphp-apidoc" target="_blank"><i class="iconfont icon-github" style="margin-right:5px;"></i>GitHub</a></div>`,
+  footer: `<div>感谢每一位支持的朋友 | 点个Star呗 <a href="https://github.com/HGthecode/apidoc-php" target="_blank"><i class="iconfont icon-github" style="margin-right:5px;"></i>GitHub</a></div>`,
 
   displayFooter: true,
 
@@ -42,6 +42,7 @@ export default hopeTheme({
 
   plugins: {
     blog:false,
+    photoSwipe:{},
     mdEnhance: {
       align: true,
       attrs: true,

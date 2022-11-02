@@ -74,23 +74,22 @@ CommonService::registerApidocRoutes(function ($item){
 :::: details ApidocServiceProvider.php代码
 ```php
 <?php
-
 namespace app\middleware;
 
-use hg\apidoc\providers\CommonService;
-use hg\apidoc\utils\ConfigProvider;
+use Webman\MiddlewareInterface;
 use Webman\Http\Response;
 use Webman\Http\Request;
+use hg\apidoc\providers\CommonService;
+use hg\apidoc\utils\ConfigProvider;
 use support\Db;
 
-class ApidocServiceProvider
+class ApidocServiceProvider implements MiddlewareInterface
 {
     use CommonService;
 
-    public function process(Request $request, callable $handler) : Response
+    public function process(Request $request, callable $next): Response
     {
         $this->register();
-        // 根据框架规范获取请求参数
         if ($request->method() == "GET"){
             $params = $request->get();
         }else{
@@ -99,7 +98,8 @@ class ApidocServiceProvider
         $config =  ConfigProvider::get();
         $config['request_params'] = $params;
         ConfigProvider::set($config);
-        return $handler($request);
+        $response = $next($request);
+        return $response;
     }
 
     /**
@@ -178,7 +178,7 @@ class ApidocServiceProvider
 ::::
 
 ### （2）注册中间件
-以Webman为例，注册全局中间件
+以Webman为例，`config/middleware.php`注册全局中间件
 ```php
 <?php
 return [

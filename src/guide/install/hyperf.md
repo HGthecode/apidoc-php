@@ -24,12 +24,16 @@ composer require hg/apidoc
 ## 2、生成配置文件
 项目根目录下执行：
 ```
-php bin/hyperf.php vendor:publish hg\apidoc\providers\HyperfService
+php bin/hyperf.php vendor:publish hg/apidoc
 ```
 > 命令执行后在将在`config/autoload`目录下生成`apidoc.php`配置文件
 
 
-## 3、添加前端页面
+## 3、手动注册路由
+
+将以下代码复制到`config/routes.php`
+
+## 4、添加前端页面
 
 <ClientOnly>
 <DownloadFe ></DownloadFe>

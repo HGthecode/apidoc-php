@@ -3,6 +3,7 @@ import theme from "./theme.js";
 import { docsearchPlugin } from "@vuepress/plugin-docsearch";
 import { path } from "@vuepress/utils";
 
+
 export default defineUserConfig({
   lang: "zh-CN",
   title: "Apidoc",

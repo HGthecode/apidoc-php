@@ -375,7 +375,7 @@ class ApiDocTest
 | md|	引用Markdown描述内容 |	 |	
 | mdRef|	引用Markdown描述内容 |	如：`/docs/xxx.md` |
 | ref|	引入定义的路径，可引入全局定义、服务层方法类、模型方法 |<div>如：@Apidoc\Param(ref="pagingParam")</div><div>或：@Apidoc\Param(ref="app\services\ApiDocTest\get")</div><div>或：@Apidoc\Param(ref="app\model\User\getList")</div>	 |	
-| mock|	接口调试时自动生成该字段的值，支持的参数值请查看[mock语法]() | 	 |	
+| mock|	接口调试时自动生成该字段的值，支持的参数值请查看[mock语法](/use/function/mock) | 	 |	
 | field|	配置了ref引入时有效，用来指定引入的字段 | 如：field="id,username"；则只会引入定义的 id,username字段	 |	
 | withoutField|	配置了ref引入时有效，用来指定过滤掉的字段 | 如：withoutField:id,username；则引入模型除 id,username字段外的所有字段	 |	
 | childrenField|	字段类型为`tree`时，给其定义子节点字段名 |	默认为 children |	
