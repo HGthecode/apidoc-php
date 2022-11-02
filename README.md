@@ -1,5 +1,5 @@
 <div align="center">
-    <img width="160"  src="https://apidoc-docs.hg-code.com/logo.png">
+    <img width="160"  src="https://docs.apidoc.icu/logo.png">
 </div>
 
 <h1 align="center" style="margin-top: 0;padding-top: 0;">
@@ -54,7 +54,7 @@ Apidoc是一个通过解析注解生成Api接口文档的PHP composer扩展；
 
 ## 📖使用文档
 
-[ApiDoc 文档](https://apidoc-docs.hg-code.com/)
+[ApiDoc 文档](https://docs.apidoc.icu/)
 
 
 ## 🏆支持我们
@@ -69,7 +69,7 @@ Apidoc是一个通过解析注解生成Api接口文档的PHP composer扩展；
 
 ## 🌐交流群
 
-![QQ群](https://apidoc-docs.hg-code.com/qq-qun.png)
+![QQ群](https://docs.apidoc.icu/qq-qun.png)
 
 
 
