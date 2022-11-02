@@ -243,7 +243,7 @@ $tableNameRules=[
 
 根据以上配置中template模板目录，在指定位置创建模板文件 `controller.tpl`、`service.tpl`、`model.tpl`、`validate.tpl`、`route.tpl`等。
 
-模板示例可参考 [模板文件示例](https://gitee.com/hg-code/thinkphp-apidoc-demo/tree/master/template) ，这里就不贴出来了，这里说说如何编写模板，相信你很快就能上手。
+模板示例可参考 [模板文件示例](https://github.com/HGthecode/apidoc-demos/tree/main/template) ，这里就不贴出来了，这里说说如何编写模板，相信你很快就能上手。
 
 ::: tip 要领
 1、首先自己在项目中实现一个完整的逻辑。
