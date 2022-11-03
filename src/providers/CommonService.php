@@ -74,7 +74,7 @@ trait CommonService
      * 处理apidoc接口响应的数据
      * @return mixed
      */
-    abstract static function handleResponseJson();
+    abstract static function handleResponseJson($res);
 
     abstract static function getTablePrefix();
 
