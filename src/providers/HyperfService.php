@@ -73,4 +73,8 @@ class HyperfService
     {
         return $res;
     }
+
+    static function getTablePrefix(){
+        return config('databases.default.prefix','');
+    }
 }

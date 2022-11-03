@@ -63,9 +63,5 @@ class ThinkPHPService extends \think\Service
         return json($res);
     }
 
-//    static function handlException($status,$msg){
-//        return \think\exception\HttpException($status, $msg);
-//    }
-
 
 }
