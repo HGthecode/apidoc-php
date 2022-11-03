@@ -67,7 +67,7 @@ trait CommonService
      * @param $lang
      * @return string
      */
-    abstract static function getLang($lang):string;
+    abstract static function getLang($lang);
 
 
     /**
@@ -76,7 +76,7 @@ trait CommonService
      */
     abstract function handleResponseJson();
 
-    abstract static function getTablePrefix():string;
+    abstract static function getTablePrefix();
 
 
     public function register()
