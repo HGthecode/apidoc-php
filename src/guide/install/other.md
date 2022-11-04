@@ -281,4 +281,4 @@ return [
 
 下载完成后解压，将apidoc文件夹拷贝到你的项目 public 目录下
 
-打开浏览器访问   http://你的域名/apidoc/ ，出现接口文档页面，表示安装成功。
+打开浏览器访问   http://你的域名/apidoc/index.html ，出现接口文档页面，表示安装成功。
