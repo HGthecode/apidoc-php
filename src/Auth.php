@@ -81,7 +81,7 @@ class Auth
         }
         if($authConfig['enable'] && empty($token)){
             throw new ErrorException("token not found");
-        }else if (!empty($token) && !$this->checkToken($token, "")) {
+        }else if (!empty($token) && !$this->checkToken($token, "")  && $authConfig['enable']) {
             throw new ErrorException("token error");
         }
         return true;

@@ -18,4 +18,10 @@ final class ResponseSuccess extends ParamBase
      */
     public $ref;
 
+    /**
+     * 数据挂载节点
+     * @var boolean
+     */
+    public $main;
+
 }
