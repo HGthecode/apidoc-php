@@ -49,6 +49,13 @@ window.apidocFeConfig = {
     // 启用转码
     ENCODEURICOMPONENT:false
   },
+  // （选配）授权访问
+  AUTH:{
+    // （选配）异常状态码
+    ERROR_STATUS:401,
+    // （选配）异常code字段
+    ERROR_CODE_FIELD:"code"
+  },
   // （选配）左侧菜单配置
   MENU: {
     // （选配）左侧菜单是否显示接口url

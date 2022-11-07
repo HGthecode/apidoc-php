@@ -354,9 +354,9 @@ class ApiDocTest
 |Query | 具体查看 [接口参数](#接口参数)	|请求Query参数 |	可定义多个 |	
 |Param | 具体查看 [接口参数](#接口参数)	|请求Body参数 |	可定义多个 |	
 |ParamType| `json` `formdata`	|请求参数类型，默认json | |
-|Returned| 具体查看 [接口参数](#接口参数)	|响应结果 |	可定义多个 |
-|ResponseSuccess| 	|请求成功响应体 |	可定义多个，main=true来指定接口Returned参数挂载节点 |	
-|ResponseError| 	|请求异常响应体 |	可定义多个 |	
+|Returned| 具体查看 [接口参数](#接口参数)	|响应结果 |	可定义多个 |	
+| ResponseSuccess| 当前接口的成功响应体，通过main=true指定业务数据挂载节点 | 如：<div>@Apidoc\ResponseSuccess("code",type="int",desc="业务编码")</div><div>@Apidoc\ResponseSuccess("data",type="object",desc="业务数据",main=true)</div> | |
+| ResponseError| 当前接口的异常响应体 | 同上 | |
 |Before| 具体查看 [功能使用-调试时的事件](/use/function/debugEvent/)	|调试时请求发起前执行的事件 |	可定义多个 |
 |After| 具体查看 [功能使用-调试时的事件](/use/function/debugEvent/)	|调试时请求返回后执行的事件 |	可定义多个 |
 
@@ -381,7 +381,6 @@ class ApiDocTest
 | childrenField|	字段类型为`tree`时，给其定义子节点字段名 |	默认为 children |	
 | childrenDesc|	字段类型为`tree`时，给其定义子节点字段名的备注|	 |
 | childrenType| 字段类型为`array`时，为子参数定义类型，可选值有`string` `int` `boolean` `array` `object` |  |
-| replaceGlobal| Returned有效，replaceGlobal="true"时，将该字段覆盖配置的`responses`全局响应体参数 |  |
 
 
 

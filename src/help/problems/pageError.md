@@ -7,6 +7,35 @@
 ![error-501](/images/error-501.png)
 
 
+## 访问授权错误
+
+当开启访问授权配置时，因框架的全局异常处理，没有将401状态码正常返回时出现
+
+ThinkPHP在未对全局异常处理进行修改的，出现以下错误：
+
+![error-auth-1](/images/error-auth-1.png)
+
+可参考以下异常处理类来处理
+
+```php
+// tp6为例
+public function render($request, Throwable $e): Response
+{
+    // 添加自定义异常处理机制
+    if ($e instanceof \hg\apidoc\exception\HttpException) {
+        return json(
+            [
+                "code" => $e->getCode(),
+                "message" => $e->getMessage(),
+            ],
+            $e->getStatusCode()
+        );
+    }
+}
+```
+
+
+
 
 ## 缺少注解解释文件
 

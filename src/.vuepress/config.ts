@@ -1,6 +1,6 @@
 import { defineUserConfig } from "vuepress";
 import theme from "./theme.js";
-import { docsearchPlugin } from "@vuepress/plugin-docsearch";
+import { searchPlugin } from "@vuepress/plugin-search";
 import { path } from "@vuepress/utils";
 
 
@@ -13,14 +13,7 @@ export default defineUserConfig({
 
   theme,
   plugins: [
-    docsearchPlugin({
-      // 你的选项
-      // appId, apiKey 和 indexName 是必填的
-      appId:"",
-      apiKey:"",
-      indexName:""
-    }),
-    
+    searchPlugin({}),
   ],
   alias: {
     "@DownloadFe":  path.resolve(__dirname, "components/DownloadFe.vue"),
