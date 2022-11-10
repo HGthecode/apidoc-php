@@ -18,6 +18,8 @@ return [
     'title'              => 'lang(apidoc.app.title)',
     // （选配）文档描述，显示在首页
     'desc'               => '',
+    // （选配）是否启用Apidoc，默认true
+    'enable'               => true,
     // （必须）设置文档的应用/版本
     'apps'           => [
         [

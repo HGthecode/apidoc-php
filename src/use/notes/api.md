@@ -397,6 +397,8 @@ class ApiDocTest
 |NotQuerys| 不使用配置中的全局请求Querys参数 |	
 |NotParams| 不使用配置中的全局请求Params参数 |	
 |NotResponses| 不使用统一响应体返回数据 |	
+|NotResponseSuccess| 不使用成功响应体返回数据 |	
+|NotResponseError| 不使用异常响应体返回数据 |	
 |NotDefaultAuthor| 不使用默认作者 |	
 |NotDebug| 关闭接口调试 |	
 
