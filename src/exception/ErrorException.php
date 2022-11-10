@@ -11,6 +11,7 @@ class ErrorException extends HttpException
 {
 
     protected $exceptions = [
+        'apidoc close'     => ['status'=>404,'code' => 4004, 'msg' => '文档已关闭'],
         'password error'     => ['status'=>402,'code' => 4002, 'msg' => '密码不正确，请重新输入'],
         'password not found' => ['status'=>402,'code' => 4002, 'msg' => '密码不可为空'],
         'token error'        => ['status'=>401,'code' => 4001, 'msg' => '不合法的Token'],

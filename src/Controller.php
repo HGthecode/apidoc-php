@@ -27,6 +27,9 @@ class Controller
 
     public function init($checkAuth=false){
         $this->config = ConfigProvider::get();
+        if (isset($this->config['enable']) && $this->config['enable']===false){
+            throw new ErrorException("apidoc close");
+        }
         $this->requestParams = (new Request())->param();
         if (!empty($this->requestParams['lang']) && !empty($this->config['lang_register_function'])){
             $this->lang = $this->requestParams['lang'];
@@ -251,6 +254,5 @@ class Controller
 
         return Helper::showJson(0,"",true);
     }
-
 
 }

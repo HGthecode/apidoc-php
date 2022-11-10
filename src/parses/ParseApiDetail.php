@@ -728,6 +728,15 @@ class ParseApiDetail
             }
             $params[] = $item;
 
+            if (!empty($item['name'])){
+                $params[] = $item;
+            }else{
+                if (count($children['params']) > 0) {
+                    $data = Helper::arrayMergeAndUnique("name",$data,$children['params']);
+                }
+                $params = Helper::arrayMergeAndUnique("name",$params,$data);
+            }
+
 
         } else {
             $params = Helper::arrayMergeAndUnique("name",$params,$data);

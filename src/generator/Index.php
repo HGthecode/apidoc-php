@@ -21,6 +21,10 @@ class Index
         'engine'          => 'InnoDB',
     ];
 
+    protected  $systemDefaultValues = [
+        'CURRENT_TIMESTAMP'
+    ];
+
     public function __construct($config)
     {
         $this->config = $config;
@@ -303,7 +307,11 @@ class Index
                 $table_field.=" AUTO_INCREMENT";
             }
             if (!empty($item['default']) || (isset($item['default']) && $item['default']=="0")){
-                $table_field.=" DEFAULT '".$item['default']."'";
+                $defaultValue = "'".$item['default']."'";
+                if (in_array($item['default'],$this->systemDefaultValues)){
+                    $defaultValue = $item['default'];
+                }
+                $table_field.=" DEFAULT ".$defaultValue."";
             }else if (!empty($item['main_key']) && !$item['not_null']){
                 $table_field.=" DEFAULT NULL";
             }else if (in_array($item['type'],$defaultNullTypes) && empty($item['not_null'])){
