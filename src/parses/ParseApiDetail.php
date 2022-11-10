@@ -462,6 +462,30 @@ class ParseApiDetail
                     }
                 }
             }
+        } else if(!empty($values) && is_object($values)) {
+            $item = $values;
+            if (!empty($item->ref)) {
+                $refRes = $this->renderRef($item->ref, true);
+                $params = $this->handleRefData($params, $refRes, $item, $field);
+            } else {
+                $param         = [
+                    "name"    => "",
+                    "type"    => $item->type,
+                    "desc"    => Lang::getLang($item->desc),
+                    "default" => $item->default,
+                    "require" => $item->require,
+                    "childrenType"=> $item->childrenType
+                ];
+                if (!empty($item->mock)){
+                    $param['mock']=$item->mock;
+                }
+                $children      = $this->handleParamValue($item->value);
+                $param['name'] = $children['name'];
+                if (count($children['params']) > 0) {
+                    $param['children'] = $children['params'];
+                }
+                $params[] = $param;
+            }
         } else {
             $name = $values;
         }
@@ -726,9 +750,7 @@ class ParseApiDetail
                     'desc'   => Lang::getLang($annotation->childrenDesc),
                 ];
             }
-            $params[] = $item;
-
-            if (!empty($item['name'])){
+            if (!empty($item['name']) ){
                 $params[] = $item;
             }else{
                 if (count($children['params']) > 0) {
@@ -736,8 +758,6 @@ class ParseApiDetail
                 }
                 $params = Helper::arrayMergeAndUnique("name",$params,$data);
             }
-
-
         } else {
             $params = Helper::arrayMergeAndUnique("name",$params,$data);
         }
