@@ -18,6 +18,7 @@ trait CommonService
         ['rule'=>'generator','route'=>'createGenerator','method'=>'POST'],
         ['rule'=>'cancelAllCache','route'=>'cancelAllCache','method'=>'POST'],
         ['rule'=>'createAllCache','route'=>'createAllCache','method'=>'POST'],
+        ['rule'=>'renderCodeTemplate','route'=>'renderCodeTemplate','method'=>'POST'],
     ];
 
 

@@ -49,6 +49,7 @@ class ConfigProvider
             'params'=>!empty($config['params'])?$config['params']:[],
             'responses'=>!empty($config['responses'])?$config['responses']:[],
             'generator'=>!empty($config['generator'])?$config['generator']:[],
+            'code_template'=>!empty($config['code_template'])?$config['code_template']:[],
         ];
         if (!empty($feConfig['apps']) && count($feConfig['apps'])){
             // 清除apps配置中的password

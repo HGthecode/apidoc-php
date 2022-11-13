@@ -177,7 +177,7 @@ class ParseApiMenus
         return $list;
     }
 
-    protected function parseController($class)
+    public function parseController($class)
     {
 
         $data                 = [];
@@ -194,6 +194,7 @@ class ParseApiMenus
         $controllersNameArr = explode("\\", $class);
         $controllersName    = $controllersNameArr[count($controllersNameArr) - 1];
         $data['controller'] = $controllersName;
+        $data['path'] = $class;
         $data['group']      = !empty($group->value) ? $group->value : null;
         $data['sort']      = !empty($sort->value) ? $sort->value : null;
         if (!empty($data['group']) && !in_array($data['group'], $this->groups)) {

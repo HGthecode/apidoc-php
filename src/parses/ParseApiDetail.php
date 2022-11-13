@@ -689,7 +689,7 @@ class ParseApiDetail
                 $param['children'][] = [
                     'children' => $children['params'],
                     'name'   => !empty($annotation->childrenField)?$annotation->childrenField:"children",
-                    'type'   => 'array',
+                    'type'   => 'array<object>',
                     'desc'   => Lang::getLang($annotation->childrenDesc),
                 ];
             }

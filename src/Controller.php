@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace hg\apidoc;
 
 use hg\apidoc\parses\ParseApiDetail;
+use hg\apidoc\parses\ParseCodeTemplate;
 use hg\apidoc\parses\ParseApiMenus;
 use hg\apidoc\parses\ParseMarkdown;
 use hg\apidoc\utils\Cache;
@@ -254,5 +255,19 @@ class Controller
 
         return Helper::showJson(0,"",true);
     }
+
+    public function renderCodeTemplate(){
+        $this->init(true);
+        $config = $this->config;
+        $params = $this->requestParams;
+
+        $code = (new ParseCodeTemplate($config))->renderCode($params);
+
+        return Helper::showJson(0,"",[
+            'code'=>$code
+        ]);
+
+    }
+
 
 }
