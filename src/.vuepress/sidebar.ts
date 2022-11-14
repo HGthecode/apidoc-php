@@ -45,7 +45,8 @@ export default sidebar({
         "lang",
         "debugEvent",
         "mock",
-        "generator"
+        "generator",
+        "codeTemplate"
       ],
     },
   ],
@@ -70,6 +71,7 @@ export default sidebar({
         "lv8-install",
         "hyperf-install",
         "webman-install",
+        "custom-responses"
       ],
     }
   ],

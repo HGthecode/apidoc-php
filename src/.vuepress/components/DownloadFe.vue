@@ -4,7 +4,7 @@
             title="点击下载"
             class="download-item gitee" 
             target="downloadFile" 
-            href="https://gitee.com/hg-code/apidoc-php/releases/download/v4.0.4/apidoc-ui.zip"
+            href="https://gitee.com/hg-code/apidoc-php/releases/download/v4.1.0/apidoc-ui.zip"
         >
             <div class="title">从Gitee下载</div>
         </a>
@@ -12,7 +12,7 @@
             title="点击下载"
             class="download-item github" 
             target="downloadFile" 
-            href="https://github.com/HGthecode/apidoc-php/releases/download/v4.0.4/apidoc-ui.zip"
+            href="https://github.com/HGthecode/apidoc-php/releases/download/v4.1.0/apidoc-ui.zip"
         >
         
             <div class="title">从Github下载</div>

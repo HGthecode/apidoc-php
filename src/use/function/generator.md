@@ -1,13 +1,13 @@
 
 
-# 代码生成器
+# 接口生成器
 
 ::: warning 注意
 确保站点目录有写入权限
 :::
 
 
-代码生成器功能由 系统配置+模板+可视化页面配置来实现。为了灵活适应各种项目结构与实现方式，需做好系统配置与模板编写。
+接口生成器功能由 系统配置+模板+可视化页面配置来实现。为了灵活适应各种项目结构与实现方式，需做好系统配置与模板编写。
 
 
 下面将举例一个多应用多版本的实现：
@@ -161,81 +161,83 @@ $tableNameRules=[
     ['pattern'=>'^[a-z]{1}([a-z0-9]|[_]){2,19}$','message'=>'表名错误，请输入小写字母开头的字母+数字/下划线，长度2-19的组合']
 ];
 
-'generator' =>[
-    [
-        'title'=>'创建Crud',
-        'enable'=>true,
-        'middleware'=>[
-            \app\common\middleware\CreateCrudMiddleware::class
-        ],
-        'form' =>[
-            'colspan'=>3,
-            'items'=>[
-                [
-                    'title'=>'控制器标题',
-                    'field'=>'controller_title',
-                    'type'=>'input'
-                ],
-            ]
-        ],
-        'files'=>[
-            [
-                'path'=>'app\${app[0].key}\controller\${app[1].key}',
-                'namespace'=>'app\${app[0].key}\controller\${app[1].key}',
-                'template'=>'template\crud\controller.tpl',
-                'name'=>'controller',
-                'rules'=>[
-                    ['required'=>true,'message'=>'请输入控制器文件名'],
-                    ['pattern'=>'^[A-Z]{1}([a-zA-Z0-9]|[._]){2,19}$','message'=>'请输入正确的目录名'],
+return [
+    //...
+    'generator' =>[
+        [
+            'title'=>'创建Crud',
+            'enable'=>true,
+            'middleware'=>[
+                \app\common\middleware\CreateCrudMiddleware::class
+            ],
+            'form' =>[
+                'colspan'=>3,
+                'items'=>[
+                    [
+                        'title'=>'控制器标题',
+                        'field'=>'controller_title',
+                        'type'=>'input'
+                    ],
                 ]
             ],
-            [
-                'name'=>'service',
-                'path'=>'app\${app[0].key}\services',
-                'template'=>'template\crud\service.tpl',
-            ],
-            [
-                'name'=>'validate',
-                'path'=>'app\${app[0].key}\validate',
-                'template'=>'template\crud\validate.tpl',
-            ],
-            [
-                'name'=>'route',
-                'path'=>'app\${app[0].key}\route\${app[0].key}.php',
-                'template'=>'template\crud\route.tpl',
-            ],
-        ],
-        'table'=>[
-            'field_types'=>$tableFieldTypes,
-            'items'=>[
+            'files'=>[
                 [
-                    'title'=>'数据表',
-                    'namespace'=>'app\model',
-                    'path'=>"app\model",
-                    'template'=>"template\crud\model.tpl",
-                    'model_rules'=>$modelNameRules,
-                    'table_rules'=>$tableNameRules,
-                    'columns'=>$crudTableColumns,
-                    'default_fields'=>$tableDefaultRows,
-                    'default_values'=>[
-                        'type'=>'varchar',
-                        'length'=>255,
-                        'list'=>true,
-                        'detail'=>true,
-                        'add'=>true,
-                        'edit'=>true,
-                    ],
+                    'path'=>'app\${app[0].key}\controller\${app[1].key}',
+                    'namespace'=>'app\${app[0].key}\controller\${app[1].key}',
+                    'template'=>'template\crud\controller.tpl',
+                    'name'=>'controller',
+                    'rules'=>[
+                        ['required'=>true,'message'=>'请输入控制器文件名'],
+                        ['pattern'=>'^[A-Z]{1}([a-zA-Z0-9]|[._]){2,19}$','message'=>'请输入正确的目录名'],
+                    ]
                 ],
+                [
+                    'name'=>'service',
+                    'path'=>'app\${app[0].key}\services',
+                    'template'=>'template\crud\service.tpl',
+                ],
+                [
+                    'name'=>'validate',
+                    'path'=>'app\${app[0].key}\validate',
+                    'template'=>'template\crud\validate.tpl',
+                ],
+                [
+                    'name'=>'route',
+                    'path'=>'app\${app[0].key}\route\${app[0].key}.php',
+                    'template'=>'template\crud\route.tpl',
+                ],
+            ],
+            'table'=>[
+                'field_types'=>$tableFieldTypes,
+                'items'=>[
+                    [
+                        'title'=>'数据表',
+                        'namespace'=>'app\model',
+                        'path'=>"app\model",
+                        'template'=>"template\crud\model.tpl",
+                        'model_rules'=>$modelNameRules,
+                        'table_rules'=>$tableNameRules,
+                        'columns'=>$crudTableColumns,
+                        'default_fields'=>$tableDefaultRows,
+                        'default_values'=>[
+                            'type'=>'varchar',
+                            'length'=>255,
+                            'list'=>true,
+                            'detail'=>true,
+                            'add'=>true,
+                            'edit'=>true,
+                        ],
+                    ],
+                ]
             ]
-        ]
-    ],
-    //....
+        ],
+    ]
 ]
 
 
 ```
 
-通过如上配置，我们就可以看到页面右上角就出现 代码生成 的菜单了，点击弹出可视化配置窗口，如下
+通过如上配置，我们就可以看到页面右上角就出现 接口生成 的菜单了，点击弹出可视化配置窗口，如下
 
 
 

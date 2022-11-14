@@ -42,7 +42,7 @@ features:
     icon: markdown
     details: 支持.md文件的文档展示
 
-  - title: 代码生成器
+  - title: 接口生成器
     icon: style
     details: 配置+模板即可快速生成代码及数据表的创建，大大提高工作效率
 

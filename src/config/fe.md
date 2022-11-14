@@ -73,15 +73,23 @@ window.apidocFeConfig = {
   },
   // （选配）接口详情页的 tabs 显示顺序
   API_DETAIL_TABS:["table", "json", "ts", "debug"],
-  // 加载外部js文件
+  // （选配）加载外部js文件
   LOAD_SCRIPTS:[
     "./utils/md5.js",
   ],
-  // 调试时事件，自定义处理参数值的一些方法
+  // （选配）调试时事件，自定义处理参数值的一些方法
   DEBUG_EVENTS:{
     md5(value){
       return md5(value)
     },
+  },
+  // （选配）自定义方法
+  CUSTOM_METHODS:{
+    // （选配）自定义调试时响应结果的显示
+    RESPONSES_VIEW:function({result}){
+      // 返回字符串，则会通过html解析；返回json通过代码高亮显示
+      return result.data
+    }
   },
   // （必须）多语言
   LANG: [

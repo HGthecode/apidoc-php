@@ -336,6 +336,49 @@ return [
                 ]
             ]
         ],
+    ],
+    // （选配）代码模板
+    'code_template'=>[
+        [
+            // 标题
+            'title'=>'vue前端Api文件',
+            // 选择模式，controller、api
+            'select_mode'=>'controller',
+            // 是否多选
+            'multiple'=>false,
+            // 多选时，限制接口/控制器勾选的数量
+            'limit'=>5,
+            // 模板文件地址
+            'template'=>'template\codes\fe_api_file.tpl',
+            // 代码语言
+            'language'=>'javascript',
+            // 配置表单
+            'form' => [
+                // 表单元素布局方式 ，inline=联排；grid=网格
+                'layout' => 'inline',
+                // 表单项
+                'items' => [
+                    [
+                        // （必须）表单项标题
+                        'title' => '请求封装import',
+                        // （必须）表单项字段
+                        'field' => 'http_import',
+                        // （必须）输入类型，支持：input、select、checkbox
+                        'type' => 'input'
+                    ],
+                    [
+                        'title' => '显示注释',
+                        'field' => 'show_desc',
+                        'type' => 'checkbox'
+                    ],
+                ],
+                // 表单默认值
+                'data'=>[
+                    'http_import'=>'import sendRequest from "@/utils/request";',
+                    'show_desc'=>true
+                ]
+            ],
+        ]
     ]
 ];
 ```
