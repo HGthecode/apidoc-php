@@ -42,7 +42,7 @@ Apidoc是一个通过解析注解生成Api接口文档的PHP composer扩展；
 
 ## 📌兼容
 
-以下框架已内置兼容，可开箱即用。其它框架可参考[其它框架安装说明](https://apidoc-docs.hg-code.com/guide/install/other.html)进行手动兼容。
+以下框架已内置兼容，可开箱即用。其它框架可参考[其它框架安装说明](https://docs.apidoc.icu/guide/install/other.html)进行手动兼容。
 
 |框架|版本|说明|
 |-|-|-|

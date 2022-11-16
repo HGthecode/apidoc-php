@@ -13,6 +13,12 @@ final class ResponseSuccess extends ParamBase
 {
 
     /**
+     * 必须
+     * @var bool
+     */
+    public $require;
+
+    /**
      * 引入
      * @var string
      */
