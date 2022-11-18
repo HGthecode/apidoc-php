@@ -77,17 +77,41 @@ window.apidocFeConfig = {
   LOAD_SCRIPTS:[
     "./utils/md5.js",
   ],
-  // （选配）调试时事件，自定义处理参数值的一些方法
+  // （选配）自定义调试时事件
   DEBUG_EVENTS:{
-    md5(value){
-      return md5(value)
+    /**
+     * 自定义md5加密请求参数的事件
+     * 
+     */ 
+    md5(param){
+      return new Promise((resolve, reject) => {
+        const {config,event}=param
+        if (event.key) {
+          let value = ""
+          let paramKey = "params"
+          if (config.params[event.key]) {
+            value = config.params[event.key]
+          }else if(config.data[event.key]){
+            value = config.data[event.key]
+            paramKey="data"
+          }
+          if (value) {
+            const password = md5(value)
+            param.config[paramKey][event.key] = password
+            param.message = "->"+password
+          }
+          resolve(param)
+        } else {
+          reject("请使用key属性指定字段")
+        }
+      })
     },
   },
   // （选配）自定义方法
   CUSTOM_METHODS:{
     // （选配）自定义调试时响应结果的显示
     RESPONSES_VIEW:function({result}){
-      // 返回字符串，则会通过html解析；返回json通过代码高亮显示
+      // 返回字符串，则会通过html解析；返回json通过代码高亮显示，或者返回{html:'',code:''}
       return result.data
     }
   },

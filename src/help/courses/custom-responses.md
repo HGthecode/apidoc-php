@@ -30,13 +30,20 @@ window.apidocFeConfig = {
           }
           return paramStr;
       }
-      if (result.data && typeof result.data =="string") {
+      if (result.data) {
         const url = `${result.config.baseURL}${result.config.url}${urlEncode(result.config.params)}`
         let hrefButton = `<div class="flex">
         <div class="responses-href-url flex-item">${url}</div>
         <div><a href="${url}" target="_blank" class="ant-btn" type="button" ><span>访问</span></a></div>
         </div>`
-        return hrefButton+result.data
+
+        if(typeof result.data =="string"){
+          return hrefButton+result.data
+        }
+        return {
+          html:hrefButton,
+          code:result.data
+        }
       }
       return result.data
     }
