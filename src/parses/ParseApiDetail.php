@@ -120,6 +120,28 @@ class ParseApiDetail
         return $mergeParams;
     }
 
+    protected function mergeGlobalOrAppEvents($events,$eventType='after'){
+        $config  = $this->config;
+        $globalEvents = [];
+        if (!empty($this->currentApp['debug_events']) && !empty($this->currentApp['debug_events'][$eventType])){
+            $globalEvents = $this->currentApp['debug_events'][$eventType];
+        }else if(!empty($config['debug_events']) && !empty($config['debug_events'][$eventType])){
+            $globalEvents = $config['debug_events'][$eventType];
+        }
+        $mergeEvents = [];
+        foreach ($globalEvents as $item){
+            if (!empty($item['desc'])){
+                $item['desc'] = Lang::getLang($item['desc']);
+            }
+            $mergeEvents[] = $item;
+        }
+        if (!empty($events) && count($events)){
+            foreach ($events as $event) {
+                $mergeEvents[] = $event;
+            }
+        }
+        return $mergeEvents;
+    }
 
     /**
      * 处理接口成功响应参数
@@ -264,14 +286,38 @@ class ParseApiDetail
             ) &&
             !in_array("NotParams", $textAnnotations))
         {
-            $querys = !empty($methodInfo['param'])?$methodInfo['param']:[];
-            $methodInfo['param'] = $this->mergeGlobalOrAppParams($querys,'body');
+            $params = !empty($methodInfo['param'])?$methodInfo['param']:[];
+            $methodInfo['param'] = $this->mergeGlobalOrAppParams($params,'body');
         }
 
         //添加成功响应体
         $methodInfo['responseSuccess'] = $this->handleApiResponseSuccess($methodInfo,$textAnnotations);
         //添加异常响应体
         $methodInfo['responseError'] = $this->handleApiResponseError($methodInfo,$textAnnotations);
+
+        // 合并全局事件after
+        if (
+            (
+                (!empty($config['debug_events']) && !empty($config['debug_events']['after']))  ||
+                (!empty($this->currentApp['debug_events']) && !empty($this->currentApp['debug_events']['after']))
+            ) &&
+            !in_array("NotEvent", $textAnnotations))
+        {
+            $debugAfterEvents = !empty($methodInfo['after'])?$methodInfo['after']:[];
+            $methodInfo['after'] = $this->mergeGlobalOrAppEvents($debugAfterEvents,'after');
+        }
+
+        // 合并全局事件before
+        if (
+            (
+                (!empty($config['debug_events']) && !empty($config['debug_events']['before']))  ||
+                (!empty($this->currentApp['debug_events']) && !empty($this->currentApp['debug_events']['before']))
+            ) &&
+            !in_array("NotEvent", $textAnnotations))
+        {
+            $debugBeforeEvents = !empty($methodInfo['before'])?$methodInfo['before']:[];
+            $methodInfo['before'] = $this->mergeGlobalOrAppEvents($debugBeforeEvents,'before');
+        }
 
         return $methodInfo;
     }
