@@ -57,8 +57,8 @@ export default sidebar({
       prefix: "problems/",
       children: [
         "notConfig",
-        "pageError",
         "404",
+        "500",
       ],
     },
     {
