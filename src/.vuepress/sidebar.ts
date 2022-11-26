@@ -59,6 +59,8 @@ export default sidebar({
         "notConfig",
         "404",
         "500",
+        "autoUrl",
+
       ],
     },
     {

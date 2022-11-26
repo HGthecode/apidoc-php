@@ -11,6 +11,34 @@ category: 指南
 - 次版本号：带有新特性的向下兼容的版本。
 - 修订版本号：日常 bugfix 更新
 
+## v4.1.3
+
+`2022-11-26`
+
+> 需升级前端文件至 v0.0.8
+
+- auto_url.custom自定义url生成规则增加$url返回值。
+- 修正自动生成url时异常问题。
+
+注意：如果之前配置了auto_url.custom来自定义实现url的生成，升级到该版本后，可能会报错；如下增加$url，参数接收即可：
+
+
+```php
+// config/apidoc.php
+//...
+'auto_url' => [
+        // ...
+        // 原来的
+        'custom' =>function($path,$method){
+            //...
+        },
+        
+        // 修改为 ；由于该版本增加了第三个参数，所以此处也需加上该参数的接收
+        'custom' =>function($path,$method,$url){
+            //...
+        },
+]
+```
 
 
 ## v4.1.2
