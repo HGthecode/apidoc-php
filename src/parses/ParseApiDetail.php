@@ -380,9 +380,6 @@ class ParseApiDetail
      */
     public static function autoCreateUrl($classPath,$method,$config): string
     {
-        if (!empty($config['auto_url']) && !empty($config['auto_url']['custom']) && is_callable($config['auto_url']['custom'])){
-           return $config['auto_url']['custom']($classPath,$method->name);
-        }
 
         $pathArr = explode("\\", $classPath);
         $filterPathNames = !empty($config['auto_url']) && !empty($config['auto_url']['filter_keys'])?$config['auto_url']['filter_keys']:[];
@@ -405,6 +402,8 @@ class ParseApiDetail
                     }
                     if (!empty($config['auto_url']['handle_key'])){
                         $classUrlArr[] = $config['auto_url']['handle_key']($key);
+                    }else{
+                        $classUrlArr[] = $key;
                     }
                 }else{
                     $classUrlArr[] = $item;
@@ -413,7 +412,11 @@ class ParseApiDetail
         }
         $classUrl = implode('/', $classUrlArr);
         $prefix = !empty($config['auto_url']) && !empty($config['auto_url']['prefix'])?$config['auto_url']['prefix']:"";
-        return $prefix . '/' . $classUrl . '/' . $method->name;
+        $url = $prefix . '/' . $classUrl . '/' . $method->name;
+        if (!empty($config['auto_url']) && !empty($config['auto_url']['custom']) && is_callable($config['auto_url']['custom'])){
+            return $config['auto_url']['custom']($classPath,$method->name,$url);
+        }
+        return $url;
     }
 
     /**
