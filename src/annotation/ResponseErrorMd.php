@@ -5,10 +5,16 @@ namespace hg\apidoc\annotation;
 use Doctrine\Common\Annotations\Annotation;
 
 /**
- * 请求类型
+ * 异常响应体的Markdown内容
  * @package hg\apidoc\annotation
  * @Annotation
  * @Target({"METHOD"})
  */
-class Method extends Annotation
-{}
+class ResponseErrorMd extends Annotation
+{
+    /**
+     * 引入md内容
+     * @var string
+     */
+    public $ref;
+}

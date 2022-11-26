@@ -8,6 +8,12 @@ abstract class EventBase extends Annotation
 {
 
     /**
+     * 名称
+     * @var string
+     */
+    public $name;
+
+    /**
      * key
      * @var string
      */
@@ -39,7 +45,7 @@ abstract class EventBase extends Annotation
     public $contentType;
 
     /**
-     * 描述
+     * 字段描述
      * @var string
      */
     public $desc;

@@ -14,7 +14,9 @@ use hg\apidoc\annotation\Sort;
 use hg\apidoc\annotation\Param;
 use hg\apidoc\annotation\Query;
 use hg\apidoc\annotation\ResponseSuccess;
+use hg\apidoc\annotation\ResponseSuccessMd;
 use hg\apidoc\annotation\ResponseError;
+use hg\apidoc\annotation\ResponseErrorMd;
 use hg\apidoc\annotation\Title;
 use hg\apidoc\annotation\Desc;
 use hg\apidoc\annotation\Md;
@@ -387,16 +389,22 @@ class ParseApiDetail
         $classUrlArr = [];
         foreach ($pathArr as $item) {
             if (!in_array($item, $filterPathNames)) {
-                if (!empty($config['auto_url']) && !empty($config['auto_url']['letter_rule'])){
-                    switch ($config['auto_url']['letter_rule']) {
-                        case 'lcfirst':
-                            $classUrlArr[] = lcfirst($item);
-                            break;
-                        case 'ucfirst':
-                            $classUrlArr[] = ucfirst($item);
-                            break;
-                        default:
-                            $classUrlArr[] = $item;
+                if (!empty($config['auto_url'])){
+                    $key = $item;
+                    if (!empty($config['auto_url']['letter_rule'])){
+                        switch ($config['auto_url']['letter_rule']) {
+                            case 'lcfirst':
+                                $key = lcfirst($item);
+                                break;
+                            case 'ucfirst':
+                                $key = ucfirst($item);
+                                break;
+                            default:
+                                $key = $item;
+                        }
+                    }
+                    if (!empty($config['auto_url']['handle_key'])){
+                        $classUrlArr[] = $config['auto_url']['handle_key']($key);
                     }
                 }else{
                     $classUrlArr[] = $item;
@@ -565,6 +573,7 @@ class ParseApiDetail
                     case $annotation instanceof ResponseSuccess:
                         $responseSuccess = $this->handleParamAndReturned($responseSuccess,$annotation,'responseSuccess',$enableRefService);
                         break;
+
                     case $annotation instanceof Query:
                         $querys = $this->handleParamAndReturned($querys,$annotation,'query',$enableRefService);
                         break;
@@ -615,18 +624,18 @@ class ParseApiDetail
                             $data['md'] = ParseMarkdown::getContent("",$annotation->ref);
                         }
                         break;
-//                    case $annotation instanceof ParamMd:
-//                        $data['paramMd'] = $annotation->value;
-//                        if (!empty($annotation->ref)){
-//                            $data['paramMd'] = ParseMarkdown::getContent("",$annotation->ref);
-//                        }
-//                        break;
-//                    case $annotation instanceof ReturnedMd:
-//                        $data['returnMd'] = $annotation->value;
-//                        if (!empty($annotation->ref)){
-//                            $data['returnMd'] = ParseMarkdown::getContent("",$annotation->ref);
-//                        }
-//                        break;
+                    case $annotation instanceof ResponseSuccessMd:
+                        $data['responseSuccessMd'] = $annotation->value;
+                        if (!empty($annotation->ref)){
+                            $data['responseSuccessMd'] = ParseMarkdown::getContent("",$annotation->ref);
+                        }
+                        break;
+                    case $annotation instanceof ResponseErrorMd:
+                        $data['responseErrorMd'] = $annotation->value;
+                        if (!empty($annotation->ref)){
+                            $data['responseErrorMd'] = ParseMarkdown::getContent("",$annotation->ref);
+                        }
+                        break;
                     case $annotation instanceof ParamType:
                         $data['paramType'] = $annotation->value;
                         break;

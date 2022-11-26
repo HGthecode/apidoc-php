@@ -32,6 +32,7 @@ class DirAndFile
 
     public static function getClassList($dir){
         if ($handle = opendir($dir)) {
+            $file_list=[];
             while (false !== ($file = readdir($handle))) {
                 if($file=='..' || $file=='.') continue;
                 $filePath = static::formatPath($dir.'/'.$file,"/");
@@ -59,6 +60,7 @@ class DirAndFile
             closedir($handle);
             return $file_list;
         }
+        return [];
     }
 
     public static function formatPath($path,$type="/"){

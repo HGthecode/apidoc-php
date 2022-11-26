@@ -5,7 +5,7 @@ namespace hg\apidoc\annotation;
 use Doctrine\Common\Annotations\Annotation;
 
 /**
- * Url
+ * Markdown
  * @package hg\apidoc\annotation
  * @Annotation
  * @Target({"METHOD"})
