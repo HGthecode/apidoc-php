@@ -357,6 +357,8 @@ class ApiDocTest
 |Returned| 具体查看 [接口参数](#接口参数)	|响应结果 |	可定义多个 |	
 | ResponseSuccess| 当前接口的成功响应体，通过main=true指定业务数据挂载节点 | 如：<div>@Apidoc\ResponseSuccess("code",type="int",desc="业务编码")</div><div>@Apidoc\ResponseSuccess("data",type="object",desc="业务数据",main=true)</div> | |
 | ResponseError| 当前接口的异常响应体 | 同上 | |
+| ResponseSuccessMd| 使用Markdown写成功响应体 | 支持ref引入md文件 | |
+| ResponseError| 使用Markdown写异常响应体 | 同上 | |
 |Before| 具体查看 [功能使用-调试时的事件](/use/function/debugEvent/)	|调试时请求发起前执行的事件 |	可定义多个 |
 |After| 具体查看 [功能使用-调试时的事件](/use/function/debugEvent/)	|调试时请求返回后执行的事件 |	可定义多个 |
 

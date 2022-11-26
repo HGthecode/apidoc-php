@@ -12,13 +12,28 @@ category: 指南
 - 修订版本号：日常 bugfix 更新
 
 
+
+## v4.1.2
+
+`2022-11-26`
+
+> 需升级前端文件至 v0.0.8
+
+- 新增auto_url.handle_key配置项，用于自定义处理自动生成url的每个key。
+- 新增前端显示版本号。
+- 新增自定义事件name属性，用于自定义事件名称的显示。
+- 新增ResponseSuccessMd注解，用于使用md编写成功响应体。
+- 新增ResponseErrorMd注解，用于使用md编写失败响应体。
+- 优化markdown的json显示效果。
+
+
 ## v4.1.1
 
 `2022-11-18`
 
 > 需升级前端文件至 v0.0.7
 
-- 新增自定义事件，移除原handleValue时间处理，统一由自定义事件实现。
+- 新增自定义事件，移除原handleValue事件处理，统一由自定义事件实现。
 - 新增全局、应用/版本全局事件调用。
 - 增加ResponseSuccess支持require。
 - 修正tree类型子节点展开异常问题。

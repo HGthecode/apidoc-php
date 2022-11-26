@@ -115,6 +115,8 @@ window.apidocFeConfig = {
       return result.data
     }
   },
+  //（选配）是否显示版本号
+  SHOW_VERSION:true,
   // （必须）多语言
   LANG: [
     {

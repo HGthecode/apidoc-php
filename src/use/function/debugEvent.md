@@ -32,10 +32,11 @@ public function debug(Request $request){
 
 |参数名|说明|
 |-|-|
-| event | 事件名，以下内置事件、及config.js配置的DEBUG_EVENTS自定义的事件名 |  
+| event | 事件方法名，以下内置事件、及config.js配置的DEBUG_EVENTS自定义的方法名 |  
+| name | 事件名称，用于显示事件的名称 |  
 | key |	字段名 |  
 | value |	字段值，可直接设置值，或以`query.xxx`、`body.xxx`取请求参数中的值；以`res.xxx`取请求响应结果中的参数 |  
-| desc |	事件描述 |  
+| desc |	字段值描述 |  
 | url |	event为ajax时，定义请求地址 |  
 | method |	event为ajax时，定义请求类型 |  
 | contentType |	event为ajax时，定义contentType |  
@@ -149,12 +150,12 @@ public function debug(Request $request){
  * @Apidoc\Before(event="ajax",url="请求地址",method="请求类型",contentType="appicateion-json",
  *    @Apidoc\Before(event="setBody",key="key",value="body.phone"),
  *    @Apidoc\Before(event="setBody",key="abc",value="123456"),
- *    @Apidoc\After(event="setHeader",key="X-CSRF-TOKEN",value="res.data.token")
+ *    @Apidoc\After(event="setHeader",key="X-CSRF-TOKEN",value="res.data.data.token")
  * )
  * /
 ```
 
-以上注解，会在接口调试前发送一个请求，请求参数为`{key:"这个值为调试接口参数的phone字段",abc:"123456"}`，请求响应后执行`setHeader`设置一个key为`X-CSRF-TOKEN`的请求头参数，值为该请求返回值中的`res.data.token`
+以上注解，会在接口调试前发送一个请求，请求参数为`{key:"这个值为调试接口参数的phone字段",abc:"123456"}`，请求响应后执行`setHeader`设置一个key为`X-CSRF-TOKEN`的请求头参数，值为该请求返回值中的`res.data.data.token`
 
 
 

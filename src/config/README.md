@@ -87,8 +87,14 @@ return [
         'prefix'=>"",
         // 过滤的目录
         'filter_keys'=>['app','controller'],
+        // （选配）自动生成url时对每个key的处理函数
+        'handle_key'=>function($key){
+            // 此例子是tp6开启控制器后缀配置后，用来将Controller去除。
+            return str_ireplace('Controller', "", $key);
+        }
         // （选配）自定义url生成方法
         'custom' =>function($path,$method){
+            //此处根据需求自行实现
             return "/".str_replace('\\','/',$$path).$method;
         },
     ],
