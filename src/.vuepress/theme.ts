@@ -16,7 +16,9 @@ export default hopeTheme({
 
   repo: "HGthecode/apidoc-php",
 
-  docsDir: "tree/docs",
+  docsDir: "src",
+
+  docsBranch:"docs",
 
   // navbar
   navbar: navbar,
@@ -55,7 +57,6 @@ export default hopeTheme({
       gfm: true,
       imageSize: true,
       include: true,
-      lazyLoad: true,
       mark: true,
       mermaid: true,
       playground: {
@@ -80,8 +81,6 @@ export default hopeTheme({
       sub: true,
       sup: true,
       tabs: true,
-      tex: true,
-      vpre: true,
       vuePlayground: true,
     },
   },
