@@ -21,13 +21,19 @@ class ThinkPHPService extends \think\Service
        return $config;
     }
 
-    static function registerRoute($route){
+    function registerRoute($route){
         $config = static::getApidocConfig();
-        if (!empty($config['allowCrossDomain'])) {
-            Route::rule($route['uri'], $route['callback'],$route['method'])->allowCrossDomain();
-        }else{
-            Route::rule($route['uri'], $route['callback'],$route['method']);
-        }
+        //if (!empty($config['allowCrossDomain'])) {
+        //    Route::rule($route['uri'], $route['callback'],$route['method'])->allowCrossDomain();
+        //}else{
+        //    Route::rule($route['uri'], $route['callback'],$route['method']);
+        //}
+        $this->registerRoutes(function () use($config,$route){
+            $registerRoute = Route::rule($route['uri'], $route['callback'],$route['method']);
+            if (!empty($config['allowCrossDomain'])) {
+                $registerRoute->allowCrossDomain();
+            }
+        });
     }
 
     static function databaseQuery($sql){
