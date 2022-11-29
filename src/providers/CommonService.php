@@ -84,7 +84,8 @@ trait CommonService
     {
         ! defined('APIDOC_ROOT_PATH') && define('APIDOC_ROOT_PATH', $this->getRootPath());
         ! defined('APIDOC_STORAGE_PATH') && define('APIDOC_STORAGE_PATH', $this->getRuntimePath());
-        static::registerApidocRoutes();
+        //static::registerApidocRoutes();
+        $this->registerApidocRoutes();
         $config = self::getApidocConfig();
         $config['database_query_function'] = function ($sql){
             return self::databaseQuery($sql);
@@ -115,7 +116,7 @@ trait CommonService
     /**
      * @param null $routeFun
      */
-    static public function registerApidocRoutes($routeFun=null){
+    public function registerApidocRoutes($routeFun=null){
         $routes = static::$routes;
         $controller_namespace = '\hg\apidoc\Controller@';
         $route_prefix = "/apidoc/";
@@ -129,7 +130,7 @@ trait CommonService
             if (!empty($routeFun)){
                 $routeFun($route);
             }else{
-                self::registerRoute($route);
+                $this->registerRoute($route);
             }
         }
     }
