@@ -11,6 +11,38 @@ category: 指南
 - 次版本号：带有新特性的向下兼容的版本。
 - 修订版本号：日常 bugfix 更新
 
+## v4.1.4
+
+`2022-11-29`
+
+> 无需更新前端文件
+
+- 调整路由注册方式，来修正ThinkPHP路由中间件不执行问题。
+- 修正ThinkPHP、Laravel在基于swoole环境下无法取到请求参数而报错的问题。
+
+注意：Webman框架升级到此版本，需将以下文件做修改
+
+```php
+// app/middleware/ApidocServiceProvider.php
+
+class ApidocServiceProvider
+{
+    //...
+
+    public function process(Request $request, callable $handler) : Response
+    {
+        // 删除这句
+        $this->register();
+
+        // 加上这句
+        $this->initConfig();
+    }
+
+    //...
+}
+```
+
+
 ## v4.1.3
 
 `2022-11-26`
