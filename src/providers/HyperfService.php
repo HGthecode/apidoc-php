@@ -17,7 +17,7 @@ class HyperfService
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $this->register();
+        $this->initConfig();
 
         if ($request->getMethod() == "GET"){
             $params = $request->getQueryParams();

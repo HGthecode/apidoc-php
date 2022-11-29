@@ -2,6 +2,7 @@
 
 namespace hg\apidoc\providers;
 
+use hg\apidoc\middleware\ThinkPHPMiddleware;
 use think\facade\App;
 use think\facade\Route;
 use think\facade\Request;
@@ -14,26 +15,30 @@ class ThinkPHPService extends \think\Service
 
     static function getApidocConfig()
     {
-       $config = config("apidoc");
-       if (!(!empty($config['auto_url']) && !empty($config['auto_url']['filter_keys']))){
-           $config['auto_url']['filter_keys'] = ['app','controller'];
-       }
-       return $config;
+        $config = config("apidoc");
+        if (!(!empty($config['auto_url']) && !empty($config['auto_url']['filter_keys']))){
+            $config['auto_url']['filter_keys'] = ['app','controller'];
+        }
+        return $config;
     }
 
-    function registerRoute($route){
+    public function register()
+    {
         $config = static::getApidocConfig();
-        //if (!empty($config['allowCrossDomain'])) {
-        //    Route::rule($route['uri'], $route['callback'],$route['method'])->allowCrossDomain();
-        //}else{
-        //    Route::rule($route['uri'], $route['callback'],$route['method']);
-        //}
-        $this->registerRoutes(function () use($config,$route){
-            $registerRoute = Route::rule($route['uri'], $route['callback'],$route['method']);
-            if (!empty($config['allowCrossDomain'])) {
-                $registerRoute->allowCrossDomain();
-            }
+        $this->initConfig();
+        $this->registerRoutes(function () use($config){
+            self::registerApidocRoutes(function ($route)use ($config){
+                $registerRoute = Route::rule($route['uri'], $route['callback'],$route['method']);
+                $registerRoute->middleware([ThinkPHPMiddleware::class]);
+                if (!empty($config['allowCrossDomain'])) {
+                    $registerRoute->allowCrossDomain();
+                }
+            });
         });
+    }
+
+    static function registerRoute($route){
+
     }
 
     static function databaseQuery($sql){

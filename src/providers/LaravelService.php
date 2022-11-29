@@ -2,6 +2,7 @@
 
 namespace hg\apidoc\providers;
 
+use hg\apidoc\middleware\LaravelMiddleware;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -22,6 +23,13 @@ class LaravelService extends ServiceProvider
         ]);
     }
 
+    public function register()
+    {
+        $config = static::getApidocConfig();
+        $this->initConfig();
+        self::registerApidocRoutes();
+    }
+
     static function getApidocConfig()
     {
         $config = config("apidoc");
@@ -33,10 +41,10 @@ class LaravelService extends ServiceProvider
 
     static function registerRoute($route){
         $config = self::getApidocConfig();
+        $registerRoute =  Route::match([$route['method']],$route['uri'], $route['callback']);
+        $registerRoute->middleware([LaravelMiddleware::class]);
         if (!empty($config['allowCrossDomain'])) {
-            Route::match([$route['method']],$route['uri'], $route['callback'])->middleware([ApiCrossDomain::class]);
-        }else{
-            Route::match($route['method'],$route['uri'], $route['callback']);
+            $registerRoute->middleware([ApiCrossDomain::class]);
         }
     }
 

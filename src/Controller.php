@@ -31,7 +31,11 @@ class Controller
         if (isset($this->config['enable']) && $this->config['enable']===false){
             throw new ErrorException("apidoc close");
         }
-        $this->requestParams = (new Request())->param();
+        if (!empty($this->config['request_params'])){
+            $this->requestParams = $this->config['request_params'];
+        }else{
+            $this->requestParams = (new Request())->param();
+        }
         if (!empty($this->requestParams['lang']) && !empty($this->config['lang_register_function'])){
             $this->lang = $this->requestParams['lang'];
             $this->config['lang_register_function']($this->lang);

@@ -14,7 +14,8 @@ class ThinkPHP5Service
     use CommonService;
 
     public function run(){
-        $this->register();
+        $this->initConfig();
+        self::registerApidocRoutes();
     }
 
     static function getApidocConfig()
@@ -28,10 +29,9 @@ class ThinkPHP5Service
 
     static function registerRoute($route){
         $config = self::getApidocConfig();
+        $registerRoute = Route::rule($route['uri'], $route['callback'],$route['method']);
         if (!empty($config['allowCrossDomain'])) {
-            Route::rule($route['uri'], $route['callback'],$route['method'])->allowCrossDomain();
-        }else{
-            Route::rule($route['uri'], $route['callback'],$route['method']);
+            $registerRoute->allowCrossDomain();
         }
     }
 
