@@ -172,7 +172,7 @@ class ApidocServiceProvider implements MiddlewareInterface
 
     public function process(Request $request, callable $next): Response
     {
-        $this->register();
+        $this->initConfig();
         if ($request->method() == "GET"){
             $params = $request->get();
         }else{

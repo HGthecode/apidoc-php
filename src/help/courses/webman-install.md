@@ -45,6 +45,8 @@ composer require hg/apidoc
 
 ### 3、创建及注册中间件
 
+下图的中间件代码可查看：[ApidocServiceProvider.php](/guide/install/other.html#_3、创建中间件)
+
 ![webman-install-7](/images/webman-install-7.png)
 
 ![webman-install-8](/images/webman-install-8.png)

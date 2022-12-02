@@ -145,6 +145,18 @@ return [
             ['name'=>'message','desc'=>'业务信息','type'=>'string','require'=>1],
         ]
     ],
+    //（选配）全局事件
+    'debug_events'=>[
+        // 前置事件
+        'before'=>[
+            // event=事件方法名；name=事件名称；
+            ['event'=>'renderGetUrl','name'=>'生成调试URL']
+        ],
+        // 后置事件
+        'after'=>[
+            // 同上
+        ]
+    ],
     //（选配）默认作者
     'default_author'=>'',
     //（选配）默认请求类型
@@ -156,6 +168,7 @@ return [
       * [Semantical Error] The annotation "@key" in method app\demo\controller\Base::index() was never imported. Did you maybe forget to add a "use" statement for this annotation?
       */
     'ignored_annitation'=>['key'],
+    
     
      // （选配）数据库配置
     'database'=>[
