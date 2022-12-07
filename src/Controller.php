@@ -157,6 +157,7 @@ class Controller
             // 生成数据
             $res = (new ParseApiDetail($config))->renderApiDetail($appKey,$classPath,$method);
         }
+        $res['appKey']=$appKey;
         return Helper::showJson(0,"",$res);
     }
 

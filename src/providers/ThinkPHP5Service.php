@@ -11,7 +11,7 @@ use Exception;
 
 class ThinkPHP5Service
 {
-    use CommonService;
+    use BaseService;
 
     public function run(){
         $this->initConfig();

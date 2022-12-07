@@ -11,7 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class HyperfService
 {
-    use CommonService;
+    use BaseService;
 
     static $langLocale="zh_CN";
 

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class LaravelService extends ServiceProvider
 {
 
-    use CommonService;
+    use BaseService;
 
     public function boot()
     {

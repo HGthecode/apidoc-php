@@ -11,7 +11,7 @@ use think\facade\Db;
 
 class ThinkPHPService extends \think\Service
 {
-    use CommonService;
+    use BaseService;
 
     static function getApidocConfig()
     {
