@@ -162,13 +162,13 @@ namespace app\middleware;
 use Webman\MiddlewareInterface;
 use Webman\Http\Response;
 use Webman\Http\Request;
-use hg\apidoc\providers\CommonService;
+use hg\apidoc\providers\BaseService;
 use hg\apidoc\utils\ConfigProvider;
 use support\Db;
 
 class ApidocServiceProvider implements MiddlewareInterface
 {
-    use CommonService;
+    use BaseService;
 
     public function process(Request $request, callable $next): Response
     {

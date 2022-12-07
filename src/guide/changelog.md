@@ -11,6 +11,36 @@ category: 指南
 - 次版本号：带有新特性的向下兼容的版本。
 - 修订版本号：日常 bugfix 更新
 
+
+## v4.1.5
+
+> 需升级前端文件至 v0.0.9
+
+- 修正多应用全局参数名相同，存在调试时赋值错乱问题。
+- 修正Webman及其它手动兼容的框架，在php8.1环境下运行报错问题。
+
+注意：Webman框架升级到此版本，需将以下文件做修改
+
+```php
+// app/middleware/ApidocServiceProvider.php
+
+// 将这句
+use hg\apidoc\providers\CommonService;
+// 修改为这句
+use hg\apidoc\providers\BaseService;
+
+class ApidocServiceProvider
+{
+    // 将这句
+    use CommonService;
+    // 修改为
+    use BaseService;
+    //...
+}
+```
+
+
+
 ## v4.1.4
 
 `2022-11-29`
