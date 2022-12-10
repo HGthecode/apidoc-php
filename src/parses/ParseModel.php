@@ -19,8 +19,8 @@ class ParseModel
 
     public function __construct(Reader $reader,$config=[])
     {
-         self::$reader = $reader;
-         self::$config = $config;
+        self::$reader = $reader;
+        self::$config = $config;
     }
 
     /**
@@ -31,30 +31,30 @@ class ParseModel
      */
     public function renderModel(string $path)
     {
-            if (class_exists($path)) {
+        if (class_exists($path)) {
 
-                $model = static::getModelClass($path);
-                return static::parseModelTable($model,$path,"");
-            } else {
-                if (strpos($path, '@') !== false){
-                    $pathArr   = explode("@", $path);
-                    $modelClassPath = $pathArr[0];
-                    $methodName =  $pathArr[1];
-                }else{
-                    $modelClassArr   = explode("\\", $path);
-                    $methodName = $modelClassArr[count($modelClassArr) - 1];
-                    unset($modelClassArr[count($modelClassArr) - 1]);
-                    $modelClassPath  = implode("\\", $modelClassArr);
-                }
-                if (class_exists($modelClassPath)){
-                    $model = static::getModelClass($modelClassPath);
-                    return static::parseModelTable($model,$modelClassPath,$methodName);
-                }else{
-                    throw new ErrorException("ref file not exists",  [
-                        'path' => $path
-                    ]);
-                }
+            $model = static::getModelClass($path);
+            return static::parseModelTable($model,$path,"");
+        } else {
+            if (strpos($path, '@') !== false){
+                $pathArr   = explode("@", $path);
+                $modelClassPath = $pathArr[0];
+                $methodName =  $pathArr[1];
+            }else{
+                $modelClassArr   = explode("\\", $path);
+                $methodName = $modelClassArr[count($modelClassArr) - 1];
+                unset($modelClassArr[count($modelClassArr) - 1]);
+                $modelClassPath  = implode("\\", $modelClassArr);
             }
+            if (class_exists($modelClassPath)){
+                $model = static::getModelClass($modelClassPath);
+                return static::parseModelTable($model,$modelClassPath,$methodName);
+            }else{
+                throw new ErrorException("ref file not exists",  [
+                    'path' => $path
+                ]);
+            }
+        }
     }
 
     protected static function parseModelTable($model,$path,$methodName=""){
@@ -189,89 +189,52 @@ class ParseModel
     public static function getTableDocument($model,array $propertys):array
     {
         $config = static::$config;
+        $fieldComment = [];
         if (empty($config['database_query_function'])){
             throw new ErrorException("not datatable_query_function config");
         }
-        $sqlRes = $config['database_query_function']("show create table " . $model->getTable());
-        $createTableObj = $sqlRes[0];
-        $createTableArray = Helper::objectToArray($createTableObj);
-        $createTable = "";
-        if (!empty($createTableArray['Create Table'])){
-            $createTable = $createTableArray['Create Table'];
-        }else  if(!empty($createTableArray['create table'])){
-            $createTable = $createTableArray['create table'];
-        }else{
-            throw new ErrorException("datatable not exists",  $createTableArray);
-        }
-        preg_match_all("#[^KEY]`(.*?)` (.*?) (.*?),\n#", $createTable, $matches);
-        $fields       = $matches[1];
-        $types        = $matches[2];
-        $contents     = $matches[3];
-        $fieldComment = [];
-        //组织注释
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $key     = $fields[$i];
-            $type    = $types[$i];
-            $default = "";
-            $require = "";
-            $desc    = "";
-            $mock = "";
-            $md="";
-            $content = $contents[$i];
-            if (strpos($type, '(`') !== false) {
-                continue;
+        $tableColumns = $config['database_query_function']("SHOW FULL COLUMNS FROM " . $model->getTable());
+        foreach ($tableColumns as $columns) {
+            $name = $columns['Field'];
+            $desc = $columns['Comment'];
+            $mock="";
+            $md = "";
+            if (isset($propertys['convertNameToCamel']) && $propertys['convertNameToCamel'] === true) {
+                $name = Helper::camel($name);
             }
-            if (strpos($content, 'COMMENT') !== false) {
+            if (!empty($desc)) {
                 // 存在字段注释
-                preg_match_all("#COMMENT\s*'(.*?)'#", $content, $edscs);
-                if (!empty($edscs[1]) && !empty($edscs[1][0])){
-                    $desc = Lang::getLang($edscs[1][0]);
-                    if (strpos($desc, 'mock(') !== false){
-                        // 存在mock
-                        preg_match('#mock\((.*)\)#s', $content, $mocks);
-                        if (!empty($mocks[1])) {
-                            $mock = $mocks[1];
-                            $desc = str_replace($mocks[0],"",$desc);
-                        }
-                    }
-                    if (strpos($desc, 'mdRef="') !== false){
-                        // 存在mdRef
-                        preg_match('#mdRef="(.*)"#s', $content, $mdRefs);
-                        if (!empty($mdRefs[1])) {
-                            $md = ParseMarkdown::getContent("",$mdRefs[1]);
-                            $desc = str_replace($mdRefs[0],"",$desc);
-                        }
+                $desc = Lang::getLang($desc);
+                if (strpos($desc, 'mock(') !== false){
+                    // 存在mock
+                    preg_match('#mock\((.*)\)#s', $desc, $mocks);
+                    if (!empty($mocks[1])) {
+                        $mock = $mocks[1];
+                        $desc = str_replace($mocks[0],"",$desc);
                     }
                 }
-
-            }
-            if (strpos($content, 'DEFAULT') !== false) {
-                // 存在字段默认值
-                preg_match_all("#DEFAULT\s*'(.*?)'#", $content, $defaults);
-                $default = $defaults[1] && is_array($defaults[1])?$defaults[1][0]:"";
-            }
-
-            if (strpos($content, 'NOT NULL') !== false) {
-                // 必填字段
-                $require = "1";
-            }
-
-            $name = $key;
-            // 转换字段名为驼峰命名（用于输出）
-            if (isset($propertys['convertNameToCamel']) && $propertys['convertNameToCamel'] === true) {
-                $name = Helper::camel($key);
+                if (strpos($desc, 'mdRef="') !== false){
+                    // 存在mdRef
+                    preg_match('#mdRef="(.*)"#s', $desc, $mdRefs);
+                    if (!empty($mdRefs[1])) {
+                        $md = ParseMarkdown::getContent("",$mdRefs[1]);
+                        $desc = str_replace($mdRefs[0],"",$desc);
+                    }
+                }
             }
             $fieldComment[] = [
                 "name"    => $name,
-                "type"    => $type,
+                "type"    => $columns['Type'],
                 "desc"    => $desc,
-                "default" => $default,
-                "require" => $require,
+                "default" => $columns['Default'],
+                "require" => $columns['Null'] == "YES",
                 "mock"=>$mock,
-                "md"=>$md
+                "md"=>$md,
             ];
         }
         return $fieldComment;
+
+
     }
 
 }
