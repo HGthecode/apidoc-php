@@ -39,3 +39,23 @@ php artisan vendor:publish --provider="hg\apidoc\providers\LaravelService"
 
 打开浏览器访问   http://你的域名/apidoc/ ，出现接口文档页面，表示安装成功。
 
+
+## 配置异常响应
+
+由于框架会对全局异常进行处理，如apidoc的异常未被正确响应，会导致页面打不开或报错，配置以下异常处理来解决问题。
+
+```php
+// 找到你的项目所配置的异常处理类，默认为
+// app/Exceptions/Handler.php
+public function register()
+{
+    $this->reportable(function (Throwable $e) {
+        if ($e instanceof \hg\apidoc\exception\HttpException) {
+            return abort(
+                $e->getStatusCode(),
+                $e->getMessage(),
+            );
+        }
+    });
+}
+```

@@ -282,3 +282,24 @@ return [
 下载完成后解压，将apidoc文件夹拷贝到你的项目 public 目录下
 
 打开浏览器访问   http://你的域名/apidoc/index.html ，出现接口文档页面，表示安装成功。
+
+
+## 配置异常响应
+
+由于框架会对全局异常进行处理，如apidoc的异常未被正确响应，会导致页面打不开或报错，配置以下异常处理来解决问题。
+
+```php
+// 找到你的项目所配置的异常处理类，本示例为
+// support/ExceptionHandle.php
+public function render(Request $request, Throwable $exception): Response
+{
+    if ($exception instanceof \hg\apidoc\exception\HttpException) {
+        return response(json_encode([
+            "code" => $exception->getCode(),
+            "message" => $exception->getMessage(),
+        ],JSON_UNESCAPED_UNICODE), $exception->getStatusCode());
+    }
+    
+    return parent::render($request, $exception);
+}
+```

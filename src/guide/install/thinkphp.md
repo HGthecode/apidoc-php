@@ -59,5 +59,26 @@ return [
 手动将 `/vendor/hg/apidoc/src/config.php` 拷贝到`/config/`目录下，并重命名为`apidoc.php`
 
 
+## 配置异常响应
+
+由于框架会对全局异常进行处理，如apidoc的异常未被正确响应，会导致页面打不开或报错，配置以下异常处理来解决问题。
+
+```php
+// 找到你的项目所配置的异常处理类，tp6默认为
+// app/ExceptionHandle.php
+public function render($request, Throwable $e): Response
+{
+    // 添加自定义异常处理机制
+    if ($e instanceof \hg\apidoc\exception\HttpException) {
+        return json(
+            [
+                "code" => $e->getCode(),
+                "message" => $e->getMessage(),
+            ],
+            $e->getStatusCode()
+        );
+    }
+}
+```
 
 
