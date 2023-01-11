@@ -435,6 +435,6 @@ generator配置中的path、namespace、template可用
 ```
 1、当应用/版本选为`后台管理`的应用时，此时`${app[0].key}`就等于`admin` 由于该应用配置无子级`items`此时的`${app[1].key}`也就为空。最终文件地址为`dosc/admin/HttpCode_.md`。
 
-2、当应用/版本选为`演示示例-V1.0`时，此时`${app[0].key}`就等于`demo` 由于该应用配置存在子级（多个版本）`items`此时的`${app[1].key}`也就为`v1`。最终文件地址为`dosc/admin/HttpCode_v1.txt`。
+2、当应用/版本选为`演示示例-V1.0`时，此时`${app[0].key}`就等于`demo` 由于该应用配置存在子级（多个版本）`items`此时的`${app[1].key}`也就为`v1`。最终文件地址为`dosc/demo/HttpCode_v1.md`。
 
 
