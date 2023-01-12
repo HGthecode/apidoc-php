@@ -195,6 +195,7 @@ class ParseModel
         }
         $tableColumns = $config['database_query_function']("SHOW FULL COLUMNS FROM " . $model->getTable());
         foreach ($tableColumns as $columns) {
+            $columns = Helper::objectToArray($columns);
             $name = $columns['Field'];
             $desc = $columns['Comment'];
             $mock="";

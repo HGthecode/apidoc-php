@@ -2,6 +2,7 @@
 
 namespace hg\apidoc\providers;
 
+use hg\apidoc\utils\Helper;
 use think\facade\App;
 use think\facade\Route;
 use think\facade\Request;
@@ -16,6 +17,27 @@ class ThinkPHP5Service
     public function run(){
         $this->initConfig();
         self::registerApidocRoutes();
+        // 自动注册路由
+        self::autoRegisterRoutes(function ($routeData){
+            $appRoute = app('route');
+            $routeGroup = $appRoute->getGroup();
+            foreach ($routeData as $controller) {
+                $routeGroup = $appRoute->getGroup();
+                if (!empty($controller['middleware'])){
+                    $routeGroup->middleware($controller['middleware']);
+                }
+                if (count($controller['methods'])){
+                    foreach ($controller['methods'] as $method) {
+                        $apiMethods = Helper::handleApiMethod($method['method']);
+                        $apiMethods = implode("|",$apiMethods);
+                        $route = $routeGroup->addRule($method['url'],$method['controller']."@".$method['name'],$apiMethods);
+                        if (!empty($method['middleware'])){
+                            $route->middleware($method['middleware']);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     static function getApidocConfig()
@@ -24,6 +46,7 @@ class ThinkPHP5Service
         if (!(!empty($config['auto_url']) && !empty($config['auto_url']['filter_keys']))){
             $config['auto_url']['filter_keys'] = ['app','controller'];
         }
+        $config['app_frame'] = "thinkphp5";
         return $config;
     }
 

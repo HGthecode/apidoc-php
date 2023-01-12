@@ -3,6 +3,7 @@
 namespace hg\apidoc\providers;
 
 use hg\apidoc\middleware\LaravelMiddleware;
+use hg\apidoc\utils\Helper;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -28,6 +29,30 @@ class LaravelService extends ServiceProvider
         $config = static::getApidocConfig();
         $this->initConfig();
         self::registerApidocRoutes();
+
+        // 自动注册路由
+        self::autoRegisterRoutes(function ($routeData){
+            foreach ($routeData as $controller) {
+                if (count($controller['methods'])){
+                    $methods= $controller['methods'];
+                    $routeCallback = function ()use ($methods){
+                        foreach ($methods as $method) {
+                            $apiMethods = Helper::handleApiMethod($method['method']);
+                            $route = Route::match($apiMethods,$method['url'], "\\".$method['controller']."@".$method['name']);
+                            if (!empty($method['middleware'])){
+                                $route->middleware($method['middleware']);
+                            }
+                        }
+                    };
+                    $routeGroup = Route::prefix("");
+                    if (!empty($controller['middleware'])){
+                        $routeGroup->middleware($controller['middleware']);
+                    }
+                    $routeGroup->group($routeCallback);
+                }
+            }
+        });
+
     }
 
     static function getApidocConfig()
@@ -36,6 +61,7 @@ class LaravelService extends ServiceProvider
         if (!(!empty($config['auto_url']) && !empty($config['auto_url']['filter_keys']))){
             $config['auto_url']['filter_keys'] = ['App','Http','Controllers'];
         }
+        $config['app_frame'] = "laravel";
         return $config;
     }
 

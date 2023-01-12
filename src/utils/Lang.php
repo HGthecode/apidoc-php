@@ -13,11 +13,16 @@ class Lang
      * @param $string
      * @return mixed
      */
-    public static function getLang($string) {
+    public static function getLang($string,$config="") {
         if (!$string){
             return $string;
         }
-        $config = ConfigProvider::get();
+        if (empty($config)){
+            $config = ConfigProvider::get();
+        }
+        if (empty($config["lang_get_function"])){
+            return $string;
+        }
         $langGetFunction = $config["lang_get_function"];
         if (empty($langGetFunction)){
             return $string;

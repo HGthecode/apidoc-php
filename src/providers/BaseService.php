@@ -2,7 +2,10 @@
 
 namespace hg\apidoc\providers;
 
+use hg\apidoc\utils\AutoRegisterRouts;
+use hg\apidoc\utils\Cache;
 use hg\apidoc\utils\ConfigProvider;
+use hg\apidoc\utils\Helper;
 
 trait BaseService
 {
@@ -78,6 +81,27 @@ trait BaseService
 
     abstract static function getTablePrefix();
 
+    // 自动注册api路由
+    static public function autoRegisterRoutes($routeFun,$config=""){
+        if (empty($config)){
+            $config = self::getApidocConfig();
+        }
+        if (isset($config['auto_register_routes']) && $config['auto_register_routes']===true) {
+            $cacheKey = "autoRegisterRoutes";
+            if (!empty($config['cache']) && $config['cache']['enable']) {
+                $cacheData = (new Cache())->get($cacheKey);
+                if (!empty($cacheData)) {
+                    $autoRegisterApis = $cacheData;
+                } else {
+                    $autoRegisterApis = (new AutoRegisterRouts($config))->getAppsApis();
+                    (new Cache())->set($cacheKey, $autoRegisterApis);
+                }
+            } else {
+                $autoRegisterApis = (new AutoRegisterRouts($config))->getAppsApis();
+            }
+            $routeFun($autoRegisterApis);
+        }
+    }
 
     public function initConfig(){
         ! defined('APIDOC_ROOT_PATH') && define('APIDOC_ROOT_PATH', $this->getRootPath());
@@ -86,12 +110,16 @@ trait BaseService
         $config['database_query_function'] = function ($sql){
             return self::databaseQuery($sql);
         };
-        $config['lang_register_function'] = function ($sql){
-            return self::setLang($sql);
-        };
-        $config['lang_get_function'] = function ($lang){
-            return self::getLang($lang);
-        };
+        if (empty($config['lang_register_function'])){
+            $config['lang_register_function'] = function ($sql){
+                return self::setLang($sql);
+            };
+        }
+        if (empty($config['lang_get_function'])){
+            $config['lang_get_function'] = function ($lang){
+                return self::getLang($lang);
+            };
+        }
         $config['handle_response_json'] = function ($res){
             return self::handleResponseJson($res);
         };

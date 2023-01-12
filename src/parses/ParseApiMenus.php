@@ -3,12 +3,13 @@ declare(strict_types = 1);
 
 namespace hg\apidoc\parses;
 
+use Doctrine\Common\Annotations\AnnotationException;
 use Doctrine\Common\Annotations\AnnotationReader;
+use hg\apidoc\exception\ErrorException;
 use hg\apidoc\utils\DirAndFile;
 use hg\apidoc\utils\Helper;
 use hg\apidoc\utils\Lang;
 use ReflectionClass;
-use Symfony\Component\ClassLoader\ClassMapGenerator;
 use hg\apidoc\annotation\Group;
 use hg\apidoc\annotation\Sort;
 use hg\apidoc\annotation\Title;
@@ -95,7 +96,7 @@ class ParseApiMenus
      * @param string $path
      * @return array
      */
-    protected function getConfigControllers(string $path,$appControllers): array
+    public function getConfigControllers(string $path,$appControllers): array
     {
         $controllers = [];
         $configControllers = $appControllers;
@@ -114,7 +115,7 @@ class ParseApiMenus
      * @param string $path
      * @return array
      */
-    protected function getDirControllers(string $path): array
+    public function getDirControllers(string $path): array
     {
 
         if ($path) {
@@ -241,6 +242,7 @@ class ParseApiMenus
             $this->parseApiDetail = new ParseApiDetail($config);
         }
         $textAnnotations = ParseAnnotation::parseTextAnnotation($refMethod);
+
         $methodInfo = $this->parseMethodAnnotation($refMethod);
         if (empty($methodInfo)){
             return false;
@@ -258,41 +260,44 @@ class ParseApiMenus
      */
     protected function parseMethodAnnotation($refMethod): array
     {
+
         $data = [];
-        if ($annotations = $this->reader->getMethodAnnotations($refMethod)) {
-            foreach ($annotations as $annotation) {
-                switch (true) {
-                    case $annotation instanceof Author:
-                        $data['author'] = $annotation->value;
-                        break;
+        try {
+            $annotations = $this->reader->getMethodAnnotations($refMethod);
+            if ($annotations) {
+                foreach ($annotations as $annotation) {
+                    switch (true) {
+                        case $annotation instanceof Author:
+                            $data['author'] = $annotation->value;
+                            break;
 
-                    case $annotation instanceof Title:
-                        $data['title'] = Lang::getLang($annotation->value);
-                        break;
-                    case $annotation instanceof ParamType:
-                        $data['paramType'] = $annotation->value;
-                        break;
-                    case $annotation instanceof Url:
-                        $data['url'] = $annotation->value;
-                        break;
-                    case $annotation instanceof Method:
-                        if ($annotation->value && strpos($annotation->value, ',') !== false){
-                            $data['method'] =  explode(",", $annotation->value);
-                        }else{
-                            $data['method'] = strtoupper($annotation->value);
-                        }
-                        break;
-                    case $annotation instanceof Tag:
-                        $data['tag'] = $annotation->value;
-                        break;
-                    case $annotation instanceof ContentType:
-                    $data['contentType'] = $annotation->value;
-                    break;
+                        case $annotation instanceof Title:
+                            $data['title'] = Lang::getLang($annotation->value);
+                            break;
+                        case $annotation instanceof ParamType:
+                            $data['paramType'] = $annotation->value;
+                            break;
+                        case $annotation instanceof Url:
+                            $data['url'] = $annotation->value;
+                            break;
+                        case $annotation instanceof Method:
+                            $apiMethods = Helper::handleApiMethod($annotation->value);
+                            $data['method'] = count($apiMethods)==1?$apiMethods[0]:$apiMethods;
+                            break;
+                        case $annotation instanceof Tag:
+                            $data['tag'] = $annotation->value;
+                            break;
+                        case $annotation instanceof ContentType:
+                            $data['contentType'] = $annotation->value;
+                            break;
+                    }
                 }
-            }
 
+            }
+            return $data;
+        }catch (AnnotationException $e) {
+            throw new ErrorException($e->getMessage());
         }
-        return $data;
     }
 
 

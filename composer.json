@@ -1,6 +1,6 @@
 {
     "name": "hg/apidoc",
-    "description": "注释自动生成API文档、在线调试、Markdown文档、代码生成器",
+    "description": "根据注解生成API文档，兼容Laravel、ThinkPHP、Hyperf、Webman等框架；在线调试、Markdown文档、多应用/多版本、Mock数据、授权访问、接口生成器、代码生成器等众多实用功能",
     "keywords": [
         "apidoc",
         "api文档",
@@ -8,8 +8,9 @@
         "自动生成api",
         "注释生成",
         "php接口文档",
-        "php api文档",
-        "Markdown"
+        "api文档",
+        "Markdown",
+        "注解"
       ],
     "require": {
         "php": ">=7.1",

@@ -216,7 +216,7 @@ class Controller
     public function cancelAllCache(){
         $this->init(true);
         $config = $this->config;
-        $res = DirAndFile::deleteDir(APIDOC_STORAGE_PATH . $config['cache']['folder'].'\\'.'apis');
+        $res = DirAndFile::deleteDir(APIDOC_STORAGE_PATH . $config['cache']['folder'].'/'.'apis');
         return Helper::showJson(0,"",$res);
     }
 
@@ -226,7 +226,7 @@ class Controller
         $params = $this->requestParams;
         $apps = Helper::getAllApps($config['apps']);
         $cache = new Cache();
-        DirAndFile::deleteDir(APIDOC_STORAGE_PATH . $config['cache']['folder'].'\\'.'apis');
+        DirAndFile::deleteDir(APIDOC_STORAGE_PATH . $config['cache']['folder'].'/'.'apis');
         if (!empty($apps) && count($apps)){
             try {
                 foreach ($apps as $app) {
@@ -253,7 +253,7 @@ class Controller
                     $cache->set($cacheKey,$controllerData);
                 }
             } catch (\ReflectionException $e) {
-                DirAndFile::deleteDir(APIDOC_STORAGE_PATH . $config['cache']['folder'].'\\'.'apis');
+                DirAndFile::deleteDir(APIDOC_STORAGE_PATH . $config['cache']['folder'].'/'.'apis');
                 throw new ErrorException($e->getMessage());
             }
         }

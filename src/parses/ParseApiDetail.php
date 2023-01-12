@@ -558,7 +558,6 @@ class ParseApiDetail
      */
     protected function parseAnnotation($refMethod, bool $enableRefService = true,$source=""): array
     {
-
         $data = [];
         if ($annotations = $this->reader->getMethodAnnotations($refMethod)) {
             $headers = [];
@@ -646,11 +645,9 @@ class ParseApiDetail
                         $data['url'] = $annotation->value;
                         break;
                     case $annotation instanceof Method:
-                        if ($annotation->value && strpos($annotation->value, ',') !== false){
-                            $data['method'] =  explode(",", $annotation->value);
-                        }else{
-                            $data['method'] = strtoupper($annotation->value);
-                        }
+                        $apiMethods = Helper::handleApiMethod($annotation->value);
+                        $data['method'] = count($apiMethods)==1?strtoupper($apiMethods[0]):$apiMethods;
+
                         break;
                     case $annotation instanceof Tag:
                         $data['tag'] = $annotation->value;
@@ -709,6 +706,16 @@ class ParseApiDetail
             }
             $beforeInfo['value'] = $valueList;
             return [$beforeInfo];
+        }
+        else if (!empty($annotation->value) && is_object($annotation->value)){
+            $valueItemInfo = Helper::objectToArray($annotation->value);
+            if ($annotation->value instanceof Before){
+                $valueItemInfo['type'] = "before";
+            }else if ($annotation->value instanceof After){
+                $valueItemInfo['type'] = "after";
+            }
+            $annotation->value = [$valueItemInfo];
+            return [$annotation];
         }else{
             return [$annotation];
         }

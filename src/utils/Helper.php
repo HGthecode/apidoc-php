@@ -261,11 +261,12 @@ class Helper
      * 初始化当前所选的应用/版本数据
      * @param $appKey
      */
-    public static function getCurrentAppConfig(string $appKey):array
+    public static function getCurrentAppConfig(string $appKey,$config=""):array
     {
-
-        $config = ConfigProvider::get();
-        $config['apps'] = static::handleAppsConfig($config['apps']);
+        if (empty($config)){
+            $config = ConfigProvider::get();
+        }
+        $config['apps'] = static::handleAppsConfig($config['apps'],false,$config);
         if (!(!empty($config['apps']) && count($config['apps']) > 0)) {
             throw new ErrorException("no config apps");
         }
@@ -296,7 +297,7 @@ class Helper
      * @param array $apps
      * @return array
      */
-    public static function handleAppsConfig(array $apps,$isHandlePassword=false):array
+    public static function handleAppsConfig(array $apps,$isHandlePassword=false,$config=""):array
     {
         $appsConfig = [];
         foreach ($apps as $app) {
@@ -305,7 +306,7 @@ class Helper
                 $app['hasPassword'] = true;
             }
             if (!empty($app['title'])){
-                $app['title'] = Lang::getLang($app['title']);
+                $app['title'] = Lang::getLang($app['title'],$config);
             }
             if (!empty($app['items']) && count($app['items']) > 0) {
                 $app['items'] = static::handleAppsConfig($app['items'],$isHandlePassword);
@@ -513,6 +514,21 @@ class Helper
             }
         }
         return $is;
+    }
+
+    /**
+     * 处理接口请求类型为数组
+     * @param $method
+     * @return array|false|string[]
+     */
+    public static function handleApiMethod($method){
+        if (is_array($method)){
+            return $method;
+        }else if (strpos($method, ',') !== false){
+            return explode(",", $method);
+        }else {
+            return [$method];
+        }
     }
 
 

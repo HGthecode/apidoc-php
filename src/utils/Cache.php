@@ -48,7 +48,7 @@ class Cache
         }
 
         if (empty($this->options['path'])) {
-            $this->options['path'] = APIDOC_STORAGE_PATH .'\\'. 'apidoc';
+            $this->options['path'] = APIDOC_STORAGE_PATH .'/'. 'apidoc';
         }
 
         if (substr($this->options['path'], -1) != DIRECTORY_SEPARATOR) {
