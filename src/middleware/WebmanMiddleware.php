@@ -4,22 +4,26 @@ namespace hg\apidoc\middleware;
 
 use hg\apidoc\providers\BaseService;
 use hg\apidoc\utils\ConfigProvider;
+use support\Db;
+use Webman\MiddlewareInterface;
 use Webman\Http\Response;
 use Webman\Http\Request;
-use support\Db;
 
-class WebmanMiddleware
+class WebmanMiddleware implements MiddlewareInterface
 {
     use BaseService;
 
-    public function process(Request $request, callable $handler): Response
+    public function process(Request $request, callable $handler) : Response
     {
+
         $this->initConfig();
         $params = $request->all();
         $config =  ConfigProvider::get();
         $config['request_params'] = $params;
         ConfigProvider::set($config);
-        return $handler($request);
+
+        $response = $handler($request);
+        return $response;
     }
 
     static function getApidocConfig()
