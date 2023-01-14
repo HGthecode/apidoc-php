@@ -12,6 +12,35 @@ category: 指南
 - 修订版本号：日常 bugfix 更新
 
 
+## v4.2.0
+
+`2023-01-14`
+
+> 需升级前端文件至 v0.1.0
+
+- 支持自动注册路由。
+- 修正php8.1环境下开启密码验证报错问题。
+- 修正全局body参数赋值异常问题。
+- 修正ajax事件，嵌套单个事件时不正常执行问题。
+- 优化异常提示。
+- 前端配置支持，自定义处理字段说明/MD内容。
+- 内置兼容Webman框架，无需繁杂的手动配置兼容。
+- 简化Hyperf框架路由注册方式，升级到此版本参考以下方式修改：
+```php
+// config/routes.php
+// 将这些代码
+use hg\apidoc\providers\CommonService;
+CommonService::registerApidocRoutes(function ($item){
+    Router::addRoute($item['method'],$item['uri'],$item['callback'],['middleware' => [hg\apidoc\providers\HyperfService::class]]);
+});
+
+// 修改为这句
+hg\apidoc\providers\HyperfService::register();
+```
+
+
+
+
 ## v4.1.5
 
 > 需升级前端文件至 v0.0.9

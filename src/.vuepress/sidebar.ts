@@ -11,7 +11,7 @@ export default sidebar({
         "thinkphp",
         "laravel",
         "hyperf",
-        "other",
+        "webman",
       ],
     },
     "changelog"
@@ -46,7 +46,8 @@ export default sidebar({
         "debugEvent",
         "mock",
         "generator",
-        "codeTemplate"
+        "codeTemplate",
+        "autoRegisterRoutes"
       ],
     },
   ],
@@ -68,12 +69,12 @@ export default sidebar({
       icon: "book",
       prefix: "courses/",
       children: [
-        "tp5-install",
-        "tp6-install",
-        "lv8-install",
-        "hyperf-install",
-        "webman-install",
-        "custom-responses"
+        // "tp5-install",
+        // "tp6-install",
+        // "lv8-install",
+        // "hyperf-install",
+        // "webman-install",
+        "custom-responses",
       ],
     }
   ],

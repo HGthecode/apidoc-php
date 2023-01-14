@@ -34,14 +34,14 @@ Apidoc是一个通过解析注解生成Api接口文档的PHPcomposer扩展；兼
 
 ## 📌兼容
 
-以下框架已内置兼容，可开箱即用。其它框架可参考[其它框架安装说明](/guide/install/other)进行手动兼容。
+以下框架已内置兼容，可开箱即用
 
 |框架|版本|说明|
 |-|-|-|
 |ThinkPHP|5.1、6.x||
-|Laravel|8.x、9.x|其它版本未测试|
-|Hyperf|2.x|其它版本未测试|
-|Webman|2.x|需手动配置兼容|
+|Laravel|8.x、9.x||
+|Hyperf|2.x||
+|Webman|2.x||
 
 
 ## 🏆支持我们

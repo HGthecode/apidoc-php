@@ -113,7 +113,24 @@ window.apidocFeConfig = {
     RESPONSES_VIEW:function({result}){
       // 返回字符串，则会通过html解析；返回json通过代码高亮显示，或者返回{html:'',code:''}
       return result.data
-    }
+    },
+    // （选配）自定义接口字段说明内推
+    HANDEL_APIFIELD_DESC:function(desc){
+      if (desc && typeof desc ==="string") {
+        // 此处举例，将\n字符串替换为换行符
+        return desc.replace(/[\\n]/g,'\n\r')
+      }
+      return desc
+    },
+    // （选配）自定义接口字段MD内容
+    HANDEL_APIFIELD_MD:function(md){
+      if (md && typeof md ==="string") {
+        // 此处举例，将\n字符串替换为换行符
+        return md.replace(/[\\n]/g,'\n\r')
+      }
+      return md
+    },
+    
   },
   //（选配）是否显示版本号
   SHOW_VERSION:true,

@@ -29,19 +29,12 @@ php bin/hyperf.php vendor:publish hg/apidoc
 > 命令执行后在将在`config/autoload`目录下生成`apidoc.php`配置文件
 
 
-## 3、手动注册路由
+## 3、注册Apidoc路由
 
 将以下代码复制到`config/routes.php`
 
-
 ```php
-use hg\apidoc\providers\CommonService;
-/**
- * Apidoc Routes
- */
-CommonService::registerApidocRoutes(function ($item){
-    Router::addRoute($item['method'],$item['uri'],$item['callback'],['middleware' => [hg\apidoc\providers\HyperfService::class]]);
-});
+hg\apidoc\providers\HyperfService::register();
 ```
 
 ## 4、添加前端页面
@@ -56,4 +49,31 @@ CommonService::registerApidocRoutes(function ($item){
 打开浏览器访问   http://你的域名/apidoc/ ，出现接口文档页面，表示安装成功。
 
 
+## 配置异常响应
+
+由于框架会对全局异常进行处理，如apidoc的异常未被正确响应，会导致页面打不开或报错，配置以下异常处理来解决问题。
+
+```php
+// 找到你的项目所配置的异常处理类，本示例为
+// App\Exception\Handler\AppExceptionHandler.php
+
+public function handle(Throwable $throwable, ResponseInterface $response)
+{
+    // Apidoc 异常处理
+    if ($throwable instanceof \hg\apidoc\exception\HttpException) {
+        // 格式化输出
+        $data = json_encode([
+            'code' => $throwable->getCode(),
+            'message' => $throwable->getMessage(),
+        ], JSON_UNESCAPED_UNICODE);
+
+        // 阻止异常冒泡
+        $this->stopPropagation();
+        return $response->withStatus($throwable->getStatusCode())->withBody(new SwooleStream($data));
+    }
+
+    //....
+}
+
+```
 

@@ -98,6 +98,8 @@ return [
             return "/".str_replace('\\','/',$$path).$method;
         },
     ],
+    //  (选配) 是否自动注册路由
+    'auto_register_routes'=>false,
     // （必须）缓存配置
     'cache'              => [
         // 是否开启缓存

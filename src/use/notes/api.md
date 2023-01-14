@@ -348,6 +348,7 @@ class ApiDocTest
 |Author|	|作者 |	任意字符,默认配置文件的`apidoc.default_author` |	
 |Url|	|真实的接口URL，不配置时会根据控制器目录自动生成 |	任意字符 |	
 |Method|	 |请求类型,默认配置文件的`apidoc.default_method`,多个类型(用,隔开)|	`GET` `POST`等 |	
+|RouteMiddleware| 	|开启自动注册路由时，定义路由中间件 |	 |
 |ContentType|	|指定调试时请求ContentType |	 |	
 |Tag|	|接口Tag标签 |	多个标签用,（逗号）空格隔开 |	
 |Header| 具体查看 [接口参数](#接口参数)	|请求Headers参数 |	可定义多个|	
@@ -361,6 +362,7 @@ class ApiDocTest
 | ResponseError| 使用Markdown写异常响应体 | 同上 | |
 |Before| 具体查看 [功能使用-调试时的事件](/use/function/debugEvent/)	|调试时请求发起前执行的事件 |	可定义多个 |
 |After| 具体查看 [功能使用-调试时的事件](/use/function/debugEvent/)	|调试时请求返回后执行的事件 |	可定义多个 |
+
 
 
 ### 接口参数
