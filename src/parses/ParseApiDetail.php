@@ -153,22 +153,33 @@ class ParseApiDetail
      */
     protected function handleApiResponseSuccess($apiInfo,$textAnnotations){
         $returned = $apiInfo['returned'];
-        if (
-            in_array("NotResponses", $textAnnotations) ||
-            in_array("NotResponseSuccess", $textAnnotations)
-        ) {
-            return $returned;
-        }
+
         $config  = $this->config;
         $mergeParams = [];
         $paramType='success';
-        if (!empty($apiInfo['responseSuccess']) && count($apiInfo['responseSuccess'])){
-            $mergeParams = $apiInfo['responseSuccess'];
-        }else if (!empty($this->currentApp['responses']) && !empty($this->currentApp['responses'][$paramType])){
+
+        if (!empty($this->currentApp['responses']) && !empty($this->currentApp['responses'][$paramType])){
             $mergeParams = $this->currentApp['params'][$paramType];
         }else if(!empty($config['responses']) && !empty($config['responses'][$paramType])){
             $mergeParams = $config['responses'][$paramType];
         }
+        
+        if (
+            (
+                in_array("NotResponses", $textAnnotations) ||
+                in_array("NotResponseSuccess", $textAnnotations)
+            )  &&
+            count($mergeParams)>0
+        ) {
+            // 注解了不使用全局响应
+            $mergeParams = [];
+        }
+
+        if (!empty($apiInfo['responseSuccess']) && count($apiInfo['responseSuccess'])){
+
+            $mergeParams = Helper::arrayMergeAndUnique("name", $mergeParams,$apiInfo['responseSuccess']);
+        }
+
         if (!empty($mergeParams) && count($mergeParams)){
             $resData = [];
             foreach ($mergeParams as $item) {
