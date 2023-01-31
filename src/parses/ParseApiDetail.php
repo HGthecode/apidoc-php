@@ -111,8 +111,8 @@ class ParseApiDetail
             if (!empty($item['desc'])){
                 $item['desc'] = Lang::getLang($item['desc']);
             }
-            if (!empty($item['md'])){
-                $item['md'] = ParseMarkdown::getContent($this->appKey,$item['md']);
+            if (!empty($item['mdRef'])){
+                $item['md'] = ParseMarkdown::getContent($this->appKey,$item['mdRef']);
             }
             $mergeParams[] = $item;
         }
