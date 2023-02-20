@@ -228,7 +228,7 @@ class ParseModel
                 "type"    => $columns['Type'],
                 "desc"    => $desc,
                 "default" => $columns['Default'],
-                "require" => $columns['Null'] == "YES",
+                "require" => $columns['Null'] != "YES",
                 "mock"=>$mock,
                 "md"=>$md,
             ];
