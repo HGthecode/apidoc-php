@@ -193,7 +193,12 @@ class ParseModel
         if (empty($config['database_query_function'])){
             throw new ErrorException("not datatable_query_function config");
         }
-        $tableColumns = $config['database_query_function']("SHOW FULL COLUMNS FROM " . $model->getTable());
+        $tableName = $model->getTable();
+        $configTablePrefix = !empty($config['database']) && !empty($config['database']['prefix'])?$config['database']['prefix']:"";
+        if (!empty($configTablePrefix) && strpos($tableName, $configTablePrefix) === false){
+            $tableName = $configTablePrefix.$model->getTable();
+        }
+        $tableColumns = $config['database_query_function']("SHOW FULL COLUMNS FROM " . $tableName);
         foreach ($tableColumns as $columns) {
             $columns = Helper::objectToArray($columns);
             $name = $columns['Field'];

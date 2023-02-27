@@ -4,7 +4,6 @@ namespace hg\apidoc\providers;
 
 use hg\apidoc\utils\ConfigProvider;
 use hg\apidoc\utils\Helper;
-use support\Log;
 use Webman\Route;
 use hg\apidoc\middleware\WebmanMiddleware;
 
@@ -21,7 +20,6 @@ class WebmanService
 
         // 自动注册路由
         CommonService::autoRegisterRoutes(function ($routeData){
-            Log::info("【aaa】".json_encode($routeData));
             foreach ($routeData as $controller) {
                 if (count($controller['methods'])){
                     $methods= $controller['methods'];
