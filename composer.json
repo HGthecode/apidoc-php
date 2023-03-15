@@ -14,7 +14,7 @@
       ],
     "require": {
         "php": "^7.1 || ^8.0",
-        "doctrine/annotations": "^2.0"
+        "doctrine/annotations": "^1.13 || ^2.0"
     },
     "license": "MIT",
     "authors": [
