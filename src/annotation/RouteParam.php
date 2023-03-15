@@ -26,16 +26,16 @@ class RouteParam extends ParamBase
      * @param string $mock Mock规则
      */
     public function __construct(
-        string|array    $name = '',
-        string          $type = '',
-        bool            $require = false,
-        string|int|bool $default = "",
-        string|array    $ref = "",
-        string|array    $field = "",
-        string|array    $withoutField = "",
-        string          $desc = '',
-        string          $md = "",
-        string          $mock = "",
+        $name = '',
+        string $type = '',
+        bool $require = false,
+        $default = "",
+        $ref = "",
+        $field = "",
+        $withoutField = "",
+        string $desc = '',
+        string $md = "",
+        string $mock = ""
     )
     {
         parent::__construct(...func_get_args());

@@ -426,7 +426,7 @@ class ParseApiDetail
         if (!empty($data['md'])){
             $data['md'] = ParseMarkdown::getContent($this->appKey,$data['md']);
         }
-        if (!empty($data['children'])){
+        if (!empty($data['children']) && is_array($data['children'])){
             $childrenData = [];
             foreach ($data['children'] as $child) {
                 $childrenData[]=$this->handleAnnotationsParamItem($child,$field);
@@ -511,7 +511,7 @@ class ParseApiDetail
     /**
      * ref引用
      */
-    protected function renderRef(string|array $refPath,$field): array
+    protected function renderRef($refPath,$field): array
     {
         $res = ['type' => 'model'];
         $config      = $this->config;

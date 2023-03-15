@@ -6,9 +6,10 @@ namespace hg\apidoc\parses;
 use Doctrine\Common\Annotations\AnnotationReader;
 use hg\apidoc\utils\Helper;
 use ReflectionAttribute;
-
-//ReflectionMethod
+use hg\apidoc\exception\ErrorException;
 use ReflectionMethod;
+use think\facade\Log;
+
 class ParseAnnotation
 {
 
@@ -89,7 +90,7 @@ class ParseAnnotation
                     }
                 }
             }else{
-                $name    = $this->getClassName($item::class);
+                $name    = $this->getClassName(get_class($item));
                 $valueObj = Helper::objectToArray($item);
                 if (isset($valueObj['name']) && count($valueObj)===1){
                     $value = $valueObj['name'];
@@ -114,7 +115,11 @@ class ParseAnnotation
      * @return array
      */
     public function getClassAnnotation($refClass){
-        $attributes = $refClass->getAttributes();
+        if (method_exists($refClass,'getAttributes')){
+            $attributes = $refClass->getAttributes();
+        }else{
+            $attributes = [];
+        }
         $readerAttributes = $this->parser->getClassAnnotations($refClass);
         return $this->getParameters([...$attributes,...$readerAttributes]);
     }
@@ -125,7 +130,11 @@ class ParseAnnotation
      * @return array
      */
     public function getMethodAnnotation(ReflectionMethod $refMethod){
-        $attributes = $refMethod->getAttributes();
+        if (method_exists($refMethod,'getAttributes')){
+            $attributes = $refMethod->getAttributes();
+        }else{
+            $attributes = [];
+        }
         $readerAttributes = $this->parser->getMethodAnnotations($refMethod);
         return $this->getParameters([...$attributes,...$readerAttributes]);
     }

@@ -26,8 +26,8 @@ class Md extends AbstractAnnotation
      * @param string $ref 引入md文件路径
      */
     public function __construct(
-        string|array $name = '',
-        string|array $ref = '',
+        $name = '',
+        string $ref = ''
     )
     {
         parent::__construct(...func_get_args());

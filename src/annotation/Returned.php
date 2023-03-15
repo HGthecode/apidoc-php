@@ -37,21 +37,21 @@ class Returned extends ParamBase
      * @param string $replaceGlobal 是否替换全局响应体参数
      */
     public function __construct(
-        string|array    $name = '',
-        string          $type = '',
-        bool            $require = false,
-        string|int|bool $default = "",
-        string|array    $ref = "",
-        string|array    $field = "",
-        string|array    $withoutField = "",
-        string          $desc = '',
-        string          $md = "",
-        string          $mock = "",
-        array           $children = [],
-        string          $childrenField = "",
-        string          $childrenDesc = "children",
-        string          $childrenType = "",
-        bool            $replaceGlobal = false,
+        $name = '',
+        string $type = '',
+        bool $require = false,
+        $default = "",
+        $ref = "",
+        $field = "",
+        $withoutField = "",
+        string $desc = '',
+        string $md = "",
+        string $mock = "",
+        array $children = [],
+        string $childrenField = "",
+        string $childrenDesc = "children",
+        string $childrenType = "",
+        bool $replaceGlobal = false
     )
     {
         parent::__construct(...func_get_args());

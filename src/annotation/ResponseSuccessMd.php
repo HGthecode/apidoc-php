@@ -23,11 +23,11 @@ class ResponseSuccessMd extends AbstractAnnotation
 
     /**
      * @param string $name Markdown文档内容
-     * @param string|array $ref 引入md文件路径
+     * @param string $ref 引入md文件路径
      */
     public function __construct(
-        string|array $name = '',
-        string|array $ref = '',
+        $name = '',
+        string $ref = ''
     )
     {
         parent::__construct(...func_get_args());

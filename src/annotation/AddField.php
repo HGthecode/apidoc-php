@@ -53,7 +53,7 @@ class AddField extends AbstractAnnotation
 
 
     /**
-     * @param string|array $name 字段名
+     * @param string $name 字段名
      * @param string $type 字段类型
      * @param string $desc 字段名称
      * @param bool $require 是否必须
@@ -65,15 +65,15 @@ class AddField extends AbstractAnnotation
      * @param string $children 字段子节点
      */
     public function __construct(
-        string|array $name = '',
-        string       $type = '',
-        string       $desc = '',
-        bool         $require = false,
-        string|array $ref = "",
-        string       $md = "",
-        string|array $field = "",
-        string|array $withoutField = "",
-        string       $mock = "",
+        $name = '',
+        string $type = '',
+        string $desc = '',
+        bool $require = false,
+        $ref = "",
+        string $md = "",
+        $field = "",
+        $withoutField = "",
+        string $mock = ""
     )
     {
         parent::__construct(...func_get_args());

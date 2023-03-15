@@ -37,20 +37,20 @@ final class Query extends ParamBase
      * @param string $childrenType 为array类型时指定子节点类型
      */
     public function __construct(
-        string|array    $name = '',
-        string          $type = '',
-        bool            $require = false,
-        string|int|bool $default = "",
-        string|array    $ref = "",
-        string|array    $field = "",
-        string|array    $withoutField = "",
-        string          $desc = '',
-        string          $md = "",
-        string          $mock = "",
-        array           $children = [],
-        string          $childrenField = "",
-        string          $childrenDesc = "children",
-        string          $childrenType = "",
+        $name = '',
+        string $type = '',
+        bool $require = false,
+        $default = "",
+        $ref = "",
+        $field = "",
+        $withoutField = "",
+        string $desc = '',
+        string $md = "",
+        string $mock = "",
+        array $children = [],
+        string $childrenField = "",
+        string $childrenDesc = "children",
+        string $childrenType = ""
     )
     {
         parent::__construct(...func_get_args());

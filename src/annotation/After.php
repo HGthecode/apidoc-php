@@ -29,7 +29,7 @@ final class After extends EventBase
      * @param string $appKey 设置全局参数setGlobalHeader、setGlobalParam时指定应用
      * @param string $key 字段名
      * @param string $value 字段值
-     * @param string $ref 事件引用
+     * @param string|array $ref 事件引用
      * @param string $url ajax事件时的url
      * @param string $method ajax事件时的Method
      * @param string $contentType ajax事件时的 content-type
@@ -38,18 +38,18 @@ final class After extends EventBase
      * @param array $after 执行之后的事件
      */
     public function __construct(
-        string|array $event = '',
-        string       $name = '',
-        string       $appKey = "",
-        string       $key = '',
-        string       $value = '',
-        string|array $ref = "",
-        string       $url = '',
-        string       $method = '',
-        string       $contentType = "",
-        string       $desc = "",
-        array        $before = [],
-        array        $after = [],
+        $event = '',
+        string $name = '',
+        string $appKey = "",
+        string $key = '',
+        string $value = '',
+               $ref = "",
+        string $url = '',
+        string $method = '',
+        string $contentType = "",
+        string $desc = "",
+        array  $before = [],
+        array  $after = []
     )
     {
         parent::__construct(...func_get_args());
