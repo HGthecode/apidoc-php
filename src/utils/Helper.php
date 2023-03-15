@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace hg\apidoc\utils;
 
 use hg\apidoc\exception\ErrorException;
+use hg\apidoc\parses\ParseMarkdown;
 
 class Helper
 {
@@ -200,44 +201,10 @@ class Helper
 
     /**
      * 合并对象数组并根据key去重
-     * @param string $name
+     * @param string $key
      * @param mixed ...$array
      * @return array
      */
-//    public static function arrayMergeAndUnique(string $key = "name", ...$array):array
-//    {
-//        $newArray = [];
-//        foreach ($array as $k => $arr) {
-//            if ($k===0){
-//                $newArray = array_merge($newArray, $arr);
-//            }else if(is_array($arr)){
-//                foreach ($arr as $item){
-//                    $findIndex = Helper::getArrayFindIndex($newArray,function ($row)use ($key,$item){
-//                        if ($item[$key] === $row[$key]){
-//                            return true;
-//                        }
-//                        return false;
-//                    });
-//                    if($findIndex>-1){
-//                        $data = [];
-//                        foreach ($item as $itemK=>$itemV){
-//                            if ( $itemV !== null){
-//                                $data[$itemK]=$itemV;
-//                            }
-//                        }
-//                        $newArray[$findIndex] = array_merge($newArray[$findIndex],$data);
-//                    }else{
-//                        $newArray[]=$item;
-//                    }
-//                }
-//            }
-//        }
-//
-//
-//        return $newArray;
-//
-//    }
-
     public static function arrayMergeAndUnique(string $key = "name", ...$array):array
     {
         $arrayByKey = [];
@@ -316,18 +283,32 @@ class Helper
             }
             if (!empty($app['params'])){
                 if (!empty($app['params']['header']) && count($app['params']['header']) > 0){
-                    $app['params']['header'] = Lang::getArrayLang($app['params']['header'],"desc");
+                    $app['params']['header'] = static::handleArrayParams($app['params']['header'],"desc");
                 }
                 if (!empty($app['params']['query']) && count($app['params']['query']) > 0){
-                    $app['params']['query'] = Lang::getArrayLang($app['params']['query'],"desc");
+                    $app['params']['query'] = static::handleArrayParams($app['params']['query'],"desc");
                 }
                 if (!empty($app['params']['body']) && count($app['params']['body']) > 0){
-                    $app['params']['body'] = Lang::getArrayLang($app['params']['body'],"desc");
+                    $app['params']['body'] = static::handleArrayParams($app['params']['body'],"desc");
                 }
             }
             $appsConfig[] = $app;
         }
         return $appsConfig;
+    }
+
+    public static function handleArrayParams($array,$field,$config=""){
+        $data = [];
+        if (!empty($array) && is_array($array)){
+            foreach ($array as $item){
+                $item[$field] = Lang::getLang($item[$field],$config);
+                if (!empty($item['md'])){
+                    $item['md'] = ParseMarkdown::getContent("",$item['md']);
+                }
+                $data[]=$item;
+            }
+        }
+        return $data;
     }
 
     public static function getAllApps(array $apps,$parentKey=""){
@@ -461,7 +442,7 @@ class Helper
     public static function arraySortByKey($array, $field="sort",$order=SORT_ASC){
         $sorts = [];
         foreach ($array as $key => $row) {
-            $sorts[$key]  = $row[$field];
+            $sorts[$key]  = isset($row[$field])?$row[$field]:"";
         }
         array_multisort($sorts, $order,  $array);
         return $array;
@@ -525,10 +506,29 @@ class Helper
         if (is_array($method)){
             return $method;
         }else if (strpos($method, ',') !== false){
-            return explode(",", $method);
+            return explode(",", strtoupper($method));
         }else {
-            return [$method];
+            return [strtoupper($method)];
         }
+    }
+
+
+    /**
+     * 获取数组中指定keys的值为新数组
+     * @param array $array
+     * @param array $keys
+     * @return array
+     */
+    public static function getArrayValuesByKeys(array $array,array $keys){
+        $data = [];
+        foreach ($keys as $key) {
+            if (isset($array[$key])){
+                $data[$key]=$array[$key];
+            }else{
+                $data[$key]="";
+            }
+        }
+        return $data;
     }
 
 

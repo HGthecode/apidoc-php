@@ -108,6 +108,9 @@ class ParseMarkdown
         $filePathArr    = static::getFilePath($appKey,$path,$lang);
         $mdAnchor = $filePathArr['anchor'];
         $filePath = $filePathArr['filePath'];
+        if (!file_exists($filePath)) {
+            return $path;
+        }
         $contents    = DirAndFile::getFileContent($filePath);
         // 获取指定h2标签内容
         if (!empty($mdAnchor)){

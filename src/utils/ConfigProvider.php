@@ -15,15 +15,12 @@ class ConfigProvider
     protected static $config = [];
 
 
-    public static function get($field="",$isFilter=false){
+    public static function get($field=""){
 
         if (!empty(static::$config)) {
             $config = static::$config;
         }else{
             throw new ErrorException('ConfigProvider get error');
-        }
-        if ($isFilter){
-            $config = static::handleConfig($config);
         }
 
         return Helper::getObjectFindByField($config,$field);
@@ -35,7 +32,31 @@ class ConfigProvider
                 $config['cache']['folder'] =static::$defaultConfig['cache']['folder'];
             }
         }
+        $config = static::handleConfig($config);
         static::$config = $config;
+    }
+
+    public static function handleConfig($config){
+        if (!empty($config['params'])){
+            if (!empty($config['params']['header'])){
+                $config['params']['header'] = Helper::handleArrayParams($config['params']['header'],"desc",$config);
+            }
+            if (!empty($config['params']['query'])){
+                $config['params']['query'] = Helper::handleArrayParams($config['params']['query'],"desc",$config);
+            }
+            if (!empty($config['params']['body'])){
+                $config['params']['body'] = Helper::handleArrayParamsg($config['params']['body'],"desc",$config);
+            }
+        }
+        if (!empty($config['responses'])){
+            if (!empty($config['responses']['success'])){
+                $config['responses']['success'] = Helper::handleArrayParams($config['responses']['success'],"desc",$config);
+            }
+            if (!empty($config['responses']['error'])){
+                $config['responses']['error'] = Helper::handleArrayParams($config['responses']['error'],"desc",$config);
+            }
+        }
+        return $config;
     }
 
     public static function getFeConfig(){
@@ -56,27 +77,12 @@ class ConfigProvider
             $feConfig['apps'] = Helper::handleAppsConfig($feConfig['apps'],true);
         }
 
-        if (!empty($feConfig['params']) && !empty($feConfig['params']['header'])){
-            $feConfig['params']['header'] = Lang::getArrayLang($feConfig['params']['header'],"desc");
-        }
-        if (!empty($feConfig['params']) && !empty($feConfig['params']['query'])){
-            $feConfig['params']['query'] = Lang::getArrayLang($feConfig['params']['query'],"desc");
-        }
-        if (!empty($feConfig['params']) && !empty($feConfig['params']['body'])){
-            $feConfig['params']['body'] = Lang::getArrayLang($feConfig['params']['body'],"desc");
-        }
-        if (!empty($feConfig['responses']) && !empty($feConfig['responses']['success'])){
-            $feConfig['responses']['success'] = Lang::getArrayLang($feConfig['responses']['success'],"desc");
-        }
-        if (!empty($feConfig['responses']) && !empty($feConfig['responses']['error'])){
-            $feConfig['responses']['error'] = Lang::getArrayLang($feConfig['responses']['error'],"desc");
-        }
         if (!empty($feConfig['generator'])){
             $generatorList = [];
-            $generators= Lang::getArrayLang($feConfig['generator'],"title");
+            $generators= Helper::handleArrayParams($feConfig['generator'],"title");
             foreach ($generators as $item) {
                 if (!empty($item['form']) && !empty($item['form']['items']) && count($item['form']['items'])){
-                    $item['form']['items'] = Lang::getArrayLang( $item['form']['items'],"title");
+                    $item['form']['items'] = Helper::handleArrayParams( $item['form']['items'],"title");
                 }
                 $generatorList[]=$item;
             }

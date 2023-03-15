@@ -3,9 +3,26 @@ declare(strict_types = 1);
 
 namespace hg\apidoc\parses;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use hg\apidoc\utils\Helper;
+use ReflectionAttribute;
+
+//ReflectionMethod
+use ReflectionMethod;
 class ParseAnnotation
 {
 
+    protected $parser;
+
+    public function __construct($config)
+    {
+        $this->parser = new AnnotationReader();
+        if (!empty($config['ignored_annitation'])){
+            foreach ($config['ignored_annitation'] as $item) {
+                AnnotationReader::addGlobalIgnoredName($item);
+            }
+        }
+    }
     /**
      * 解析非@注解的文本注释
      * @param $refMethod
@@ -30,6 +47,87 @@ class ParseAnnotation
             }
         }
         return $data;
+    }
+
+    /**
+     * 根据路径获取类名
+     * @param $path
+     * @return string
+     */
+    protected function getClassName($path){
+        $NameArr = explode("\\", $path);
+        $name    = lcfirst($NameArr[count($NameArr) - 1]);
+        return $name;
+    }
+
+    /**
+     * 获取并处理注解参数
+     * @param $attrList
+     * @return array
+     */
+    protected function getParameters($attrList){
+        $attrs = [];
+        foreach ($attrList as $item) {
+            $value = "";
+            if ($item instanceof ReflectionAttribute) {
+                $name    = $this->getClassName($item->getName());
+                $params = $item->getArguments();
+                if (!empty($params)){
+                    if (is_array($params) && !empty($params[0]) && is_string($params[0]) && count($params)===1){
+                        $value = $params[0];
+                    }else{
+                        if (!empty($params[0])){
+                            $paramObj = [];
+                            foreach ($params as $k=>$value) {
+                                $key = $k==0?'name':$k;
+                                $paramObj[$key]=$value;
+                            }
+                        }else{
+                            $paramObj = $params;
+                        }
+                        $value = $paramObj;
+                    }
+                }
+            }else{
+                $name    = $this->getClassName($item::class);
+                $valueObj = Helper::objectToArray($item);
+                if (isset($valueObj['name']) && count($valueObj)===1){
+                    $value = $valueObj['name'];
+                }else{
+                    $value = $valueObj;
+                }
+            }
+            if (!empty($attrs[$name]) && is_array($attrs[$name]) && array_key_first($attrs[$name])==0){
+                $attrs[$name][]=$value;
+            }else if(!empty($attrs[$name])){
+                $attrs[$name] = [$attrs[$name],$value];
+            }else{
+                $attrs[$name]=$value;
+            }
+        }
+        return $attrs;
+    }
+
+    /**
+     * 获取类的注解参数
+     * @param ReflectionMethod $refMethod
+     * @return array
+     */
+    public function getClassAnnotation($refClass){
+        $attributes = $refClass->getAttributes();
+        $readerAttributes = $this->parser->getClassAnnotations($refClass);
+        return $this->getParameters([...$attributes,...$readerAttributes]);
+    }
+
+    /**
+     * 获取方法的注解参数
+     * @param ReflectionMethod $refMethod
+     * @return array
+     */
+    public function getMethodAnnotation(ReflectionMethod $refMethod){
+        $attributes = $refMethod->getAttributes();
+        $readerAttributes = $this->parser->getMethodAnnotations($refMethod);
+        return $this->getParameters([...$attributes,...$readerAttributes]);
     }
 
 }

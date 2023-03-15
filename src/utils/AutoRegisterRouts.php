@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace hg\apidoc\utils;
 
-use Doctrine\Common\Annotations\AnnotationReader;
+//use Doctrine\Common\Annotations\AnnotationReader;
 use hg\apidoc\parses\ParseAnnotation;
 use hg\apidoc\utils\Helper;
 use ReflectionClass;
@@ -18,9 +18,6 @@ class AutoRegisterRouts
 
     protected $config = [];
 
-    protected $reader;
-
-    protected $currentApp = [];
 
     protected $filterMethods = [
         '__construct',
@@ -28,12 +25,6 @@ class AutoRegisterRouts
 
     public function __construct($config)
     {
-        $this->reader = new AnnotationReader();
-        if (!empty($config['ignored_annitation'])){
-            foreach ($config['ignored_annitation'] as $item) {
-                AnnotationReader::addGlobalIgnoredName($item);
-            }
-        }
         $this->config = $config;
     }
 
@@ -61,11 +52,6 @@ class AutoRegisterRouts
      */
     public function getAppApis($app)
     {
-        $appKey = $app['appKey'];
-        $currentAppConfig = Helper::getCurrentAppConfig($appKey, $this->config);
-        $currentApp = $currentAppConfig['appConfig'];
-        $this->currentApp  = $currentApp;
-
         if (!empty($app['controllers']) && count($app['controllers']) > 0) {
             // 配置的控制器列表
             $controllers = (new ParseApiMenus($this->config))->getConfigControllers($app['path'],$app['controllers']);
@@ -111,10 +97,11 @@ class AutoRegisterRouts
             'name'=>$refClass->name,
             'methods'=>$methodList,
         ];
-        if ($routeMiddleware = $this->reader->getClassAnnotation($refClass, RouteMiddleware::class)){
-            $data['middleware'] = $routeMiddleware->value;
+        $classAnnotations = (new ParseAnnotation($this->config))->getClassAnnotation($refClass);
+        //控制器中间件
+        if (!empty($classAnnotations['routeMiddleware']) && !empty($classAnnotations['routeMiddleware']['name'])) {
+            $data['middleware'] = $classAnnotations['routeMiddleware']['name'];
         }
-
         return $data;
     }
 
@@ -128,31 +115,29 @@ class AutoRegisterRouts
         if (in_array("NotParse", $textAnnotations)) {
             return false;
         }
+        $methodAnnotation = (new ParseAnnotation($config))->getMethodAnnotation($refMethod);
 
-        $url = $this->reader->getMethodAnnotation($refMethod, Url::class);
-        $method = $this->reader->getMethodAnnotation($refMethod, Method::class);
-        if (empty($method)) {
+        if (empty($methodAnnotation['method'])) {
             $method = !empty($config['default_method']) ? strtoupper($config['default_method']) : '*';
         }else{
-            $method = $method->value;
+            $method = $methodAnnotation['method'];
         }
-        if (empty($url)) {
-            $url = ParseApiDetail::autoCreateUrl($refClass->name,$refMethod,$config);
+        if (empty($methodAnnotation['url'])) {
+            $url = ParseApiDetail::autoCreateUrl($refClass->name,$refMethod->name,$config);
         }else{
-            $url = $url->value;
+            $url = $methodAnnotation['url'];
         }
-       if (!empty($url) && substr($url, 0, 1) != "/") {
+        if (!empty($url) && substr($url, 0, 1) != "/") {
             $url = "/" . $url;
         }
-
         $data = [
             'url'=>$url,
             'method'=>$method,
             'name'=>$refMethod->name,
             'controller'=>$refClass->name,
         ];
-        if ($middleware = $this->reader->getMethodAnnotation($refMethod, RouteMiddleware::class)) {
-            $data['middleware'] = $middleware->value;
+        if (!empty($methodAnnotation['routeMiddleware']) && !empty($methodAnnotation['routeMiddleware']['name'])) {
+            $data['middleware'] = $methodAnnotation['routeMiddleware']['name'];
         }
         return $data;
 

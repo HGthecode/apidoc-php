@@ -27,7 +27,7 @@ class Lang
         if (empty($langGetFunction)){
             return $string;
         }
-        if (strpos($string, 'lang(') !== false) {
+        if (is_string($string) && strpos($string, 'lang(') !== false) {
             if (preg_match('#lang\((.*)\)#s', $string, $key) !== false){
                 $langKey = $key && count($key)>1 ? trim($key[1]):"";
                 if (!empty($langKey)){
@@ -44,11 +44,11 @@ class Lang
      * @param $field
      * @return array
      */
-    public static function getArrayLang($array,$field){
+    public static function getArrayLang($array,$field,$config=[]){
         $data = [];
         if (!empty($array) && is_array($array)){
             foreach ($array as $item){
-                $item[$field] = static::getLang($item[$field]);
+                $item[$field] = static::getLang($item[$field],$config);
                 $data[]=$item;
             }
         }

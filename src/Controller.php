@@ -89,7 +89,6 @@ class Controller
         $config = $this->config;
         $params = $this->requestParams;
 
-
         if (!empty($params['appKey'])){
             $appKey = $params['appKey'];
         }
@@ -111,16 +110,9 @@ class Controller
             $apiData = (new ParseApiMenus($config))->renderApiMenus($appKey);
         }
 
-
-        // 接口分组
-        if (!empty($currentApp['groups'])){
-            $data = ParseApiMenus::mergeApiGroup($apiData['data'],$currentApp['groups']);
-        }else{
-            $data = $apiData['data'];
-        }
         $groups=!empty($currentApp['groups'])?$currentApp['groups']:[];
         $json=[
-            'data'=>$data,
+            'data'=>$apiData['data'],
             'app'=>$currentApp,
             'groups'=>$groups,
             'tags'=>$apiData['tags'],
@@ -137,11 +129,8 @@ class Controller
         if (empty($params['path'])){
             throw new ErrorException("path not found");
         }
-        $appKey = $params['appKey'];
+        $appKey = !empty($params['appKey'])?$params['appKey']:"";
         $apiKey = urldecode($params['path']);
-        $pathArr   = explode("@", $apiKey);
-        $classPath = $pathArr[0];
-        $method = $pathArr[1];
 
         if (!empty($config['cache']) && $config['cache']['enable']){
             $cacheKey = Helper::getCacheKey('apiDetail',$appKey,$this->lang,$params['path']);
@@ -150,12 +139,12 @@ class Controller
                 $res = $cacheData;
             }else{
                 // 生成数据并缓存
-                $res = (new ParseApiDetail($config))->renderApiDetail($appKey,$classPath,$method);
+                $res = (new ParseApiDetail($config))->renderApiDetail($appKey,$apiKey);
                 (new Cache())->set($cacheKey,$res);
             }
         }else{
             // 生成数据
-            $res = (new ParseApiDetail($config))->renderApiDetail($appKey,$classPath,$method);
+            $res = (new ParseApiDetail($config))->renderApiDetail($appKey,$apiKey);
         }
         $res['appKey']=$appKey;
         return Helper::showJson(0,"",$res);

@@ -48,7 +48,7 @@ Apidoc是一个通过解析注解生成Api接口文档的PHP composer扩展，�
 |ThinkPHP|5.1、6.x||
 |Laravel|8.x、9.x||
 |Webman|2.x||
-|Hyperf|2.x||
+|Hyperf|2.x、3.x||
 
 
 ## 📖使用文档

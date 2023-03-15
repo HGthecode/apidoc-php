@@ -3,8 +3,9 @@
 namespace hg\apidoc\annotation;
 
 use Doctrine\Common\Annotations\Annotation;
+use hg\apidoc\utils\AbstractAnnotation;
 
-abstract class ParamBase extends Annotation
+abstract class ParamBase extends AbstractAnnotation
 {
 
     /**
@@ -41,7 +42,7 @@ abstract class ParamBase extends Annotation
 
     /**
      * 为array类型时指定子节点类型
-     *  @Enum({"string", "int", "boolean", "array", "object"})
+     * @Enum({"string", "int", "boolean", "array", "object"})
      * @var string
      */
     public $childrenType = '';
@@ -64,11 +65,24 @@ abstract class ParamBase extends Annotation
      */
     public $md;
 
+
     /**
-     * 引入说明md内容
-     * @var string
+     * 必须
+     * @var bool
      */
-    public $mdRef;
+    public $require = false;
+
+    /**
+     * 引入
+     * @var string|array
+     */
+    public $ref;
+
+    /**
+     * 子参数
+     * @var array
+     */
+    public $children;
 
 
 }

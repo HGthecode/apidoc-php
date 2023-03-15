@@ -2,9 +2,9 @@
 
 namespace hg\apidoc\annotation;
 
-use Doctrine\Common\Annotations\Annotation;
+use hg\apidoc\utils\AbstractAnnotation;
 
-abstract class EventBase extends Annotation
+abstract class EventBase extends AbstractAnnotation
 {
 
     /**
@@ -20,10 +20,11 @@ abstract class EventBase extends Annotation
     public $key;
 
     /**
-     * 处理值的方法
+     * 事件处理的值
      * @var string
      */
-    public $handleValue;
+    public $value;
+
 
     /**
      * ajax时的url
@@ -52,7 +53,7 @@ abstract class EventBase extends Annotation
 
     /**
      * 引用
-     * @var string
+     * @var string|array
      */
     public $ref;
 
@@ -62,6 +63,18 @@ abstract class EventBase extends Annotation
      */
     public $appKey;
 
+
+    /**
+     * 执行之前的事件
+     * @var array
+     */
+    public $before;
+
+    /**
+     * 执行之后的事件
+     * @var array
+     */
+    public $after;
 
 
 }

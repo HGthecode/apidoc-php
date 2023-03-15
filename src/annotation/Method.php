@@ -2,7 +2,9 @@
 
 namespace hg\apidoc\annotation;
 
+use Attribute;
 use Doctrine\Common\Annotations\Annotation;
+use hg\apidoc\utils\AbstractAnnotation;
 
 /**
  * 请求类型
@@ -10,5 +12,14 @@ use Doctrine\Common\Annotations\Annotation;
  * @Annotation
  * @Target({"METHOD"})
  */
-class Method extends Annotation
-{}
+#[Attribute(Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
+class Method extends AbstractAnnotation
+{
+    /**
+     * @param string $value 请求类型
+     */
+    public function __construct(...$value)
+    {
+        parent::__construct(...$value);
+    }
+}

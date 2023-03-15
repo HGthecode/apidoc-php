@@ -15,14 +15,23 @@ class WebmanMiddleware implements MiddlewareInterface
 
     public function process(Request $request, callable $handler) : Response
     {
-
         $this->initConfig();
         $params = $request->all();
         $config =  ConfigProvider::get();
         $config['request_params'] = $params;
         ConfigProvider::set($config);
 
-        $response = $handler($request);
+        $response = $request->method() == 'OPTIONS' ? response('') : $handler($request);
+        if (!empty($config['allowCrossDomain'])){
+            // 给响应添加跨域相关的http头
+            $response->withHeaders([
+                'Access-Control-Allow-Credentials' => 'true',
+                'Access-Control-Allow-Origin' => $request->header('origin', '*'),
+                'Access-Control-Allow-Methods' => $request->header('access-control-request-method', '*'),
+                'Access-Control-Allow-Headers' => $request->header('access-control-request-headers', '*'),
+            ]);
+        }
+
         return $response;
     }
 

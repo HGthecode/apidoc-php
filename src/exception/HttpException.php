@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace hg\apidoc\exception;
 
@@ -16,7 +16,7 @@ class HttpException extends \RuntimeException
     public function __construct(int $statusCode, string $message = '', Exception $previous = null, array $headers = [], $code = 0)
     {
         $this->statusCode = $statusCode;
-        $this->headers    = $headers;
+        $this->headers = $headers;
 
         parent::__construct($message, $code, $previous);
     }

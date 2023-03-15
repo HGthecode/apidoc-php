@@ -13,8 +13,8 @@
         "注解"
       ],
     "require": {
-        "php": ">=7.1",
-        "doctrine/annotations": "^1.6"
+        "php": "^7.1 || ^8.0",
+        "doctrine/annotations": "^2.0"
     },
     "license": "MIT",
     "authors": [

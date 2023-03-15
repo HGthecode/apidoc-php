@@ -4,30 +4,17 @@ declare(strict_types = 1);
 namespace hg\apidoc\parses;
 
 use Doctrine\Common\Annotations\AnnotationException;
-use Doctrine\Common\Annotations\AnnotationReader;
 use hg\apidoc\exception\ErrorException;
 use hg\apidoc\utils\DirAndFile;
 use hg\apidoc\utils\Helper;
 use hg\apidoc\utils\Lang;
 use ReflectionClass;
-use hg\apidoc\annotation\Group;
-use hg\apidoc\annotation\Sort;
-use hg\apidoc\annotation\Title;
-use hg\apidoc\annotation\Desc;
-use hg\apidoc\annotation\Author;
-use hg\apidoc\annotation\Tag;
-use hg\apidoc\annotation\Header;
-use hg\apidoc\annotation\ParamType;
-use hg\apidoc\annotation\Url;
-use hg\apidoc\annotation\Method;
-use hg\apidoc\annotation\ContentType;
+use ReflectionAttribute;
 
 class ParseApiMenus
 {
 
     protected $config = [];
-
-    protected $reader;
 
     //tags，当前应用/版本所有的tag
     protected $tags = array();
@@ -35,20 +22,13 @@ class ParseApiMenus
     //groups,当前应用/版本的分组name
     protected $groups = array();
 
-    protected $controller_layer = "App";
+    protected $controller_layer = "app";
 
     protected $currentApp = [];
 
-    protected $parseApiDetail;
 
     public function __construct($config)
     {
-        $this->reader = new AnnotationReader();
-        if (!empty($config['ignored_annitation'])){
-            foreach ($config['ignored_annitation'] as $item) {
-                AnnotationReader::addGlobalIgnoredName($item);
-            }
-        }
         $this->config = $config;
     }
 
@@ -71,7 +51,6 @@ class ParseApiMenus
             $controllers = $this->getDirControllers($currentApp['path']);
         }
 
-
         $apiData = [];
         if (!empty($controllers) && count($controllers) > 0) {
             foreach ($controllers as $class) {
@@ -83,6 +62,12 @@ class ParseApiMenus
         }
         // 排序
         $apiList = Helper::arraySortByKey($apiData);
+
+        // 接口分组
+        if (!empty($currentApp['groups'])){
+            $apiList = ParseApiMenus::mergeApiGroup($apiList,$currentApp['groups']);
+        }
+
         $json = array(
             "data"   => $apiList,
             "tags"   => $this->tags,
@@ -99,11 +84,11 @@ class ParseApiMenus
     public function getConfigControllers(string $path,$appControllers): array
     {
         $controllers = [];
-        $configControllers = $appControllers;
-        if (!empty($configControllers) && count($configControllers) > 0) {
-            foreach ($configControllers as $item) {
-                if ( strpos($item, $path) !== false && class_exists($item)) {
-                    $controllers[] = $item;
+        if (!empty($appControllers) && count($appControllers) > 0) {
+            foreach ($appControllers as $item) {
+                $classPath = $path."\\".$item;
+                if ( class_exists($classPath)) {
+                    $controllers[] = $classPath;
                 }
             }
         }
@@ -181,29 +166,21 @@ class ParseApiMenus
     public function parseController($class)
     {
 
-        $data                 = [];
         $refClass             = new ReflectionClass($class);
         $classTextAnnotations = ParseAnnotation::parseTextAnnotation($refClass);
         if (in_array("NotParse", $classTextAnnotations)) {
             return false;
         }
-        $title = $this->reader->getClassAnnotation($refClass, Title::class);
-        $group = $this->reader->getClassAnnotation($refClass, Group::class);
-        $sort = $this->reader->getClassAnnotation($refClass, Sort::class);
-        $routeGroup         = $this->reader->getClassAnnotation($refClass, RouteGroup::class);
 
-        $controllersNameArr = explode("\\", $class);
-        $controllersName    = $controllersNameArr[count($controllersNameArr) - 1];
+        $data = (new ParseAnnotation($this->config))->getClassAnnotation($refClass);
+        $controllersName    = $refClass->getShortName();
         $data['controller'] = $controllersName;
         $data['path'] = $class;
-        $data['group']      = !empty($group->value) ? $group->value : null;
-        $data['sort']      = !empty($sort->value) ? $sort->value : null;
         if (!empty($data['group']) && !in_array($data['group'], $this->groups)) {
             $this->groups[] = $data['group'];
         }
-        $data['title'] = !empty($title) && !empty($title->value) ? $title->value : "";
 
-        if (empty($title)) {
+        if (empty($data['title'])) {
             if (!empty($classTextAnnotations) && count($classTextAnnotations) > 0) {
                 $data['title'] = $classTextAnnotations[0];
             } else {
@@ -216,7 +193,7 @@ class ParseApiMenus
         $isNotDebug = in_array("NotDebug", $classTextAnnotations);
 
         foreach ($refClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $refMethod) {
-            $methodItem = $this->parseApiMethod($refClass,$refMethod,$routeGroup);
+            $methodItem = $this->parseApiMethod($refClass,$refMethod);
             if ($methodItem===false){
                 continue;
             }
@@ -233,71 +210,28 @@ class ParseApiMenus
     }
 
 
-    protected function parseApiMethod($refClass,$refMethod,$routeGroup){
+    protected function parseApiMethod($refClass,$refMethod){
         $config               = $this->config;
         if (empty($refMethod->name)) {
             return false;
         }
-        if (empty($this->parseApiDetail)){
-            $this->parseApiDetail = new ParseApiDetail($config);
-        }
-        $textAnnotations = ParseAnnotation::parseTextAnnotation($refMethod);
 
-        $methodInfo = $this->parseMethodAnnotation($refMethod);
-        if (empty($methodInfo)){
-            return false;
-        }
-        $methodInfo = $this->parseApiDetail->handleApiBaseInfo($methodInfo,$refClass,$refMethod,$textAnnotations);
-        return $methodInfo;
-
-    }
-
-
-    /**
-     * 解析方法注释
-     * @param $refMethod
-     * @return array
-     */
-    protected function parseMethodAnnotation($refMethod): array
-    {
-
-        $data = [];
         try {
-            $annotations = $this->reader->getMethodAnnotations($refMethod);
-            if ($annotations) {
-                foreach ($annotations as $annotation) {
-                    switch (true) {
-                        case $annotation instanceof Author:
-                            $data['author'] = $annotation->value;
-                            break;
-
-                        case $annotation instanceof Title:
-                            $data['title'] = Lang::getLang($annotation->value);
-                            break;
-                        case $annotation instanceof ParamType:
-                            $data['paramType'] = $annotation->value;
-                            break;
-                        case $annotation instanceof Url:
-                            $data['url'] = $annotation->value;
-                            break;
-                        case $annotation instanceof Method:
-                            $apiMethods = Helper::handleApiMethod($annotation->value);
-                            $data['method'] = count($apiMethods)==1?$apiMethods[0]:$apiMethods;
-                            break;
-                        case $annotation instanceof Tag:
-                            $data['tag'] = $annotation->value;
-                            break;
-                        case $annotation instanceof ContentType:
-                            $data['contentType'] = $annotation->value;
-                            break;
-                    }
-                }
-
+            $textAnnotations = ParseAnnotation::parseTextAnnotation($refMethod);
+            // 标注不解析的方法
+            if (in_array("NotParse", $textAnnotations)) {
+                return false;
             }
-            return $data;
+            $methodInfo = (new ParseAnnotation($this->config))->getMethodAnnotation($refMethod);
+            if (empty($methodInfo)){
+                return false;
+            }
+            $methodInfo = ParseApiDetail::handleApiBaseInfo($methodInfo,$refClass->name,$refMethod->name,$textAnnotations,$config);
+            return Helper::getArrayValuesByKeys($methodInfo,['title','method','url','author','tag','name','menuKey']);
         }catch (AnnotationException $e) {
             throw new ErrorException($e->getMessage());
         }
+
     }
 
 
@@ -333,9 +267,15 @@ class ParseApiMenus
         if (empty($groups) || count($apiData)<1){
             return $apiData;
         }
+        $groupNames = [];
+        foreach ($groups as $item) {
+            if (!empty($item['name'])){
+                $groupNames[]=$item['name'];
+            }
+        }
         $apiObject = [];
         foreach ($apiData as $controller){
-            if (!empty($controller['group'])){
+            if (!empty($controller['group']) && in_array($controller['group'],$groupNames)){
                 if (!empty($apiObject[$controller['group']])){
                     $apiObject[$controller['group']][] = $controller;
                 }else{
