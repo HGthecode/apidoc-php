@@ -62,7 +62,6 @@ class ParseApiDetail
             return [];
         }
         $methodAnnotations = $this->getMethodAnnotation($refMethod);
-//        return $methodAnnotations;
         $methodAnnotations = self::handleApiBaseInfo($methodAnnotations,$refClass->name,$refMethod->name,$textAnnotations,$config);
         // 是否开启debug
         if (
@@ -158,7 +157,7 @@ class ParseApiDetail
      */
     protected function getFieldMarkdownContent($mdAnnotations){
         if(!empty($mdAnnotations['name'])){
-            return $mdAnnotations;
+            return $mdAnnotations['name'];
         }else if(!empty($mdAnnotations['ref'])){
             return ParseMarkdown::getContent($this->appKey,$mdAnnotations['ref']);
         }
@@ -387,7 +386,7 @@ class ParseApiDetail
                     }else{
                         $data = Helper::arrayMergeAndUnique("name",$data,$item);
                     }
-                }else{
+                }else if ($item!==false){
                     $data[]=$item;
                 }
             }
@@ -415,7 +414,7 @@ class ParseApiDetail
                     $data = $this->handleRefData($param,$refParams[$field],$field);
                 }
             }else{
-                $data = $refParams;
+                return false;
             }
         }else{
             $data = $param;
@@ -429,7 +428,10 @@ class ParseApiDetail
         if (!empty($data['children']) && is_array($data['children'])){
             $childrenData = [];
             foreach ($data['children'] as $child) {
-                $childrenData[]=$this->handleAnnotationsParamItem($child,$field);
+                $paramItem=$this->handleAnnotationsParamItem($child,$field);
+                if ($paramItem!==false){
+                    $childrenData[] = $paramItem;
+                }
             }
             $data['children'] = $childrenData;
         }

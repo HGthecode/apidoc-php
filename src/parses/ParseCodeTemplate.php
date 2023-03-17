@@ -64,11 +64,7 @@ class ParseCodeTemplate
                 $apiList = [];
                 foreach ($apis as $key) {
                     $apiKey = urldecode($key);
-                    $pathArr   = explode("@", $apiKey);
-                    $classPath = $pathArr[0];
-                    $method = $pathArr[1];
-
-                    $apiDetail = $parseApiDetailService->renderApiDetail($appKey,$classPath,$method);
+                    $apiDetail = $parseApiDetailService->renderApiDetail($appKey,$apiKey);
                     if ($apiDetail !== false) {
                         $apiList[] = $apiDetail;
                     }

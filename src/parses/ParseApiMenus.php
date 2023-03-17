@@ -257,6 +257,22 @@ class ParseApiMenus
         return $data;
     }
 
+    protected static function getAppGroupNames($groups){
+        $groupNames = [];
+        foreach ($groups as $item) {
+            if (!empty($item['name'])){
+                $groupNames[]=$item['name'];
+            }
+            if (!empty($item['children']) && count($item['children'])){
+               $childrenNames = self::getAppGroupNames($item['children']);
+                foreach ($childrenNames as $childrenName) {
+                    $groupNames[]=$childrenName;
+               }
+            }
+        }
+        return $groupNames;
+    }
+
     /**
      * 合并接口到应用分组
      * @param $apiData
@@ -267,12 +283,7 @@ class ParseApiMenus
         if (empty($groups) || count($apiData)<1){
             return $apiData;
         }
-        $groupNames = [];
-        foreach ($groups as $item) {
-            if (!empty($item['name'])){
-                $groupNames[]=$item['name'];
-            }
-        }
+        $groupNames = static::getAppGroupNames($groups);
         $apiObject = [];
         foreach ($apiData as $controller){
             if (!empty($controller['group']) && in_array($controller['group'],$groupNames)){

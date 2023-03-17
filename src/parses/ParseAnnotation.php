@@ -80,7 +80,7 @@ class ParseAnnotation
                         if (!empty($params[0])){
                             $paramObj = [];
                             foreach ($params as $k=>$value) {
-                                $key = $k==0?'name':$k;
+                                $key = $k===0?'name':$k;
                                 $paramObj[$key]=$value;
                             }
                         }else{
@@ -98,7 +98,7 @@ class ParseAnnotation
                     $value = $valueObj;
                 }
             }
-            if (!empty($attrs[$name]) && is_array($attrs[$name]) && array_key_first($attrs[$name])==0){
+            if (!empty($attrs[$name]) && is_array($attrs[$name]) && array_key_first($attrs[$name])===0){
                 $attrs[$name][]=$value;
             }else if(!empty($attrs[$name])){
                 $attrs[$name] = [$attrs[$name],$value];
