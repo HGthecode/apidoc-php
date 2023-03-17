@@ -121,7 +121,7 @@ class ParseAnnotation
             $attributes = [];
         }
         $readerAttributes = $this->parser->getClassAnnotations($refClass);
-        return $this->getParameters([...$attributes,...$readerAttributes]);
+        return $this->getParameters(array_merge($attributes,$readerAttributes));
     }
 
     /**
@@ -136,7 +136,7 @@ class ParseAnnotation
             $attributes = [];
         }
         $readerAttributes = $this->parser->getMethodAnnotations($refMethod);
-        return $this->getParameters([...$attributes,...$readerAttributes]);
+        return $this->getParameters(array_merge($attributes,$readerAttributes));
     }
 
 }
