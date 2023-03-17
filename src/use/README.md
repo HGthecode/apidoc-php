@@ -10,7 +10,7 @@ sidebarDepth: 2
 - 如果您使用的是php8以上版本，建议使用PHP8原生注解方式书写注解。
 - 如果你使用小于PHP8版本，并使用PHPStorm的话，建议安装[Annotations插件](https://plugins.jetbrains.com/plugin/7320-php-annotations)，可以支持注解的语法提示及自动完成
 
-- 配合查看[演示项目](https://demo-tp6.apidoc.icu/apidoc/)与[演示源码](https://github.com/HGthecode/apidoc-demos)上手更快哦！
+- 配合查看[演示项目](https://demo-tp6.apidoc.icu/apidoc/)与[演示源码](https://github.com/HGthecode/apidoc-demos)、[基于Webman的PHP8原生注解示例源码](https://github.com/HGthecode/apidoc-demos/tree/webman)上手更快哦！
 
 
 

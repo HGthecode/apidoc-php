@@ -825,10 +825,9 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // "13100667890"
 ```
 
-
 ### @idcard
 
-随机获得一个18位身份证号码
+随机获得一个18位S·F·Z号码
 
 ```javascript
 @idcard

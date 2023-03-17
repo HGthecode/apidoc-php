@@ -11,7 +11,7 @@ category: 指南
 ## 升级扩展
 
 ```sh
-composer update hg/apidoc
+composer require hg/apidoc:5.0.0
 ```
 或
 
