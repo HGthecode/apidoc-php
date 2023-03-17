@@ -14,7 +14,9 @@ export default sidebar({
         "webman",
       ],
     },
-    "changelog"
+    "changelog",
+    "update5",
+
   ],
   "/config/": [
     "",
