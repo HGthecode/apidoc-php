@@ -1,6 +1,27 @@
-# 控制器注释
+# 控制器注解
 
 为控制器加上一些注释，以让文档可读性更高（当然这不是必须的）
+
+::: code-tabs#php
+
+@tab:active PHP8原生注解
+
+```php
+<?php
+namespace app\controller;
+use hg\apidoc\annotation as Apidoc;
+
+#[Apidoc\Title("基础示例")]
+#[Apidoc\Group("bse")]
+#[Apidoc\Sort(1)]
+class ApiDocTest
+{
+  //...    
+}
+```
+
+@tab:active 原始注解
+
 ```php
 <?php
 namespace app\controller;
@@ -17,6 +38,9 @@ class ApiDocTest
   //...    
 }
 ```
+
+:::
+
 
 ## 注释参数
 

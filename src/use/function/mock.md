@@ -10,10 +10,34 @@
 
 只需要在接口注解的`Query`、`Param`中加入`mock`的配置即可
 
+::: code-tabs#apiMock1
+
+@tab:active PHP8原生注解
+
+```php
+#[
+  Apidoc\Method("POST"),
+  Apidoc\Param("number",type:"int",mock:"@integer(10, 100)"),
+  Apidoc\Param("boolean",type:"boolean",mock:"@boolean"),
+  Apidoc\Param("date",type:"date",mock:"@date"),
+  Apidoc\Param("time",type:"time",mock:"@time('H:m')"),
+  Apidoc\Param("datetime",type:"datetime",mock:"@datetime('yyyy-MM-dd HH:mm:ss')"),
+  Apidoc\Param("string",type:"string",mock:"@string"),
+  Apidoc\Param("name",type:"string",mock:"@cname"),
+  Apidoc\Param("text",type:"string",mock:"@cparagraph"),
+  Apidoc\Param("image",type:"string",mock:"@image('200x100')"),
+  Apidoc\Param("color",type:"string",mock:"@color"),
+  Apidoc\Param("phone",type:"string",mock:"@phone"),
+]
+public function mock(Request $request){
+  //...
+}
+```
+
+@tab 原始注解
+
 ```php
 /**
- * mock调试数据
- * @Apidoc\Url("/admin/baseDemo/mock")
  * @Apidoc\Method("POST")
  * @Apidoc\Param("number",type="int",mock="@integer(10, 100)")
  * @Apidoc\Param("boolean",type="boolean",mock="@boolean")
@@ -25,11 +49,13 @@
  * @Apidoc\Param("text",type="string",mock="@cparagraph")
  * @Apidoc\Param("image",type="string",mock="@image('200x100')")
  * @Apidoc\Param("color",type="string",mock="@color")
+ * @Apidoc\Param("phone",type="string",mock="@phone")
  */
 public function mock(Request $request){
   //...
 }
 ```
+:::
 
 ## 数据表字段Mock
 
@@ -842,17 +868,27 @@ window.apidocFeConfig = {
 
 2、注解中直接使用
 
+::: code-tabs#apiMock2
+
+@tab:active PHP8原生注解
+```php
+
+#[Apidoc\Param("abc",type:"string",mock:"@abc('666')")]
+public function index(Request $request){
+    //...
+}
+```
+@tab 原始注解
 ```php
 
 /**
- * mock调试数据
- * ...
  * @Apidoc\Param("abc",type="string",mock="@abc('666')")
  */
 public function index(Request $request){
     //...
 }
 ```
+:::
 
 
 

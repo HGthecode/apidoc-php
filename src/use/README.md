@@ -7,20 +7,53 @@ sidebarDepth: 2
 # 建议及规范
 
 ## 建议
-- 如果你使用PHPStorm的话，建议安装PHP [Annotations插件](https://plugins.jetbrains.com/plugin/7320-php-annotations)，可以支持注解的语法提示及自动完成
+- 如果您使用的是php8以上版本，建议使用PHP8原生注解方式书写注解。
+- 如果你使用小于PHP8版本，并使用PHPStorm的话，建议安装[Annotations插件](https://plugins.jetbrains.com/plugin/7320-php-annotations)，可以支持注解的语法提示及自动完成
 
 - 配合查看[演示项目](https://demo-tp6.apidoc.icu/apidoc/)与[演示源码](https://github.com/HGthecode/apidoc-demos)上手更快哦！
 
 
 
 ## 书写规范
-::: warning 书写参数时有如下几个规范
+::: warning 书写注解时有如下几个规范
 - 控制器必须`use`引入注释解释文件
-- 每个参数以 @+参数名("参数值",子参数名="子参数值",...)
-- 子参数需用双引号包裹
+- `php8原生注解` 每个注解以 #[注解名("参数值",子参数名="子参数值",...)]
+- `原始注解` 每个注解以 @+注解名("参数名/值",子参数名="子参数值",...)
 :::
 
 ## 举例
+
+::: code-tabs#php
+
+@tab:active PHP8原生注解
+
+```php
+<?php
+namespace app\demo\controller;
+use app\BaseController;
+// 必须的
+use hg\apidoc\annotation as Apidoc;
+
+#[Apidoc\Title("基础示例")]
+class Base extends BaseController
+{
+    #[
+        Apidoc\Title("基础的演示"),
+        Apidoc\Tag("基础,示例"),
+        Apidoc\Method("GET"),
+        Apidoc\Url("/demo/base/index"),
+        Apidoc\Query(name:"name",type: "string",require: true,desc: "姓名",mock:"@name"),
+        Apidoc\Query(name:"phone",type: "string",require: true,desc: "手机号",mock:"@phone"),
+        Apidoc\Returned("id",type: "int",desc: "Id"),
+    ]
+    public function index(){
+        //...
+    }
+}
+```
+
+@tab 原始注解
+
 ```php
 <?php
 namespace app\demo\controller;
@@ -35,17 +68,18 @@ class Base extends BaseController
 {
     /**
      * @Apidoc\Title("基础的接口演示")
-     * @Apidoc\Author("HG")
      * @Apidoc\Tag("基础,示例")
-     * @Apidoc\Url ("/demo/index")
      * @Apidoc\Method ("GET")
+     * @Apidoc\Url ("/demo/index")
      * @Apidoc\Query("name", type="string",require=true, desc="姓名",mock="@name")
      * @Apidoc\Query("phone", type="string",require=true, desc="手机号",mock="@phone")
-     * @Apidoc\Query("sex", type="int",desc="性别" ,mock="@integer(0, 1)")
-     * @Apidoc\Returned("id", type="int", desc="id")
+     * @Apidoc\Returned("id", type="int", desc="Id")
      */
     public function index(){
         //...
     }
 }
 ```
+
+:::
+

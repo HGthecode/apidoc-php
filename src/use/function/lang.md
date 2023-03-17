@@ -122,6 +122,22 @@ return [
 
 如果的项目存在多种语言，希望在API接口的参数说明也能进行多语言切换，可对注解进行多语言变量引用
 
+::: code-tabs#apiLang
+
+@tab:active PHP8原生注解
+
+```php
+
+#[Apidoc\Title("lang(apidoc.api.lang.title)")]
+#[Apidoc\Desc("lang(apidoc.api.lang.desc)")]
+#[Apidoc\Param("age",type:"int",desc:"lang(apidoc.api.lang.age)")]
+#[Apidoc\Returned("name",type:"string",desc:"lang(apidoc.api.lang.name)")]
+public function lang(Request $request){
+    //...
+}
+```
+
+@tab 原始注解
 
 ```php
 /**
@@ -135,6 +151,7 @@ public function lang(Request $request){
 }
 ```
 
+:::
 
 ## 数据表字段描述
 

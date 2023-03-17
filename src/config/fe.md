@@ -146,6 +146,10 @@ window.apidocFeConfig = {
       }
       return md
     },
+    // （选配）自定义json字段名Hover提示文本
+    RENDER_HOVER_TIPS_CONTENT:function(item){
+      return item.desc
+    },
     
   },
   //（选配）是否显示版本号

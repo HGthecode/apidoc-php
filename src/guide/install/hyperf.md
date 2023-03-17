@@ -48,6 +48,11 @@ hg\apidoc\providers\HyperfService::register();
 
 打开浏览器访问   http://你的域名/apidoc/ ，出现接口文档页面，表示安装成功。
 
+::: tip
+
+如果以上地址 访问不了（Not Found），可尝试 [配置静态资源](https://hyperf.wiki/3.0/#/zh-cn/filesystem),
+
+:::
 
 ## 配置异常响应
 

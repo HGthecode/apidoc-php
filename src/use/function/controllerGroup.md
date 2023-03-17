@@ -27,6 +27,21 @@
 
 2、在对应控制器注释中，加入 `@group` 来指定该控制器所属分类的 name
 
+::: code-tabs#php
+
+@tab:active PHP8原生注解
+```php
+namespace app\controller;
+
+use hg\apidoc\annotation as Apidoc;
+
+#[Apidoc\Title("基础示例")]
+#[Apidoc\Group("base")]
+class ApiDocTest
+{ 
+```
+
+@tab 原始注解
 ```php
 namespace app\controller;
 
@@ -39,3 +54,4 @@ use hg\apidoc\annotation as Apidoc;
 class ApiDocTest
 { 
 ```
+:::

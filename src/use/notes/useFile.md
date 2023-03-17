@@ -1,17 +1,16 @@
 # 引入Apidoc注解
 
-控制器必须引入注释解释文件，否则会出现`[Semantical Error] The annotation...`的报错
+在写Apidoc注解类中，必须`use`引入Apidoc注解类，否则会出现`[Semantical Error] The annotation...`的报错
 
 ## 引入方式一（推荐）
 ```php
 <?php
 namespace app\controller;
-// 添加这句，注释写法为 @Apidoc\参数名(...)
+// 添加这句
 use hg\apidoc\annotation as Apidoc;
 
 /**
  * @Apidoc\Title("基础示例")
- * @Apidoc\Group("base")
  */
 class ApiDocTest
 {

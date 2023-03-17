@@ -6,6 +6,26 @@
 
 可通过接口的注解来定义执行的事件，如下：
 
+::: code-tabs#apiEvent1
+
+@tab:active PHP8原生注解
+
+```php
+#[
+    Apidoc\Title("调试时事件"),
+    Apidoc\Method("POST"),
+    Apidoc\Param("username",type:"string",desc:"用户名"),
+    Apidoc\Param("password",type:"string",desc:"密码"),
+    Apidoc\Before(event: "md5",key: "password",value: "body.password"),
+    Apidoc\After(event: "setGlobalHeader",key: "Authorization",value: "res.data.data.token",desc: "Token")
+]
+public function debug(Request $request){
+    //...
+}
+```
+
+@tab 原始注解
+
 ```php
 /**
  * @Apidoc\Title ("调试时事件")
@@ -14,12 +34,14 @@
  * @Apidoc\Param("username",type="string",desc="用户名")
  * @Apidoc\Param("password",type="string",desc="密码")
  * @Apidoc\Before(event="md5",key="password",value="body.password")
- * @Apidoc\After(event="setGlobalHeader",key="Authorization",value="res.data.data.token",desc="用户登录Toekn")
+ * @Apidoc\After(event="setGlobalHeader",key="Authorization",value="res.data.data.token",desc="Toekn")
  */
 public function debug(Request $request){
     //...
 }
 ```
+
+:::
 
 以上例子中，会执行以下事件：
 
@@ -39,8 +61,9 @@ public function debug(Request $request){
 | desc |	字段值描述 |  
 | url |	event为ajax时，定义请求地址 |  
 | method |	event为ajax时，定义请求类型 |  
-| contentType |	event为ajax时，定义contentType |  
-
+| contentType |	event为ajax时，定义contentType |
+| before |	event为ajax时，定义该请求前事件 |
+| after |	event为ajax时，定义该请求后事件 |  
 
 
 ## 内置事件
@@ -145,17 +168,38 @@ public function debug(Request $request){
 
 发送一个请求
 
+::: code-tabs#apiEventAjax
+
+@tab:active PHP8原生注解
+
+```php
+#[
+    Apidoc\Before(event: "ajax",value: "body.",url: "/api/xxx/xx",method: "POST",before: [
+        ['event'=>'setBody',"key"=>"key","value"=>"123456"]
+    ],after: [
+        ['event'=>'setHeader',"key"=>"X-CSRF-TOKEN","value"=>"res.data.data.token"]
+    ])
+]
+public function debug(Request $request){
+    //...
+}
+```
+@tab 原始注解
 ```php
 /**
- * @Apidoc\Before(event="ajax",url="请求地址",method="请求类型",contentType="appicateion-json",
- *    @Apidoc\Before(event="setBody",key="key",value="body.phone"),
- *    @Apidoc\Before(event="setBody",key="abc",value="123456"),
- *    @Apidoc\After(event="setHeader",key="X-CSRF-TOKEN",value="res.data.data.token")
- * )
- * /
+ * @Apidoc\Before(event="ajax",value="body.",url="/api/xxx/xx",method="POST",contentType="appicateion-json",before={
+ *   @Apidoc\Before(event="setBody",key="key",value="123456")
+ * },after={
+ *   @Apidoc\After(event="setHeader",key="X-CSRF-TOKEN",value="res.data.data.token")
+ * })
+ **/
+public function debug(Request $request){
+    //...
+}
 ```
 
-以上注解，会在接口调试前发送一个请求，请求参数为`{key:"这个值为调试接口参数的phone字段",abc:"123456"}`，请求响应后执行`setHeader`设置一个key为`X-CSRF-TOKEN`的请求头参数，值为该请求返回值中的`res.data.data.token`
+
+以上注解，会在接口调试前发送一个请求，请求参数为`{...当前调试接口的所有参数,abc:"123456"}`，请求响应后执行`setHeader`设置一个key为`X-CSRF-TOKEN`的请求头参数，值为该请求返回值中的`res.data.data.token`
 
 
 
@@ -246,18 +290,37 @@ window.apidocFeConfig = {
 
 1、接口注解调用
 
+::: code-tabs#apiMyEvent
+
+@tab:active PHP8原生注解
+
+```php
+#[
+    Apidoc\Title("自定义事件"),
+    Apidoc\Method("GET"),
+    Apidoc\Query("name",type:"string",desc:"姓名"),
+    Apidoc\Query("phone",type:"string",desc:"手机号"),
+    Apidoc\After(event:"renderGetUrl"),
+]
+public function testMyEvent(Request $request){
+    //...
+}
+```
+@tab 原始注解
+
 ```php
 /**
  * @Apidoc\Title ("测试自定义事件")
  * @Apidoc\Method("GET")
- * @Apidoc\Query("name",type="string",desc="姓名",mock="@cname")
- * @Apidoc\Query("phone",type="string",desc="电话",mock="@phone")
+ * @Apidoc\Query("name",type="string",desc="姓名"
+ * @Apidoc\Query("phone",type="string",desc="手机号")
  * @Apidoc\After (event="renderGetUrl")
  */
 public function testMyEvent(Request $request){
     //...
 }
 ```
+:::
 
 2、全局调用
 
