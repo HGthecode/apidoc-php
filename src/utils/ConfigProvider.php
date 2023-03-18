@@ -45,7 +45,7 @@ class ConfigProvider
                 $config['params']['query'] = Helper::handleArrayParams($config['params']['query'],"desc",$config);
             }
             if (!empty($config['params']['body'])){
-                $config['params']['body'] = Helper::handleArrayParamsg($config['params']['body'],"desc",$config);
+                $config['params']['body'] = Helper::handleArrayParams($config['params']['body'],"desc",$config);
             }
         }
         if (!empty($config['responses'])){
