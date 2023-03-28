@@ -60,7 +60,7 @@ class ParseModel
             }
             return $table;
         } catch (\ReflectionException $e) {
-            throw new ErrorException('Class '.$path.' '.$e->getMessage());
+            throw new ErrorException('Class '.get_class($model).' '.$e->getMessage());
         }
 
     }

@@ -11,16 +11,16 @@ trait BaseService
 {
 
     static $routes = [
-        ['rule'=>'config','route'=>'getConfig','method'=>'GET'],
-        ['rule'=>'apiMenus','route'=>'getApiMenus','method'=>'POST'],
-        ['rule'=>'apiDetail','route'=>'getApiDetail','method'=>'POST'],
-        ['rule'=>'docMenus','route'=>'getMdMenus','method'=>'POST'],
-        ['rule'=>'docDetail','route'=>'getMdDetail','method'=>'POST'],
-        ['rule'=>'verifyAuth','route'=>'verifyAuth','method'=>'POST'],
-        ['rule'=>'generator','route'=>'createGenerator','method'=>'POST'],
-        ['rule'=>'cancelAllCache','route'=>'cancelAllCache','method'=>'POST'],
-        ['rule'=>'createAllCache','route'=>'createAllCache','method'=>'POST'],
-        ['rule'=>'renderCodeTemplate','route'=>'renderCodeTemplate','method'=>'POST'],
+        ['rule'=>'config','route'=>'getConfig'],
+        ['rule'=>'apiMenus','route'=>'getApiMenus'],
+        ['rule'=>'apiDetail','route'=>'getApiDetail'],
+        ['rule'=>'docMenus','route'=>'getMdMenus'],
+        ['rule'=>'docDetail','route'=>'getMdDetail'],
+        ['rule'=>'verifyAuth','route'=>'verifyAuth'],
+        ['rule'=>'generator','route'=>'createGenerator'],
+        ['rule'=>'cancelAllCache','route'=>'cancelAllCache'],
+        ['rule'=>'createAllCache','route'=>'createAllCache'],
+        ['rule'=>'renderCodeTemplate','route'=>'renderCodeTemplate'],
     ];
 
 
@@ -148,7 +148,6 @@ trait BaseService
                 'uri'=>$route_prefix.$item['rule'],
                 'callback'=>$controller_namespace.$item['route'],
                 'route'=>$item['route'],
-                'method'=>$item['method']
             ];
             if (!empty($routeFun)){
                 $routeFun($route);

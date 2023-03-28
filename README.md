@@ -13,6 +13,8 @@
 <div align="center" style="margin-top:10px;margin-bottom:50px;">
 <a href="https://packagist.org/packages/hg/apidoc"><img src="https://img.shields.io/packagist/v/hg/apidoc"></a>
 <a href="https://packagist.org/packages/hg/apidoc"><img src="https://img.shields.io/packagist/dt/hg/apidoc"></a>
+<a href="https://packagist.org/packages/hg/apidoc"><img src="https://img.shields.io/packagist/dm/hg/apidoc"></a>
+<a href="https://packagist.org/packages/hg/apidoc"><img src="https://img.shields.io/packagist/dd/hg/apidoc"></a>
 <a href="https://packagist.org/packages/hg/apidoc"><img src="https://img.shields.io/packagist/l/hg/apidoc"></a>
 <a href="https://github.com/HGthecode/apidoc-php"><img src="https://img.shields.io/github/issues/HGthecode/apidoc-php"></a>
 <a href="https://github.com/HGthecode/apidoc-php"><img src="https://img.shields.io/github/forks/HGthecode/apidoc-php"></a>
@@ -46,7 +48,7 @@ Apidoc是一个通过解析注解生成Api接口文档的PHP composer扩展，�
 |框架|版本|说明|
 |-|-|-|
 |ThinkPHP|5.1、6.x||
-|Laravel|8.x、9.x||
+|Laravel|8.x、9.x、10.x||
 |Webman|1.x||
 |Hyperf|2.x、3.x||
 

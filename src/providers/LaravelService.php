@@ -67,7 +67,7 @@ class LaravelService extends ServiceProvider
 
     static function registerRoute($route){
         $config = self::getApidocConfig();
-        $registerRoute =  Route::match([$route['method']],$route['uri'], $route['callback']);
+        $registerRoute =  Route::any($route['uri'], $route['callback']);
         $registerRoute->middleware([LaravelMiddleware::class]);
         if (!empty($config['allowCrossDomain'])) {
             $registerRoute->middleware([ApiCrossDomain::class]);

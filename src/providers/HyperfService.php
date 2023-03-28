@@ -22,7 +22,7 @@ class HyperfService
         ! defined('APIDOC_STORAGE_PATH') && define('APIDOC_STORAGE_PATH', HyperfMiddleware::getRuntimePath());
 
         CommonService::registerApidocRoutes(function ($item){
-            Router::addRoute($item['method'],$item['uri'],$item['callback'],['middleware' => [HyperfMiddleware::class]]);
+            Router::addRoute(['GET','POST'],$item['uri'],$item['callback'],['middleware' => [HyperfMiddleware::class]]);
         });
 
         // 自动注册路由

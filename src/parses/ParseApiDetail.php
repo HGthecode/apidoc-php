@@ -429,8 +429,13 @@ class ParseApiDetail
             $childrenData = [];
             foreach ($data['children'] as $child) {
                 $paramItem=$this->handleAnnotationsParamItem($child,$field);
+
                 if ($paramItem!==false){
-                    $childrenData[] = $paramItem;
+                    if (!empty($paramItem) && is_array($paramItem) && array_key_first($paramItem)===0){
+                        $childrenData = Helper::arrayMergeAndUnique("name",$childrenData,$paramItem);
+                    }else{
+                        $childrenData[] = $paramItem;
+                    }
                 }
             }
             $data['children'] = $childrenData;
@@ -559,7 +564,7 @@ class ParseApiDetail
             return [$field=>$modelParams];
 
         } catch (\ReflectionException $e) {
-            throw new ErrorException('Class '.$classPath.' '.$e->getMessage());
+            throw new ErrorException($e->getMessage());
         }
 
 
@@ -587,6 +592,11 @@ class ParseApiDetail
             }
             return $annotation;
         }
+//        else{
+//            if (!empty($annotation[$field])) {
+//                $annotation[$field] = Helper::arrayMergeAndUnique("name",$refParams,$annotation[$field]);
+//            }
+//        }
         return $refParams;
     }
     

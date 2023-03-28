@@ -52,7 +52,7 @@ class ThinkPHP5Service
 
     static function registerRoute($route){
         $config = self::getApidocConfig();
-        $registerRoute = Route::rule($route['uri'], $route['callback'],$route['method']);
+        $registerRoute = Route::rule($route['uri'], $route['callback'],"*");
         if (!empty($config['allowCrossDomain'])) {
             $registerRoute->allowCrossDomain();
         }

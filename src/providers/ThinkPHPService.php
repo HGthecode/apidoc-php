@@ -67,7 +67,7 @@ class ThinkPHPService extends \think\Service
     }
 
     static function registerRoute($route){
-        $registerRoute = Route::rule($route['uri'], $route['callback'],$route['method']);
+        $registerRoute = Route::any($route['uri'], $route['callback']);
     }
 
     static function databaseQuery($sql){
