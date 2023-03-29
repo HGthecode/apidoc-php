@@ -242,11 +242,8 @@ class ParseApiDetail
         $mergeParams = [];
         $paramType='success';
         if (
-            (
-                in_array("NotResponses", $textAnnotations) ||
-                in_array("NotResponseSuccess", $textAnnotations)
-            )  &&
-            count($mergeParams)>0
+            in_array("NotResponses", $textAnnotations) ||
+            in_array("NotResponseSuccess", $textAnnotations)
         ) {
             // 注解了不使用全局响应
             $mergeParams = [];
@@ -328,7 +325,6 @@ class ParseApiDetail
 
 
     public static function handleApiBaseInfo($methodInfo,$className,$methodName,$textAnnotations,$config){
-//        $config  = $this->config;
         // 无标题，且有文本注释
         if (empty($methodInfo['title']) && !empty($textAnnotations) && count($textAnnotations) > 0) {
             $methodInfo['title'] = Lang::getLang($textAnnotations[0]);
