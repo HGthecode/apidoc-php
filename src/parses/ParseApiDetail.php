@@ -514,7 +514,7 @@ class ParseApiDetail
     /**
      * ref引用
      */
-    protected function renderRef($refPath,$field): array
+    public function renderRef($refPath,$field): array
     {
         $res = ['type' => 'model'];
         $config      = $this->config;
@@ -568,7 +568,7 @@ class ParseApiDetail
 
 
 
-    protected function handleRefData($annotation,$refParams, string $field): array
+    public function handleRefData($annotation,$refParams, string $field): array
     {
 
         // 过滤field

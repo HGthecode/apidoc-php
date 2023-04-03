@@ -13,7 +13,7 @@ use hg\apidoc\utils\AbstractAnnotation;
  * @Target({"METHOD"})
  */
 #[Attribute(Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
-class AddField extends AbstractAnnotation
+class AddField extends ParamBase
 {
     /**
      * 字段名

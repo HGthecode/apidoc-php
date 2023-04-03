@@ -50,7 +50,15 @@ class ParseModel
                     $addFieldData = [$annotations['addField']];
                 }
                 $addFieldList = [];
+                $parseApiDetail = new ParseApiDetail($config);
+                $field = 'param';
                 foreach ($addFieldData as $fieldItem) {
+                    if (!empty($fieldItem['ref'])){
+                        $refParams = $parseApiDetail->renderRef($fieldItem['ref'],$field);
+                        if (!empty($refParams[$field])){
+                            $fieldItem = $parseApiDetail->handleRefData($fieldItem,$refParams[$field],$field);
+                        }
+                    }
                     if (!empty($fieldItem['md'])){
                         $fieldItem['md'] = ParseMarkdown::getContent("",$fieldItem['md']);
                     }
