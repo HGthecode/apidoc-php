@@ -629,7 +629,7 @@ class User extends BaseModel
      /**
      * @Apidoc\Field("id,username,nickname,role")
      * @Apidoc\AddField("openid",type="string",default="abc",desc="微信openid")
-     * @Apidoc\AddField("role",type="array",desc="重写role，由于数据表中存在该字段，此处定义会覆盖数据表中的字段",children:{
+     * @Apidoc\AddField("role",type="array",desc="重写role，由于数据表中存在该字段，此处定义会覆盖数据表中的字段",children={
      *      @Apidoc\Param ("name",type="string",desc="名称"),
      *      @Apidoc\Param ("id",type="string",desc="id"),
      * })

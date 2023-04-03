@@ -12,6 +12,17 @@ category: 指南
 - 修订版本号：日常 bugfix 更新
 
 
+## v5.0.5
+
+`2023-04-03`
+
+> 需升级前端文件至 v3.0.3
+
+- 修正AddField注解children不解析问题。
+- 接口文档页Table默认展开子参数。
+- 模型注解AddField支持ref。
+
+
 
 ## v5.0.4
 
