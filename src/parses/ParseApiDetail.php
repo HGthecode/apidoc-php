@@ -176,7 +176,7 @@ class ParseApiDetail
         if (!empty($refField)){
             $handleFields =  [$refField];
         }else{
-            $handleFields = ["header","query","param","routeParam","returned","before","after"];
+            $handleFields = ["header","query","param","routeParam","returned","before","after","responseSuccess","responseError"];
         }
         foreach ($handleFields as $field) {
             if (!empty($annotations[$field])){
@@ -290,36 +290,41 @@ class ParseApiDetail
         $config  = $this->config;
         $currentApp = $this->currentApp;
         $responseErrors = [];
+        $paramType = "error";
+        $mergeParams = [];
         if (
             in_array("NotResponses", $textAnnotations) ||
             in_array("NotResponseError", $textAnnotations)
-        ){
-            $responseErrors = [];
-        }else if (!empty($methodAnnotations['responseError']) && count($methodAnnotations['responseError'])){
-            $responseErrors = $methodAnnotations['responseError'];
-        }else if (
-            !empty($currentApp['responses']) &&
-            !empty($currentApp['responses']['error']) &&
-            count($currentApp['responses']['error'])
-        ){
-            $responseErrors = $currentApp['responses']['error'];
-        }else if (
-            !empty($config['responses']) &&
-            !empty($config['responses']['error']) &&
-            count($config['responses']['error'])
-        ){
-            $responseErrors = $config['responses']['error'];
+        ) {
+            // 注解了不使用全局响应
+            $mergeParams = [];
+        }else if (!empty($currentApp['responses']) && !empty($currentApp['responses'][$paramType])){
+            $mergeParams = $currentApp['params'][$paramType];
+        }else if(!empty($config['responses']) && !empty($config['responses'][$paramType])){
+            $mergeParams = $config['responses'][$paramType];
         }
 
-        $data = [];
-        foreach ($responseErrors as $item) {
-            $item['desc'] = Lang::getLang($item['desc']);
-            if (!empty($item['md'])){
-                $item['md'] = ParseMarkdown::getContent($this->appKey,$item['md']);
+        if (!empty($methodAnnotations['responseError'])){
+            if (!is_int(array_key_first($methodAnnotations['responseError']))){
+                $methodResponseError = [$methodAnnotations['responseError']];
+            }else{
+                $methodResponseError = $methodAnnotations['responseError'];
             }
-            $data[]=$item;
+            $mergeParams = Helper::arrayMergeAndUnique("name", $mergeParams,$methodResponseError);
         }
-        return $data;
+
+        if (!empty($mergeParams) && count($mergeParams)){
+            $resData = [];
+            foreach ($mergeParams as $item) {
+                $item['desc'] = Lang::getLang($item['desc']);
+                if (!empty($item['md'])){
+                    $item['md'] = ParseMarkdown::getContent($this->appKey,$item['md']);
+                }
+                $resData[]=$item;
+            }
+            return $resData;
+        }
+        return [];
     }
 
 
