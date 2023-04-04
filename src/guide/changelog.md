@@ -11,6 +11,13 @@ category: 指南
 - 次版本号：带有新特性的向下兼容的版本。
 - 修订版本号：日常 bugfix 更新
 
+## v5.0.6
+
+`2023-04-04`
+
+> 无需升级前端文件
+
+- 修正响应体`ResponseSuccess` `ResponseError`的ref不解析问题。
 
 ## v5.0.5
 
