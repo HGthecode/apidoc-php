@@ -227,10 +227,7 @@ class Controller
                             if (!empty($controller['children']) && count($controller['children'])){
                                 foreach ($controller['children'] as $item) {
                                     if (!empty($item['url']) && !empty($item['menuKey'])){
-                                        $pathArr   = explode("@", urldecode($item['menuKey']));
-                                        $classPath = $pathArr[0];
-                                        $method = $pathArr[1];
-                                        $apiDetail = (new ParseApiDetail($config))->renderApiDetail($appKey,$classPath,$method);
+                                        $apiDetail = (new ParseApiDetail($config))->renderApiDetail($appKey,urldecode($item['menuKey']));
                                         $apiDetailCacheKey = Helper::getCacheKey('apiDetail',$appKey,$this->lang,$item['menuKey']);
                                         $cache->set($apiDetailCacheKey,$apiDetail);
                                     }
