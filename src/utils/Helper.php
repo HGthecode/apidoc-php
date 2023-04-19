@@ -530,6 +530,16 @@ class Helper
         }
         return $data;
     }
+    public static function arrayKeyFirst($array){
+        if (function_exists('array_key_first')) {
+            return array_key_first($array);
+        }else{
+            foreach($array as $key => $unused) {
+                return $key;
+            }
+            return NULL;
+        }
+    }
 
 
 

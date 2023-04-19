@@ -254,7 +254,7 @@ class ParseApiDetail
         }
 
         if (!empty($methodAnnotations['responseSuccess'])){
-            if (!is_int(array_key_first($methodAnnotations['responseSuccess']))){
+            if (!is_int(Helper::arrayKeyFirst($methodAnnotations['responseSuccess']))){
                 $methodResponseSuccess = [$methodAnnotations['responseSuccess']];
             }else{
                 $methodResponseSuccess = $methodAnnotations['responseSuccess'];
@@ -305,7 +305,7 @@ class ParseApiDetail
         }
 
         if (!empty($methodAnnotations['responseError'])){
-            if (!is_int(array_key_first($methodAnnotations['responseError']))){
+            if (!is_int(Helper::arrayKeyFirst($methodAnnotations['responseError']))){
                 $methodResponseError = [$methodAnnotations['responseError']];
             }else{
                 $methodResponseError = $methodAnnotations['responseError'];
@@ -376,12 +376,12 @@ class ParseApiDetail
         $data=[];
         if (!empty($params)){
             // 处理单个注解为对象的参数
-            if (!is_int(array_key_first($params))){
+            if (!is_int(Helper::arrayKeyFirst($params))){
                 $params = [$params];
             }
             foreach ($params as $param) {
                 $item=$this->handleAnnotationsParamItem($param,$field);
-                if (!empty($item) && is_int(array_key_first($item))){
+                if (!empty($item) && is_int(Helper::arrayKeyFirst($item))){
                     if (in_array($field,$notMergeNameFields)){
                         $data = $item;
                     }else{
@@ -432,7 +432,7 @@ class ParseApiDetail
                 $paramItem=$this->handleAnnotationsParamItem($child,$field);
 
                 if ($paramItem!==false){
-                    if (!empty($paramItem) && is_array($paramItem) && array_key_first($paramItem)===0){
+                    if (!empty($paramItem) && is_array($paramItem) && Helper::arrayKeyFirst($paramItem)===0){
                         $childrenData = Helper::arrayMergeAndUnique("name",$childrenData,$paramItem);
                     }else{
                         $childrenData[] = $paramItem;
@@ -664,7 +664,7 @@ class ParseApiDetail
                 $fieldArr = [$fields];
             }
         }else if (!empty($fields) && is_array($fields)){
-            if (array_key_first($fields)=="name"){
+            if (Helper::arrayKeyFirst($fields)=="name"){
                 $fieldArr = $fields['name'];
             }else{
                 $fieldArr = $fields;

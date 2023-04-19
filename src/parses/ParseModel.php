@@ -44,7 +44,7 @@ class ParseModel
             }
             if (!empty($annotations['addField'])){
                 $addFieldData = [];
-                if (is_int(array_key_first($annotations['addField']))){
+                if (is_int(Helper::arrayKeyFirst($annotations['addField']))){
                     $addFieldData = $annotations['addField'];
                 }else{
                     $addFieldData = [$annotations['addField']];
