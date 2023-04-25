@@ -49,7 +49,8 @@ export default sidebar({
         "mock",
         "generator",
         "codeTemplate",
-        "autoRegisterRoutes"
+        "autoRegisterRoutes",
+        "parsesAnnotation"
       ],
     },
   ],
@@ -77,6 +78,7 @@ export default sidebar({
         // "hyperf-install",
         // "webman-install",
         "custom-responses",
+        
       ],
     }
   ],
