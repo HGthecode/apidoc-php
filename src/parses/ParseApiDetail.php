@@ -450,6 +450,14 @@ class ParseApiDetail
                 'desc'   => !empty($data['childrenDesc'])?Lang::getLang($data['childrenDesc']):"",
             ];
         }
+
+        // 自定义解析
+        if (!empty($this->config['parsesAnnotation'])){
+            $callback = $this->config['parsesAnnotation']($data);
+            if (!empty($callback)){
+                $data = $callback;
+            }
+        }
         return $data;
     }
 

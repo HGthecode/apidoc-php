@@ -51,7 +51,8 @@ class Returned extends ParamBase
         string $childrenField = "",
         string $childrenDesc = "children",
         string $childrenType = "",
-        bool $replaceGlobal = false
+        bool $replaceGlobal = false,
+        ...$attrs
     )
     {
         parent::__construct(...func_get_args());

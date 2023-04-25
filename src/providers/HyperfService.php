@@ -37,7 +37,7 @@ class HyperfService
                             if (!empty($method['middleware'])){
                                 $options['middleware']= $method['middleware'];
                             }
-                            Router::addRoute($apiMethods,$method['url'], $method['controller']."@".$method['name'],$options);
+                            Router::addRoute([...$apiMethods,'OPTIONS'],$method['url'], $method['controller']."@".$method['name'],$options);
                         }
                     };
                     $groupOptions = [];

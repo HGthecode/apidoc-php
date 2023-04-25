@@ -35,7 +35,8 @@ class RouteParam extends ParamBase
         $withoutField = "",
         string $desc = '',
         string $md = "",
-        string $mock = ""
+        string $mock = "",
+        ...$attrs
     )
     {
         parent::__construct(...func_get_args());

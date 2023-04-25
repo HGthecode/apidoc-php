@@ -73,7 +73,8 @@ class AddField extends ParamBase
         string $md = "",
         $field = "",
         $withoutField = "",
-        string $mock = ""
+        string $mock = "",
+        ...$attrs
     )
     {
         parent::__construct(...func_get_args());

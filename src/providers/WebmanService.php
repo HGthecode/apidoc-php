@@ -26,7 +26,7 @@ class WebmanService
                     $routeCallback = function ()use ($methods){
                         foreach ($methods as $method) {
                             $apiMethods = Helper::handleApiMethod($method['method']);
-                            $route = Route::add($apiMethods,$method['url'], $method['controller']."@".$method['name']);
+                            $route = Route::add([...$apiMethods,'OPTIONS'],$method['url'], $method['controller']."@".$method['name']);
                             if (!empty($method['middleware'])){
                                 $route->middleware($method['middleware']);
                             }

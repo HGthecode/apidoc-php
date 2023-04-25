@@ -17,7 +17,7 @@ abstract class AbstractAnnotation
         foreach ($formattedValue as $key => $val) {
             if ($key=="value" && !property_exists($this, $key)){
                 $this->name = $val;
-            }else if (property_exists($this, $key)) {
+            }else{
                 $this->{$key} = $val;
             }
         }

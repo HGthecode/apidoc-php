@@ -49,7 +49,8 @@ class Param extends ParamBase
         array $children = [],
         string $childrenField = "",
         string $childrenDesc = "children",
-        string $childrenType = ""
+        string $childrenType = "",
+        ...$attrs
     )
     {
         parent::__construct(...func_get_args());

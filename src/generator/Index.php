@@ -156,11 +156,12 @@ class Index
             }
         }
 
-        $createModels = $this->checkModels($generatorItem,$tplParams);
+        $createModels = $this->checkModels($generatorItem,$tplParams,$currentApps);
+        $tplParams['tables'] = $createModels['tables'];
         return [
             'tplParams'=>$tplParams,
             'createFiles'=>$createFiles,
-            'createModels' =>$createModels
+            'createModels' =>$createModels['createModels']
         ];
     }
 
@@ -170,22 +171,23 @@ class Index
      * @param $tplParams
      * @return array
      */
-    protected function checkModels($generatorItem,$tplParams){
+    protected function checkModels($generatorItem,$tplParams,$currentApps){
         if (empty($this->config['database_query_function'])){
             throw new ErrorException("not datatable_query_function config");
         }
 
         $res="";
         $tabls = $tplParams['tables'];
+        $newTables = [];
         $createModels = [];
         if (!empty($tabls) && count($tabls)){
             foreach ($tabls as $k=>$table) {
                 $tableConfig = $generatorItem['table'];
                 $fileFullPath="";
                 if (!empty($table['model_name'])){
-                    $namespace = $tableConfig['items'][$k]['namespace'];
+                    $namespace = Helper::replaceCurrentAppTemplate($tableConfig['items'][$k]['namespace'], $currentApps);
+                    $path = Helper::replaceCurrentAppTemplate($tableConfig['items'][$k]['path'], $currentApps);
                     $template = $tableConfig['items'][$k]['template'];
-                    $path = $tableConfig['items'][$k]['path'];
 
                     // 验证模板是否存在
                     $templatePath = DirAndFile::formatPath(APIDOC_ROOT_PATH . $template,"/");
@@ -214,6 +216,10 @@ class Index
                         ]);
                     }
                 }
+                $table['namespace']=$namespace;
+                $table['path']=$path;
+                $table['model_path']=$path;
+                $newTables[]=$table;
                 $createModels[]=[
                     'namespace'=>$namespace,
                     'template'=>$template,
@@ -224,7 +230,7 @@ class Index
                 ];
             }
         }
-        return $createModels;
+        return ['createModels'=>$createModels,'tables'=>$newTables];
 
     }
 
