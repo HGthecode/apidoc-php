@@ -1,0 +1,1 @@
+import{g as s,h as e}from"./mermaid.esm.min.d0e46112.js";const c=n=>{const{r:a,g:r,b:o}=s.parse(n),t=.2126*e.channel.toLinear(a)+.7152*e.channel.toLinear(r)+.0722*e.channel.toLinear(o);return e.lang.round(t)},h=c,i=n=>h(n)>=.5,l=i,L=n=>!l(n),p=L;export{p as L};
