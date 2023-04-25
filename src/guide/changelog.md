@@ -12,6 +12,24 @@ category: 指南
 - 修订版本号：日常 bugfix 更新
 
 
+## v5.0.8
+
+`2023-04-25`
+
+> 需升级前端文件至 v3.0.4
+
+- 兼容php7.1。
+- 修正formdata为空时传null的问题。
+- 修正接口生成器提交成功后接口菜单不刷新问题。
+- 修正自动注册路由跨域OPTIONS请求无效问题。
+- 增加接口生成器表单项可配置默认值。
+- 增加前端配置参数`API_TABLE_PROPS`，来控制接口详情的Table。
+- 接口生成器的数据表配置中的`namespace`、`path`支持使用应用/版本变量替换。
+- `Param`、`Query`、`Returned`、`RouteParam`、`AddField`注解支持自定义参数。
+- 增加apidoc.php配置参数`parsesAnnotation`用于自定义处理注解解析。
+
+
+
 ## v5.0.7
 
 `2023-04-09`

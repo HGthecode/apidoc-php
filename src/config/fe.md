@@ -73,6 +73,11 @@ window.apidocFeConfig = {
   },
   // （选配）接口详情页的 tabs 显示顺序
   API_DETAIL_TABS:["table", "json", "ts", "debug"],
+  // 接口详情表格属性
+  API_TABLE_PROPS:{
+    // 是否默认展开所有行
+    defaultExpandAllRows:true
+  },
   // （选配）加载外部js文件
   LOAD_SCRIPTS:[
     "./utils/md5.js",

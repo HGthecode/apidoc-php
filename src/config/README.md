@@ -400,7 +400,12 @@ return [
                 ]
             ],
         ]
-    ]
+    ],
+    //自定义处理注解
+    'parsesAnnotation'=>function($data){
+        //...
+        return $data;
+    }
 ];
 ```
 ::::
