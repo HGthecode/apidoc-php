@@ -99,8 +99,8 @@ class AutoRegisterRouts
         ];
         $classAnnotations = (new ParseAnnotation($this->config))->getClassAnnotation($refClass);
         //控制器中间件
-        if (!empty($classAnnotations['routeMiddleware']) && !empty($classAnnotations['routeMiddleware']['name'])) {
-            $data['middleware'] = $classAnnotations['routeMiddleware']['name'];
+        if (!empty($classAnnotations['routeMiddleware']) && !empty($classAnnotations['routeMiddleware'])) {
+            $data['middleware'] = $classAnnotations['routeMiddleware'];
         }
         return $data;
     }
@@ -136,8 +136,8 @@ class AutoRegisterRouts
             'name'=>$refMethod->name,
             'controller'=>$refClass->name,
         ];
-        if (!empty($methodAnnotation['routeMiddleware']) && !empty($methodAnnotation['routeMiddleware']['name'])) {
-            $data['middleware'] = $methodAnnotation['routeMiddleware']['name'];
+        if (!empty($methodAnnotation['routeMiddleware']) && !empty($methodAnnotation['routeMiddleware'])) {
+            $data['middleware'] = $methodAnnotation['routeMiddleware'];
         }
         return $data;
 
