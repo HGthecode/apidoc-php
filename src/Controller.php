@@ -205,8 +205,9 @@ class Controller
     public function cancelAllCache(){
         $this->init(true);
         $config = $this->config;
-        $res = DirAndFile::deleteDir(APIDOC_STORAGE_PATH . $config['cache']['folder'].'/'.'apis');
-        return Helper::showJson(0,"",$res);
+        $path = APIDOC_STORAGE_PATH . $config['cache']['folder'];
+        $res = DirAndFile::deleteDir($path);
+        return Helper::showJson(0,"",$path);
     }
 
     public function createAllCache(){

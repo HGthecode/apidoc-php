@@ -62,6 +62,13 @@ class ParseModel
                     if (!empty($fieldItem['md'])){
                         $fieldItem['md'] = ParseMarkdown::getContent("",$fieldItem['md']);
                     }
+                    // 自定义解析
+                    if (!empty($config['parsesAnnotation'])){
+                        $callback = $config['parsesAnnotation']($fieldItem);
+                        if (!empty($callback)){
+                            $fieldItem = $callback;
+                        }
+                    }
                     $addFieldList[]=$fieldItem;
                 }
                 $table = Helper::arrayMergeAndUnique("name",$table,$addFieldList);
