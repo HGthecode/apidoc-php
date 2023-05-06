@@ -52,10 +52,17 @@ class AutoRegisterRouts
      */
     public function getAppApis($app)
     {
+        $controllers = [];
         if (!empty($app['controllers']) && count($app['controllers']) > 0) {
             // 配置的控制器列表
             $controllers = (new ParseApiMenus($this->config))->getConfigControllers($app['path'],$app['controllers']);
-        } else {
+        }else if(!empty($app['path']) && is_array($app['path']) && count($app['path'])){
+            $parseApiMenus = new ParseApiMenus($this->config);
+            foreach ($app['path'] as $path) {
+                $controllersList = $parseApiMenus->getDirControllers($path);
+                $controllers = array_merge($controllers,$controllersList);
+            }
+        } else if(!empty($app['path']) && is_string($app['path'])) {
             // 默认读取所有的
             $controllers = (new ParseApiMenus($this->config))->getDirControllers($app['path']);
         }

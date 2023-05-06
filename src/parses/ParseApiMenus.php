@@ -43,14 +43,20 @@ class ParseApiMenus
         $currentApp = $currentAppConfig['appConfig'];
         $this->currentApp  = $currentApp;
 
+        $controllers = [];
         if (!empty($currentApp['controllers']) && count($currentApp['controllers']) > 0) {
             // 配置的控制器列表
             $controllers = $this->getConfigControllers($currentApp['path'],$currentApp['controllers']);
-        } else {
-            // 默认读取所有的
+        }else if(!empty($currentApp['path']) && is_array($currentApp['path']) && count($currentApp['path'])){
+            // 读取paths的
+            foreach ($currentApp['path'] as $path) {
+                $controllersList = $this->getDirControllers($path);
+                $controllers = array_merge($controllers,$controllersList);
+            }
+        } else if(!empty($currentApp['path']) && is_string($currentApp['path'])){
+            // 默认读取path下所有的
             $controllers = $this->getDirControllers($currentApp['path']);
         }
-
         $apiData = [];
         if (!empty($controllers) && count($controllers) > 0) {
             foreach ($controllers as $class) {
