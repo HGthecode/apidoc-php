@@ -29,7 +29,12 @@ class ParseModel
         try {
             // 获取所有模型属性
             $propertys = $classReflect->getDefaultProperties();
-            $table =$this->getTableDocument($model, $propertys);
+            $tableName = $model->getTable();
+            $configTablePrefix = !empty($config['database']) && !empty($config['database']['prefix'])?$config['database']['prefix']:"";
+            if (!empty($configTablePrefix) && strpos($tableName, $configTablePrefix) === false){
+                $tableName = $configTablePrefix.$model->getTable();
+            }
+            $table =$this->getTableDocument($tableName, $propertys);
             if (empty($methodName)){
                 return $table;
             }
@@ -101,21 +106,16 @@ class ParseModel
 
     /**
      * 获取模型注解数据
-     * @param $model
+     * @param $tableName
      * @param $propertys
      * @return array
      */
-    protected function getTableDocument($model,array $propertys):array
+    public function getTableDocument($tableName,array $propertys):array
     {
         $config = $this->config;
         $fieldComment = [];
         if (empty($config['database_query_function'])){
             throw new ErrorException("not datatable_query_function config");
-        }
-        $tableName = $model->getTable();
-        $configTablePrefix = !empty($config['database']) && !empty($config['database']['prefix'])?$config['database']['prefix']:"";
-        if (!empty($configTablePrefix) && strpos($tableName, $configTablePrefix) === false){
-            $tableName = $configTablePrefix.$model->getTable();
         }
         $tableColumns = $config['database_query_function']("SHOW FULL COLUMNS FROM " . $tableName);
         foreach ($tableColumns as $columns) {

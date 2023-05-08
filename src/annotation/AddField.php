@@ -58,6 +58,7 @@ class AddField extends ParamBase
      * @param string $desc 字段名称
      * @param bool $require 是否必须
      * @param string $ref 引用注解/模型
+     * @param string $table 引用数据表
      * @param string $md Md文本内容
      * @param string $field 指定Ref引入的字段
      * @param string $withoutField 排除Ref引入的字段
@@ -70,6 +71,7 @@ class AddField extends ParamBase
         string $desc = '',
         bool $require = false,
         $ref = "",
+        $table = "",
         string $md = "",
         $field = "",
         $withoutField = "",

@@ -25,6 +25,7 @@ class Param extends ParamBase
      * @param bool $require 是否必须
      * @param string|int|bool $default 默认值
      * @param string|array $ref 引用注解/模型
+     * @param string $table 引用数据表
      * @param string|array $field 指定Ref引入的字段
      * @param string|array $withoutField 排除Ref引入的字段
      * @param string $desc 字段名称
@@ -41,6 +42,7 @@ class Param extends ParamBase
         bool $require = false,
         $default = "",
         $ref = "",
+        $table = "",
         $field = "",
         $withoutField = "",
         string $desc = '',

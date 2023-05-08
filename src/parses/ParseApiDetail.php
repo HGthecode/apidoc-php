@@ -417,7 +417,10 @@ class ParseApiDetail
             }else{
                 return false;
             }
-        }else{
+        }else if(!empty($param['table'])){
+            $tableParams = (new ParseModel($this->config))->getTableDocument($param['table'],[]);
+            $data = $this->handleRefData($param,$tableParams,$field);
+        } else{
             $data = $param;
         }
         if (!empty($data['desc'])){
