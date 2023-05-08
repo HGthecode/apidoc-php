@@ -64,7 +64,7 @@ export default sidebar({
         "404",
         "500",
         "autoUrl",
-
+        "notApis",
       ],
     },
     {

@@ -25,7 +25,7 @@ return [
         [
             // （必须）标题
             'title'=>'接口示例',
-            // （必须）控制器目录地址
+            // （必须）控制器目录地址，也可以是数组来指定多个控制器目录，如：['app\demo\controller','app\test\controller']
             'path'=>'app\demo\controller',
             // （必须）唯一的key
             'key'=>'demo',

@@ -575,6 +575,60 @@ CREATE TABLE `user` (↵
 PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 ```
 
+### 直接引用数据表字段
+
+某些表没有模型文件时，可以直接使用table注解来指定表的解析。
+
+::: code-tabs#apiUseTable
+
+@tab:active PHP8原生注解
+
+
+```php
+<?php
+namespace app\controller;
+
+use hg\apidoc\annotation as Apidoc;
+use app\services\ApiDocService;
+
+class ApiDocTest
+{ 
+    #[
+        Apidoc\Title("直接引用数据表"),
+        Apidoc\Method("POST"),
+        Apidoc\Param("userList",type:"array",desc:"用户列表",table:"users" ),
+    ]
+    public function service(){
+       //...
+    }
+}
+```
+
+@tab 原始注解
+
+```php
+<?php
+namespace app\controller;
+
+use hg\apidoc\annotation as Apidoc;
+use app\services\ApiDocService;
+
+class ApiDocTest
+{ 
+    /**
+     * @Apidoc\Title("直接引用数据表")
+     * @Apidoc\Method("POST")
+     * @Apidoc\Desc("以下Param注解中，三种ref方式等价")
+     * @Apidoc\Param("userList",type="array",desc="用户列表",table="users")
+     */
+    public function service(){
+       //...
+    }
+}
+```
+:::
+
+
 ### 模型方法的注解
 
 可为引入的数据模型方法添加相应注释来实现 Field（返回指定字段）、WithoutField（排除指定字段）、AddField（添加指定字段）
