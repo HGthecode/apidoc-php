@@ -22,6 +22,28 @@ category: 指南
 - `Param`、`Query`、`Returned`、`AddField`注解支持table来指定数据表解析。
 
 
+## v5.1.0
+
+`2023-05-25`
+
+> 需升级前端文件至 v3.1.0
+
+- 增加接口分享功能
+- 增加ResponseSuccess的default参数，及不注解desc时报错的问题。
+
+
+## v5.0.10
+
+`2023-05-08`
+
+> 需升级前端文件至 v3.0.5
+
+- 修正代码模板生成器的接口关键词筛选不生效问题。
+- apps的path支持配置为数组，来指定多个目录的控制器。
+- `Param`、`Query`、`Returned`、`AddField`注解支持table来指定数据表解析。
+
+
+
 
 ## v5.0.9
 

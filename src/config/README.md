@@ -401,6 +401,25 @@ return [
             ],
         ]
     ],
+    // （选配）接口分享功能
+    'share'=>[
+        // 是否开启接口分享功能
+        'enable'=>true,
+        // 自定义接口分享操作，二维数组，每个配置为一个按钮操作
+        'actions'=>[
+            [
+                // 操作名称
+                'name'=>'下载json',
+                // 点击时触发的方法
+                'click'=>function($shareData,$apiData){
+                    // 自定义业务代码...
+
+                    // retrun 返回js执行脚本。可以用downloadFile("下载地址","名称")来执行文件下载。
+                    return 'downloadFile("/test.json","name");';
+                }
+            ]
+        ]
+    ],
     //自定义处理注解
     'parsesAnnotation'=>function($data){
         //...

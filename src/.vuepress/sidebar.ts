@@ -50,7 +50,9 @@ export default sidebar({
         "generator",
         "codeTemplate",
         "autoRegisterRoutes",
-        "parsesAnnotation"
+        "parsesAnnotation",
+        "apiShare",
+
       ],
     },
   ],
