@@ -15,6 +15,7 @@ return [
             'key'=>'api',
         ]
     ],
+
     // （必须）指定通用注释定义的文件地址
     'definitions'        => "app\common\controller\Definitions",
     // （必须）自动生成url规则，当接口不添加@Apidoc\Url ("xxx")注解时，使用以下规则自动生成
@@ -73,6 +74,8 @@ return [
             ['name'=>'message','desc'=>'业务信息','type'=>'string','require'=>1],
         ]
     ],
+    // （选配）apidoc路由前缀,默认apidoc
+    'route_prefix'=>'/apidoc',
     //（选配）默认作者
     'default_author'=>'',
     //（选配）默认请求类型
@@ -90,5 +93,14 @@ return [
     // （选配）Markdown文档
     'docs'              => [],
     // （选配）代码生成器配置 注意：是一个二维数组
-    'generator' =>[]
+    'generator' =>[],
+    // （选配）代码模板
+    'code_template'=>[],
+    // （选配）接口分享功能
+    'share'=>[
+        // 是否开启接口分享功能
+        'enable'=>false,
+        // 自定义接口分享操作，二维数组，每个配置为一个按钮操作
+        'actions'=>[]
+    ],
 ];

@@ -26,6 +26,7 @@ final class ResponseSuccess extends ParamBase
      * @param string $type 字段类型
      * @param string $desc 字段名称
      * @param bool $require 是否必须
+     * @param string|int|bool $default 默认值
      * @param string|array $ref 引用注解/模型
      * @param string $md Md文本内容
      * @param string $childrenField 为tree类型时指定children字段
@@ -40,6 +41,7 @@ final class ResponseSuccess extends ParamBase
         string $type = '',
         string $desc = '',
         bool $require = false,
+        $default="",
         $ref = "",
         string $md = "",
         string $childrenField = "",
@@ -48,7 +50,8 @@ final class ResponseSuccess extends ParamBase
         $field = "",
         $withoutField = "",
         string $mock = "",
-        bool $main = false
+        bool $main = false,
+        ...$attrs
     )
     {
         parent::__construct(...func_get_args());

@@ -21,6 +21,12 @@ trait BaseService
         ['rule'=>'cancelAllCache','route'=>'cancelAllCache'],
         ['rule'=>'createAllCache','route'=>'createAllCache'],
         ['rule'=>'renderCodeTemplate','route'=>'renderCodeTemplate'],
+        ['rule'=>'allApiMenus','route'=>'getAllApiMenus'],
+        ['rule'=>'addApiShare','route'=>'addApiShare'],
+        ['rule'=>'getApiShareList','route'=>'getApiShareList'],
+        ['rule'=>'getApiShareDetail','route'=>'getApiShareDetail'],
+        ['rule'=>'deleteApiShare','route'=>'deleteApiShare'],
+        ['rule'=>'handleApiShareAction','route'=>'handleApiShareAction'],
     ];
 
 
@@ -87,7 +93,7 @@ trait BaseService
             $config = self::getApidocConfig();
         }
         if (isset($config['auto_register_routes']) && $config['auto_register_routes']===true) {
-            $cacheKey = "autoRegisterRoutes";
+            $cacheKey = "apis/autoRegisterRoutes";
             if (!empty($config['cache']) && $config['cache']['enable']) {
                 $cacheData = (new Cache())->get($cacheKey);
                 if (!empty($cacheData)) {
@@ -142,10 +148,14 @@ trait BaseService
     static public function registerApidocRoutes($routeFun=null){
         $routes = static::$routes;
         $controller_namespace = '\hg\apidoc\Controller@';
-        $route_prefix = "/apidoc/";
+        $route_prefix = "/apidoc";
+        $config = self::getApidocConfig();
+        if (!empty($config) && !empty($config['route_prefix'])){
+            $route_prefix = $config['route_prefix'];
+        }
         foreach ($routes as $item) {
             $route = [
-                'uri'=>$route_prefix.$item['rule'],
+                'uri'=>$route_prefix."/".$item['rule'],
                 'callback'=>$controller_namespace.$item['route'],
                 'route'=>$item['route'],
             ];

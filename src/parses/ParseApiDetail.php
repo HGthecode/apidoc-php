@@ -50,9 +50,16 @@ class ParseApiDetail
     }
 
 
-    protected function parseApiMethod($refClass,$refMethod){
+    public function parseApiMethod($refClass,$refMethod,$currentAppData = null){
         $config  = $this->config;
-        $currentApp = $this->currentApp;
+        if (!empty($currentAppData)){
+            $currentApp = $currentAppData;
+            $this->currentApp = $currentAppData;
+            $this->appKey = $currentAppData['appKey'];
+        }else{
+            $currentApp = $this->currentApp;
+
+        }
         if (empty($refMethod->name)) {
             return [];
         }
@@ -268,7 +275,9 @@ class ParseApiDetail
                 if (!empty($item['main']) && $item['main'] === true){
                     $item['children'] = $returned;
                 }
-                $item['desc'] = Lang::getLang($item['desc']);
+//                if (!empty($item['desc'])){
+                    $item['desc'] = Lang::getLang($item['desc']);
+//                }
                 if (!empty($item['md'])){
                     $item['md'] = ParseMarkdown::getContent($this->appKey,$item['md']);
                 }

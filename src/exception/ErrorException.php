@@ -35,6 +35,8 @@ class ErrorException extends HttpException
         'ref file not exists' => ['status'=>412,'code' => 5005, 'msg' => 'ref引入 ${path} 文件不存在'],
         'ref method not exists' => ['status'=>412,'code' => 5005, 'msg' => 'ref引入${path} 中 ${method} 方法不存在'],
         'datatable create error' => ['status'=>412,'code' => 5006, 'msg' => '数据表[${table}]创建失败,error:${message},sql:${sql}'],
+        'field not found' => ['status'=>412,'code' => 5006, 'msg' => '${field}字段不能为空'],
+        'share not exists' => ['status'=>404,'code' => 4004, 'msg' => '该分享不存在'],
     ];
 
     public function __construct(string $exceptionCode, array $data = [])

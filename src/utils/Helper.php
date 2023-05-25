@@ -82,6 +82,28 @@ class Helper
     }
 
     /**
+     * 根据一组keys过滤树形数据
+     * @param $tree
+     * @param $keys
+     */
+    public static function filterTreeNodesByKeys(array $tree, array $keys, string $field = "id", string $childrenField = "children")
+    {
+        $data=[];
+        foreach ($tree as $k => $item) {
+            if (!empty($item[$childrenField])){
+                $childrenList = static::filterTreeNodesByKeys($item[$childrenField],$keys,$field,$childrenField);
+                if (!empty($childrenList) && count($childrenList)){
+                    $item[$childrenField] = $childrenList;
+                    $data[]=$item;
+                }
+            }else if(!empty($item[$field]) && in_array($item[$field],$keys)){
+                $data[]=$item;
+            }
+        }
+        return $data;
+    }
+
+    /**
      * 替换模板变量
      * @param $temp
      * @param $data
@@ -264,10 +286,15 @@ class Helper
      * @param array $apps
      * @return array
      */
-    public static function handleAppsConfig(array $apps,$isHandlePassword=false,$config=""):array
+    public static function handleAppsConfig(array $apps,$isHandlePassword=false,$config="", $parentKey = "",$filterAppKeys=[]):array
     {
         $appsConfig = [];
+        $separ = !empty($parentKey) ? ',' : '';
         foreach ($apps as $app) {
+            if (!empty($app['key'])){
+                $appKey = $parentKey . $separ . $app['key'];
+                $app['appKey'] = $appKey;
+            }
             if (!empty($app['password']) && $isHandlePassword===true) {
                 unset($app['password']);
                 $app['hasPassword'] = true;
@@ -276,7 +303,9 @@ class Helper
                 $app['title'] = Lang::getLang($app['title'],$config);
             }
             if (!empty($app['items']) && count($app['items']) > 0) {
-                $app['items'] = static::handleAppsConfig($app['items'],$isHandlePassword);
+                $app['items'] = static::handleAppsConfig($app['items'],$isHandlePassword,$config,$appKey,$filterAppKeys);
+            }else if (!empty($filterAppKeys) && count($filterAppKeys) && !in_array($appKey,$filterAppKeys)){
+                continue;
             }
             if (!empty($app['groups']) && count($app['groups']) > 0){
                 $app['groups'] = static::handleGroupsConfig($app['groups']);

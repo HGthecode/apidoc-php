@@ -59,7 +59,7 @@ class ConfigProvider
         return $config;
     }
 
-    public static function getFeConfig(){
+    public static function getFeConfig($filterAppKeys=[]){
         $config = static::$config;
 
         $feConfig = [
@@ -71,10 +71,11 @@ class ConfigProvider
             'responses'=>!empty($config['responses'])?$config['responses']:[],
             'generator'=>!empty($config['generator'])?$config['generator']:[],
             'code_template'=>!empty($config['code_template'])?$config['code_template']:[],
+            'share'=>!empty($config['share'])?$config['share']:[],
         ];
         if (!empty($feConfig['apps']) && count($feConfig['apps'])){
             // 清除apps配置中的password
-            $feConfig['apps'] = Helper::handleAppsConfig($feConfig['apps'],true);
+            $feConfig['apps'] = Helper::handleAppsConfig($feConfig['apps'],true,"","",$filterAppKeys);
         }
 
         if (!empty($feConfig['generator'])){

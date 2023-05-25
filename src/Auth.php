@@ -104,7 +104,7 @@ class Auth
      * @param string $password
      * @return string
      */
-    protected function createToken(string $password): string
+    public function createToken(string $password): string
     {
         $authConfig = $this->authConfig;
         $data = [
@@ -120,7 +120,7 @@ class Auth
      * @param $token
      * @return bool
      */
-    protected function checkToken(string $token, string $password): bool
+    public function checkToken(string $token, string $password): bool
     {
         $authConfig = $this->authConfig;
         if (empty($password)){

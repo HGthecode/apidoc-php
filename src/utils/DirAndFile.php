@@ -62,6 +62,26 @@ class DirAndFile
         }
         return [];
     }
+    public static function getFileList($path){
+        if(is_dir($path)) {
+            $dirList = scandir($path);
+            $list = [];
+            foreach ($dirList as $dir) {
+                if ($dir == '.' || $dir == '..') {
+                    continue;
+                }
+                $sub_path = DirAndFile::formatPath($path . '/' . $dir, "/");
+                if (is_file($sub_path)){
+                    $list[]=[
+                        'name'=>$dir,
+                        'path'=>$sub_path
+                    ];;
+                }
+            }
+            return $list;
+        }
+        return [];
+    }
 
     public static function formatPath($path,$type="/"){
         if ($type==="/"){
