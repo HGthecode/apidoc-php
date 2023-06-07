@@ -38,7 +38,7 @@ class LaravelService extends ServiceProvider
                     $routeCallback = function ()use ($methods){
                         foreach ($methods as $method) {
                             $apiMethods = Helper::handleApiMethod($method['method']);
-                            $route = Route::match([...$apiMethods,'OPTIONS'],$method['url'], "\\".$method['controller']."@".$method['name']);
+                            $route = Route::match($apiMethods + ['OPTIONS'],$method['url'], "\\".$method['controller']."@".$method['name']);
                             if (!empty($method['middleware'])){
                                 $route->middleware($method['middleware']);
                             }

@@ -275,6 +275,14 @@ class ParseApiDetail
                 if (!empty($item['main']) && $item['main'] === true){
                     $item['children'] = $returned;
                 }
+                //支持到二级的挂载
+                if (isset($item['children']) && !empty($item['children'])) {
+                    foreach ($item['children'] as &$child) {
+                        if (!empty($child['main']) && $child['main'] === true){
+                            $child['children'] = $returned;
+                        }
+                    }
+                }
 //                if (!empty($item['desc'])){
                     $item['desc'] = Lang::getLang($item['desc']);
 //                }
