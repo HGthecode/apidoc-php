@@ -11,6 +11,46 @@ category: 指南
 - 次版本号：带有新特性的向下兼容的版本。
 - 修订版本号：日常 bugfix 更新
 
+
+## v5.2.0
+
+`2023-06-30`
+
+> 无需升级前端文件
+
+- 修复ref模型的数据表名为`group`等关键字时，报错问题。
+- 修复前端接口生成器的path显示问题。
+- 接口响应体支持多级嵌套配置main=true，指定业务数据挂载位置。
+- 接口参数支持ref支持引用实体类属性，参考[]()使用。
+- 控制器/接口的特殊参数（如：NotParse、NotHeaders等）支持原生注解及注解参数方式书写。
+:::: details 特殊参数写法示例
+  ```php
+    /**
+     * 原写法
+     * NotParse
+     */
+    public function index(Request $request){
+        //...
+    }
+
+    /**
+     * 新写法
+     * @Apidoc\NotParse()
+     */
+    public function index(Request $request){
+        //...
+    }
+
+    // PHP8原生注解写法
+    #[Apidoc\NotParse()]
+    public function index(Request $request){
+        //...
+    }
+  ```
+  ::::
+
+
+
 ## v5.1.0
 
 `2023-05-25`

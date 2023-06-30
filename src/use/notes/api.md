@@ -752,6 +752,124 @@ class ApiDocTest
 :::
 
 
+## 实体类引用
+
+### 实体类参数注解
+
+类的属性可使用`Property`注解
+
+::: code-tabs#apiChildren
+@tab:active PHP8原生注解
+
+```php
+<?php
+namespace app\entity;
+use hg\apidoc\annotation as Apidoc;
+class User
+{
+    /**
+     * 用户id
+     * @var int
+     */
+    public $id;
+
+    /**
+     * 用户姓名
+     * @var string
+     */
+    #[Apidoc\Property("name",type: "string",require: true,desc: "用户的姓名")]
+    public $name;
+
+    #[Apidoc\Property("arrData",type: "array",require: true,desc: "嵌套数组",children: [
+        ['name'=>'id','type'=>'int','require'=>true,'desc'=>'Id'],
+        ['name'=>'name','type'=>'string','desc'=>'Name'],
+    ])]
+    public $arrData;
+
+    #[Apidoc\Property("refData", type: "array", require: true, ref: "app\model\User", desc: "嵌套数组")]
+    public $refData;
+}
+```
+@tab 原始注解
+
+```php
+<?php
+namespace app\entity;
+use hg\apidoc\annotation as Apidoc;
+class User
+{
+    /**
+     * 用户唯一id
+     * @var int
+     */
+    public $id;
+
+    /**
+     * 用户姓名
+     * @var string
+     * @Apidoc\Property("name",type="string",require=true,desc="用户的姓名")
+     */
+    public $name;
+
+    /**
+     * @var array
+     * @Apidoc\Property("arrData",type="array",require=true,desc="测试",children={
+            @Apidoc\Property("id",type="int",require=true,desc="id"),
+            @Apidoc\Property("name",type="string",require=true,desc="Name"),
+     * })
+     */
+    public $arrData;
+
+    /**
+     * @var array
+     * @Apidoc\Property("refData",type="array",require=true,desc="测试",ref="app\model\Goods")
+     */
+    public $refData;
+}
+```
+:::
+
+
+### 接口引入实体类
+接口参数`Param` `Query` `Returned`注解中使用ref引入实体类即可。
+
+::: code-tabs#apiChildren
+@tab:active PHP8原生注解
+```php
+use hg\apidoc\annotation as Apidoc;
+use app\entity\User;
+class ApiDocTest
+{ 
+    #[
+        Apidoc\Title("引入实体类"),
+        Apidoc\Method("POST"),
+        Apidoc\Param(ref: "app\\entity\User",desc: "引入实体类" ),
+        Apidoc\Returned("user",type:"array",ref:User::class,desc:"用户信息"),
+    ]
+    public function refEntity(){
+        //...
+    }
+}
+```
+
+@tab 原始注解
+```php
+use hg\apidoc\annotation as Apidoc;
+use app\entity\User;
+class ApiDocTest
+{ 
+    /**
+     * @Apidoc\Title("引入实体类")
+     * @Apidoc\Method("POST")
+     * @Apidoc\Param(ref="app\\entity\User",desc="引入实体类")
+     * @Apidoc\Returned("user",type="array",ref={User::class},desc="用户信息")
+     */
+    public function refEntity(){
+       //...
+    }
+}
+```
+:::
 
 ## 复杂注释
 
