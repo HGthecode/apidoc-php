@@ -175,11 +175,10 @@ class ParseApiMenus
 
         $refClass             = new ReflectionClass($class);
         $classTextAnnotations = ParseAnnotation::parseTextAnnotation($refClass);
-        if (in_array("NotParse", $classTextAnnotations)) {
+        $data = (new ParseAnnotation($this->config))->getClassAnnotation($refClass);
+        if (in_array("NotParse", $classTextAnnotations) || isset($data['notParse'])) {
             return false;
         }
-
-        $data = (new ParseAnnotation($this->config))->getClassAnnotation($refClass);
         $controllersName    = $refClass->getShortName();
         $data['controller'] = $controllersName;
         $data['path'] = $class;
@@ -197,7 +196,7 @@ class ParseApiMenus
         $data['title'] = Lang::getLang($data['title']);
         $methodList       = [];
         $data['menuKey'] = Helper::createRandKey($data['controller']);
-        $isNotDebug = in_array("NotDebug", $classTextAnnotations);
+        $isNotDebug = in_array("NotDebug", $classTextAnnotations) || isset($data['notDebug']);
         $parseApiDetail = new ParseApiDetail($this->config);
         foreach ($refClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $refMethod) {
             if ($isParseDetail){
@@ -229,12 +228,10 @@ class ParseApiMenus
 
         try {
             $textAnnotations = ParseAnnotation::parseTextAnnotation($refMethod);
-            // 标注不解析的方法
-            if (in_array("NotParse", $textAnnotations)) {
-                return false;
-            }
+
             $methodInfo = (new ParseAnnotation($this->config))->getMethodAnnotation($refMethod);
-            if (empty($methodInfo)){
+            // 标注不解析的方法
+            if (in_array("NotParse", $textAnnotations) || isset($methodInfo['notParse']) || empty($methodInfo)) {
                 return false;
             }
             $methodInfo = ParseApiDetail::handleApiBaseInfo($methodInfo,$refClass->name,$refMethod->name,$textAnnotations,$config);

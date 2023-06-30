@@ -84,7 +84,8 @@ class AutoRegisterRouts
     {
         $refClass             = new ReflectionClass($class);
         $classTextAnnotations = ParseAnnotation::parseTextAnnotation($refClass);
-        if (in_array("NotParse", $classTextAnnotations)) {
+        $classAnnotations = (new ParseAnnotation($this->config))->getClassAnnotation($refClass);
+        if (in_array("NotParse", $classTextAnnotations) || isset($classAnnotations['notParse'])) {
             return false;
         }
 
@@ -104,7 +105,7 @@ class AutoRegisterRouts
             'name'=>$refClass->name,
             'methods'=>$methodList,
         ];
-        $classAnnotations = (new ParseAnnotation($this->config))->getClassAnnotation($refClass);
+
         //控制器中间件
         if (!empty($classAnnotations['routeMiddleware']) && !empty($classAnnotations['routeMiddleware'])) {
             $data['middleware'] = $classAnnotations['routeMiddleware'];
@@ -119,10 +120,10 @@ class AutoRegisterRouts
         }
         $config               = $this->config;
         $textAnnotations = ParseAnnotation::parseTextAnnotation($refMethod);
-        if (in_array("NotParse", $textAnnotations)) {
+        $methodAnnotation = (new ParseAnnotation($config))->getMethodAnnotation($refMethod);
+        if (in_array("NotParse", $textAnnotations) || isset($methodAnnotation['notParse'])) {
             return false;
         }
-        $methodAnnotation = (new ParseAnnotation($config))->getMethodAnnotation($refMethod);
 
         if (empty($methodAnnotation['method'])) {
             $method = !empty($config['default_method']) ? strtoupper($config['default_method']) : '*';

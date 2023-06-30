@@ -8,7 +8,8 @@ use hg\apidoc\utils\Helper;
 use ReflectionAttribute;
 use hg\apidoc\exception\ErrorException;
 use ReflectionMethod;
-use think\facade\Log;
+use ReflectionParameter;
+use support\Log;
 
 class ParseAnnotation
 {
@@ -27,9 +28,10 @@ class ParseAnnotation
     /**
      * 解析非@注解的文本注释
      * @param $refMethod
+     * @param $isAll bool 是否获取全部，true则将带@开头的注释也包含
      * @return array|false
      */
-    public static function parseTextAnnotation($refMethod): array
+    public static function parseTextAnnotation($refMethod,$isAll=false): array
     {
         $annotation = $refMethod->getDocComment();
         if (empty($annotation)) {
@@ -43,7 +45,7 @@ class ParseAnnotation
         $data = [];
         foreach ($lines[1] as $line) {
             $line = trim($line);
-            if (!empty ($line) && strpos($line, '@') !== 0) {
+            if (!empty ($line) && ($isAll===true || ($isAll===false && strpos($line, '@') !== 0))) {
                 $data[] = $line;
             }
         }
@@ -92,8 +94,8 @@ class ParseAnnotation
             }else{
                 $name    = $this->getClassName(get_class($item));
                 $valueObj = Helper::objectToArray($item);
-                if (isset($valueObj['name']) && count($valueObj)===1){
-                    $value = $valueObj['name'];
+                if (array_key_exists('name',$valueObj) && count($valueObj)===1){
+                    $value = $valueObj['name']===null?true: $valueObj['name'];
                 }else{
                     $value = $valueObj;
                 }
@@ -138,5 +140,79 @@ class ParseAnnotation
         $readerAttributes = $this->parser->getMethodAnnotations($refMethod);
         return $this->getParameters(array_merge($attributes,$readerAttributes));
     }
+
+    /**
+     * 获取属性的注解参数
+     * @param $property
+     * @return array
+     */
+    public function getPropertyAnnotation($property){
+        if (method_exists($property,'getAttributes')){
+            $attributes = $property->getAttributes();
+        }else{
+            $attributes = [];
+        }
+        $readerAttributes = $this->parser->getPropertyAnnotations($property);
+        return $this->getParameters(array_merge($attributes,$readerAttributes));
+    }
+
+    /**
+     * 解析类的属性文本注释的var
+     * @param $propertyTextAnnotations
+     * @return array
+     */
+    protected static function parsesPropertyTextAnnotation($propertyTextAnnotations){
+        $varLine = "";
+        foreach ($propertyTextAnnotations as $item) {
+            if (strpos($item, '@var') !== false){
+                $varLine = $item;
+                break;
+            }
+        }
+        $type = "";
+        $desc = "";
+        if ($varLine){
+            $varLineArr = preg_split('/\\s+/', $varLine);
+            $type = !empty($varLineArr[1])?$varLineArr[1]:"";
+            $desc = !empty($varLineArr[2])?$varLineArr[2]:"";
+        }
+        if (empty($desc) && strpos($propertyTextAnnotations[0], '@var') === false){
+            $desc = $propertyTextAnnotations[0];
+        }
+        return [
+            'type'=>$type,
+            'desc'=>$desc,
+        ];
+    }
+
+    /**
+     * 获取类的属性参数
+     * @param $classReflect
+     * @return array
+     */
+    public function getClassPropertiesy($classReflect){
+        $publicProperties = $classReflect->getProperties(\ReflectionProperty::IS_PUBLIC);
+        $arr=[];
+        foreach ($publicProperties as $property) {
+              $propertyAnnotations = $this->getPropertyAnnotation($property);
+              $item = [];
+              if (!empty($propertyAnnotations['property'])){
+                  // 有apidoc注解
+                  $arr[] = $propertyAnnotations['property'];
+                  continue;
+              }
+              $propertyTextAnnotations = self::parseTextAnnotation($property,true);
+              if (empty($propertyTextAnnotations)){
+                  // 无注释
+                  continue;
+              }
+              $textAnnotationsParams=static::parsesPropertyTextAnnotation($propertyTextAnnotations);
+              $textAnnotationsParams['name'] =$property->getName();
+              $arr[]=$textAnnotationsParams;
+        }
+        return $arr;
+    }
+
+
 
 }
