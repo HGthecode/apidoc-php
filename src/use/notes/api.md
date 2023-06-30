@@ -1001,7 +1001,27 @@ class ApiDocTest
 |NotDefaultAuthor| 不使用默认作者 |	
 |NotDebug| 关闭接口调试 |	
 
+::: code-tabs#php
 
+@tab:active PHP8原生注解
+
+```php
+<?php
+namespace app\controller;
+use hg\apidoc\annotation as Apidoc;
+
+#[Apidoc\NotParse()]
+class ApiDocTest
+{
+    #[Apidoc\NotParse()]
+    #[Apidoc\NotResponses()]
+    public function model(){
+       //...
+    }
+}
+```
+
+@tab:active 原始注解
 
 ```php
 <?php
