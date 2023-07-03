@@ -14,6 +14,8 @@ use hg\apidoc\annotation as Apidoc;
 #[Apidoc\Title("基础示例")]
 #[Apidoc\Group("bse")]
 #[Apidoc\Sort(1)]
+#[Apidoc\NotParse()]
+#[Apidoc\NotDebug()]
 class ApiDocTest
 {
   //...    
@@ -32,6 +34,8 @@ use hg\apidoc\annotation as Apidoc;
  * @Apidoc\Title("基础示例")
  * @Apidoc\Group("base")
  * @Apidoc\Sort(1)
+ * @Apidoc\NotParse()
+ * @Apidoc\NotDebug()
  */
 class ApiDocTest
 {
