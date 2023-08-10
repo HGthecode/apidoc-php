@@ -102,9 +102,10 @@ class Index
                     return false;
                 });
 
-                $filePath = Helper::replaceCurrentAppTemplate($fileConfig['path'], $currentApps);
+                $filePath = $file['path'];
                 if (!empty($fileConfig['namespace'])) {
                     $fileNamespace = Helper::replaceCurrentAppTemplate($fileConfig['namespace'], $currentApps);
+                    $fileNamespace = Helper::replaceTemplate($fileNamespace, $params['form'],"form.");
                 } else {
                     $fileNamespace = $filePath;
                 }
@@ -113,6 +114,7 @@ class Index
                     $fileNamespace = substr($fileNamespace, 0, strlen($fileNamespace) - 1);
                 }
                 $template = Helper::replaceCurrentAppTemplate($fileConfig['template'], $currentApps);
+                $template = Helper::replaceTemplate($template, $params['form'],"form.");
                 $tplParams[$file['name']] = [
                     'class_name' => $file['value'],
                     'path' => $filePath,

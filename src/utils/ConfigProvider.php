@@ -82,6 +82,9 @@ class ConfigProvider
             $generatorList = [];
             $generators= Helper::handleArrayParams($feConfig['generator'],"title");
             foreach ($generators as $item) {
+                if (isset($item['enable']) && $item['enable'] === false){
+                    continue;
+                }
                 if (!empty($item['form']) && !empty($item['form']['items']) && count($item['form']['items'])){
                     $item['form']['items'] = Helper::handleArrayParams( $item['form']['items'],"title");
                 }

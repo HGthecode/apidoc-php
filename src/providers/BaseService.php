@@ -113,9 +113,11 @@ trait BaseService
         ! defined('APIDOC_ROOT_PATH') && define('APIDOC_ROOT_PATH', $this->getRootPath());
         ! defined('APIDOC_STORAGE_PATH') && define('APIDOC_STORAGE_PATH', $this->getRuntimePath());
         $config = self::getApidocConfig();
-        $config['database_query_function'] = function ($sql){
-            return self::databaseQuery($sql);
-        };
+        if (empty($config['database_query_function'])){
+            $config['database_query_function'] = function ($sql){
+                return self::databaseQuery($sql);
+            };
+        }
         if (empty($config['lang_register_function'])){
             $config['lang_register_function'] = function ($sql){
                 return self::setLang($sql);

@@ -107,13 +107,14 @@ class Helper
      * 替换模板变量
      * @param $temp
      * @param $data
+     * @param $prefix
      * @return string|string[]
      */
-    public static function replaceTemplate(string $temp, array $data):string
+    public static function replaceTemplate(string $temp, array $data, string $prefix = ""):string
     {
         $str = $temp;
         foreach ($data as $k => $v) {
-            $key = '${' . $k . '}';
+            $key = '${'. $prefix . $k . '}';
             if (strpos($str, $key) !== false) {
                 $str = str_replace($key, $v, $str);
             }
