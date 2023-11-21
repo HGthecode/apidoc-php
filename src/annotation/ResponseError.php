@@ -16,7 +16,7 @@ final class ResponseError extends ParamBase
 {
 
     /**
-     * @param string $value 字段名
+     * @param string $name 字段名
      * @param string $type 字段类型
      * @param string $desc 字段名称
      * @param bool $require 是否必须
@@ -30,7 +30,7 @@ final class ResponseError extends ParamBase
      * @param string|array $withoutField 排除Ref引入的字段
      */
     public function __construct(
-        $value = '',
+        $name = '',
         string $type = '',
         string $desc = '',
         bool $require = false,

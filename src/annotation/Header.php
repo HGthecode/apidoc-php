@@ -22,7 +22,7 @@ class Header extends ParamBase
     public $mock;
 
     /**
-     * @param string $value 字段名
+     * @param string $name 字段名
      * @param string $type 字段类型
      * @param string $desc 字段名称
      * @param bool $require 是否必须
@@ -33,7 +33,7 @@ class Header extends ParamBase
      * @param string $mock Mock规则
      */
     public function __construct(
-        $value = '',
+        $name = '',
         string $type = '',
         bool   $require = false,
                $ref = "",
