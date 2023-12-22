@@ -235,7 +235,7 @@ class ParseApiMenus
                 return false;
             }
             $methodInfo = ParseApiDetail::handleApiBaseInfo($methodInfo,$refClass->name,$refMethod->name,$textAnnotations,$config);
-            $methodInfo['appKey'] = $this->currentApp['appKey'];
+            $methodInfo['appKey'] = !empty($this->currentApp['appKey'])?$this->currentApp['appKey']:"";
             return Helper::getArrayValuesByKeys($methodInfo,['title','method','url','author','tag','name','menuKey','appKey']);
         }catch (AnnotationException $e) {
             throw new ErrorException($e->getMessage());

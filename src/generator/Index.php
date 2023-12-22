@@ -158,7 +158,7 @@ class Index
             }
         }
 
-        $createModels = $this->checkModels($generatorItem,$tplParams,$currentApps);
+        $createModels = $this->checkModels($generatorItem,$tplParams,$currentApps,$params);
         $tplParams['tables'] = $createModels['tables'];
         return [
             'tplParams'=>$tplParams,
@@ -173,7 +173,7 @@ class Index
      * @param $tplParams
      * @return array
      */
-    protected function checkModels($generatorItem,$tplParams,$currentApps){
+    protected function checkModels($generatorItem,$tplParams,$currentApps,$params=[]){
         if (empty($this->config['database_query_function'])){
             throw new ErrorException("not datatable_query_function config");
         }
@@ -188,7 +188,9 @@ class Index
                 $fileFullPath="";
                 if (!empty($table['model_name'])){
                     $namespace = Helper::replaceCurrentAppTemplate($tableConfig['items'][$k]['namespace'], $currentApps);
+                    $namespace = Helper::replaceTemplate($namespace, $params['form'],"form.");
                     $path = Helper::replaceCurrentAppTemplate($tableConfig['items'][$k]['path'], $currentApps);
+                    $path = Helper::replaceTemplate($path, $params['form'],"form.");
                     $template = $tableConfig['items'][$k]['template'];
 
                     // 验证模板是否存在
