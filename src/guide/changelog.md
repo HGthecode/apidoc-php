@@ -12,6 +12,23 @@ category: 指南
 - 修订版本号：日常 bugfix 更新
 
 
+## v5.2.3
+
+`2024-03-22`
+
+> 需升级前端文件至 v3.1.2
+
+- 修正Header、PesponseSuccess、PesponseError参数定义的字段名。
+- 接口生成器路径替换表单字段异常问题。
+- 增加接口生成器模板语法ucfirst。
+- 移除doctrine/lexer版本限制。
+
+## v5.2.2
+
+`2024-03-22`
+
+> 发布后发现移除doctrine/lexer版本限制，可以解决laravel10+的安装兼容问题，就接着发5.2.3版本了😝
+
 
 ## v5.2.1
 

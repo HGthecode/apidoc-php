@@ -28,6 +28,21 @@ php bin/hyperf.php vendor:publish hg/apidoc
 ```
 > 命令执行后在将在`config/autoload`目录下生成`apidoc.php`配置文件
 
+::: warning 根据项目结构调整apps配置
+
+```php
+// /config/autoload/apidoc.php
+'apps'           => [
+    [
+        'title'=>'Api接口',
+        // （注意）核对配置文件中此目录是否正确
+        'path'=>'app\controller',
+        'key'=>'api',
+    ]
+],
+```
+:::
+
 
 ## 3、注册Apidoc路由
 
@@ -46,7 +61,7 @@ hg\apidoc\providers\HyperfService::register();
 
 下载完成后解压，将apidoc文件夹拷贝到你的项目 public 目录下
 
-打开浏览器访问   http://你的域名/apidoc/ ，出现接口文档页面，表示安装成功。
+打开浏览器访问   http://你的域名/apidoc/index.html ，出现接口文档页面，表示安装成功。
 
 ::: tip
 

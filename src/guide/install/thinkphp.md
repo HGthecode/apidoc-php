@@ -22,6 +22,21 @@ import DownloadFe from "@DownloadFe";
 composer require hg/apidoc
 ```
 
+::: warning 根据项目结构调整apps配置
+
+```php
+// /config/apidoc.php
+'apps'           => [
+    [
+        'title'=>'Api接口',
+        // （注意）核对配置文件中此目录是否正确
+        'path'=>'app\controller',
+        'key'=>'api',
+    ]
+],
+```
+:::
+
 
 ## 2、添加前端页面
 

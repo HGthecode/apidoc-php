@@ -21,15 +21,6 @@ import DownloadFe from "@DownloadFe";
 composer require hg/apidoc
 ```
 
-:::warning Laravel10
-由于Laravel10版本框架内置依赖了doctrine/lexer3.x扩展；而Apidoc为了兼容PHP<8.1.0的环境，约束了doctrine/lexer扩展为`^1 || ^2`版本，会导致安装失败。可用以下命令降级doctrine/lexer来安装完成。
-
-```sh
-# 根目录执行
-composer require doctrine/lexer:2.1
-```
-:::
-
 
 ## 2、生成配置文件
 项目根目录下执行：
@@ -37,6 +28,21 @@ composer require doctrine/lexer:2.1
 php artisan vendor:publish --provider="hg\apidoc\providers\LaravelService"
 ```
 命令执行后在将在`config`目录下生成`apidoc.php`配置文件
+
+::: warning 根据项目结构调整apps配置
+
+```php
+// /config/apidoc.php
+'apps'           => [
+    [
+        'title'=>'Api接口',
+        // （注意）核对配置文件中此目录是否正确
+        'path'=>'app\controller',
+        'key'=>'api',
+    ]
+],
+```
+:::
 
 ## 3、添加前端页面
 

@@ -9,9 +9,9 @@ export default sidebar({
       prefix: "install/",
       children: [
         "thinkphp",
+        "webman",
         "laravel",
         "hyperf",
-        "webman",
       ],
     },
     "changelog",
