@@ -46,6 +46,8 @@ class ParseTemplate
                     return Helper::snake($v);
                 }else if ($fun === "lcfirst"){
                     return lcfirst($v);
+                }else if ($fun === "ucfirst"){
+                    return ucfirst($v);
                 }else if ($fun === "count"){
                     return count($v);
                 }
