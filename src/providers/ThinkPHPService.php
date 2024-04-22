@@ -45,9 +45,10 @@ class ThinkPHPService extends \think\Service
                 $appName = $this->app->http->getName();
                 foreach ($routeData as $controller) {
                     $routeGroup = $appRoute->getGroup();
-                    if (!empty($controller['middleware'])){
-                        $routeGroup->middleware($controller['middleware']);
-                    }
+                    // 这里注册的控制器中间件会对所有的路由生效(包括apidoc自身的路由)
+                    // if (!empty($controller['middleware'])){
+                    //     $routeGroup->middleware($controller['middleware']);
+                    // }
                     if (count($controller['methods'])){
                         foreach ($controller['methods'] as $method) {
                             if (!empty($appName)){
@@ -56,6 +57,10 @@ class ThinkPHPService extends \think\Service
                             $apiMethods = Helper::handleApiMethod($method['method']);
                             $apiMethods = implode("|",$apiMethods);
                             $route = $routeGroup->addRule($method['url'],$method['controller']."@".$method['name'],$apiMethods);
+                            // 将控制器中间件注册到控制器下的所有路由下，避免影响全局路由
+                            if (!empty($controller['middleware'])){
+                                $route->middleware($controller['middleware']);
+                            }
                             if (!empty($method['middleware'])){
                                 $route->middleware($method['middleware']);
                             }
