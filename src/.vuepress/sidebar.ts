@@ -80,7 +80,7 @@ export default sidebar({
         // "hyperf-install",
         // "webman-install",
         "custom-responses",
-        
+        "custom-debug-event",
       ],
     }
   ],

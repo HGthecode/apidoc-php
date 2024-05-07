@@ -14,7 +14,6 @@
             target="downloadFile" 
             href="https://github.com/HGthecode/apidoc-php/releases/download/v5.2.3/apidoc-ui.zip"
         >
-        
             <div class="title">从Github下载</div>
         </a>
    </div>
