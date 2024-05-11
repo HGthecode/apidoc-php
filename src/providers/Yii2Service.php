@@ -13,12 +13,18 @@ class Yii2Service extends Component
     use BaseService;
 
     /**
+     * apidoc 配置文件的完整路径
+     * @var string
+     */
+    public string $cfgPath = '';
+    private static string $_cfg_path;
+
+    /**
      * @inheritdoc
      */
     public function init()
     {
-        $this->initConfig();
-        self::registerApidocRoutes();
+        self::$_cfg_path = $this->cfgPath;
 
         Yii::$app->controllerMap = [
             'apidoc' => [
@@ -26,6 +32,9 @@ class Yii2Service extends Component
                 'enableCsrfValidation' => false,
             ],
         ];
+
+        $this->initConfig();
+        self::registerApidocRoutes();
     }
 
     /**
@@ -34,7 +43,7 @@ class Yii2Service extends Component
      */
     static function getApidocConfig()
     {
-        $config = require \Yii::getAlias('@common') . '/config/apidoc.php';
+        $config = require self::$_cfg_path ?: __DIR__ . '/../config.php';
 
         if (!(!empty($config['auto_url']) && !empty($config['auto_url']['filter_keys']))){
             $config['auto_url']['filter_keys'] = ['app','controller'];
