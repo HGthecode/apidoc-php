@@ -73,7 +73,11 @@ class ParseAnnotation
         foreach ($attrList as $item) {
             $value = "";
             if ($item instanceof ReflectionAttribute) {
-                $name    = $this->getClassName($item->getName());
+                $attributeName = $item->getName();
+                if (strpos($attributeName, 'apidoc') === false){
+                    continue;
+                }
+                $name    = $this->getClassName($attributeName);
                 $params = $item->getArguments();
                 if (!empty($params)){
                     if (is_array($params) && !empty($params[0]) && is_string($params[0]) && count($params)===1){
