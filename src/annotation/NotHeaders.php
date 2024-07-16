@@ -11,7 +11,7 @@ use hg\apidoc\utils\AbstractAnnotation;
  * @Annotation
  * @Target({"METHOD"})
  */
-#[Attribute(Attribute::TARGET_CLASS | \Attribute::IS_REPEATABLE)]
+#[Attribute(Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class NotHeaders extends AbstractAnnotation
 {
 
