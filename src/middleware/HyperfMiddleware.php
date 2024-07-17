@@ -8,6 +8,7 @@ use Hyperf\DbConnection\Db;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use function Hyperf\Config\config;
 
 class HyperfMiddleware
 {
