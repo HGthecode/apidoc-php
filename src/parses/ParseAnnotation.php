@@ -83,7 +83,7 @@ class ParseAnnotation
                     if (is_array($params) && !empty($params[0]) && is_string($params[0]) && count($params)===1){
                         $value = $params[0];
                     }else{
-                        if (!empty($params[0])){
+                        if (isset($params[0])){
                             $paramObj = [];
                             foreach ($params as $k=>$value) {
                                 $key = $k===0?'name':$k;
