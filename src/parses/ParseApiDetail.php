@@ -481,6 +481,20 @@ class ParseApiDetail
                 }
             }
             $data['children'] = $childrenData;
+        }else if(!empty($data) && empty($data['name']) && is_int(Helper::arrayKeyFirst($data))){
+            $childrenData = [];
+            foreach ($data as $child) {
+                $paramItem=$this->handleAnnotationsParamItem($child,$field);
+
+                if ($paramItem!==false){
+                    if (!empty($paramItem) && is_array($paramItem) && Helper::arrayKeyFirst($paramItem)===0){
+                        $childrenData = Helper::arrayMergeAndUnique("name",$childrenData,$paramItem);
+                    }else{
+                        $childrenData[] = $paramItem;
+                    }
+                }
+            }
+            $data = $childrenData;
         }
         if (!empty($data['type']) && $data['type'] === 'tree' ) {
             // 类型为tree的
