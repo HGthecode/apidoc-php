@@ -269,7 +269,7 @@ class ParseApiDetail
             // 注解了不使用全局响应
             $mergeParams = [];
         }else if (!empty($currentApp['responses']) && !empty($currentApp['responses'][$paramType])){
-            $mergeParams = $currentApp['params'][$paramType];
+            $mergeParams = $currentApp['responses'][$paramType];
         }else if(!empty($config['responses']) && !empty($config['responses'][$paramType])){
             $mergeParams = $config['responses'][$paramType];
         }
@@ -332,7 +332,7 @@ class ParseApiDetail
             // 注解了不使用全局响应
             $mergeParams = [];
         }else if (!empty($currentApp['responses']) && !empty($currentApp['responses'][$paramType])){
-            $mergeParams = $currentApp['params'][$paramType];
+            $mergeParams = $currentApp['responses'][$paramType];
         }else if(!empty($config['responses']) && !empty($config['responses'][$paramType])){
             $mergeParams = $config['responses'][$paramType];
         }
