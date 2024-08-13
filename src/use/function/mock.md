@@ -1,10 +1,8 @@
-
-
-# Mock调试数据
+# Mock 调试数据
 
 在接口调试时，往往需要填写大量的测试数据来进行请求测试；
 
-有了Mock数据的功能，在调试时，自动根据规则生成调试数据，接口调试更高效。
+有了 Mock 数据的功能，在调试时，自动根据规则生成调试数据，接口调试更高效。
 
 ## 注解方式
 
@@ -12,7 +10,7 @@
 
 ::: code-tabs#apiMock1
 
-@tab:active PHP8原生注解
+@tab:active PHP8 原生注解
 
 ```php
 #[
@@ -55,30 +53,75 @@ public function mock(Request $request){
   //...
 }
 ```
+
 :::
 
-## 数据表字段Mock
+## 数据表字段 Mock
 
-当我们希望ref引用数据表的字段，也能配置字段的mock规则，只需要在字段注释中加入`mock(xxx)`即可，如下：
+当我们希望 ref 引用数据表的字段，也能配置字段的 mock 规则，只需要在字段注释中加入`mock(xxx)`即可，如下：
 
 ```php
-CREATE TABLE `user` (↵  
+CREATE TABLE `user` (↵
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `name` varchar(64) NOT NULL COMMENT '姓名，mock(@cname)',
   `age` varchar(64) DEFAULT NULL COMMENT '年龄，mock(@integer(1, 150))',
 PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 ```
 
+:::tip Mock 规则
+以下为内置规则，自定义规则请查看[自定义 mock 规则]()
+:::
 
-:::tip Mock规则
-以下为内置规则，自定义规则请查看[自定义mock规则]()
+## 自定义 mock 规则
+
+如果以上内置规则无法满足，你可以通过配置文件自定义规则来实现
+
+1、`config.js`配置文件中加入自定义规则，如下
+
+```js
+window.apidocFeConfig = {
+  //...
+  MOCK_EXTENDS: {
+    abc(a) {
+      return `abc-${a}`;
+    },
+  },
+};
+```
+
+2、注解中直接使用
+
+::: code-tabs#apiMock2
+
+@tab:active PHP8 原生注解
+
+```php
+
+#[Apidoc\Param("abc",type:"string",mock:"@abc('666')")]
+public function index(Request $request){
+    //...
+}
+```
+
+@tab 原始注解
+
+```php
+
+/**
+ * @Apidoc\Param("abc",type="string",mock="@abc('666')")
+ */
+public function index(Request $request){
+    //...
+}
+```
+
 :::
 
 ## 基础
 
 ### @boolean
 
-随机获得一个boolean值
+随机获得一个 boolean 值
 
 ```javascript
 @boolean
@@ -101,7 +144,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // 93
 ```
 
-
 ### @integer
 
 随机获得一个整数，可指定范围`@integer(min, max)`
@@ -116,8 +158,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 @integer(60, 100)
 // 80
 ```
-
-
 
 ### @float
 
@@ -160,7 +200,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // "F"
 ```
 
-
 ### @string
 
 随机获得一个字符串
@@ -171,7 +210,7 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 - 指定类型与长度范围：`@string('lower/upper/number/symbol', min, max)`
 
 ```javascript
-@string 
+@string
 // "PN@ty"
 
 @string(5)
@@ -189,7 +228,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // "nwo"
 ```
 
-
 ### @range
 
 随机获得一个范围的数组
@@ -199,7 +237,7 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 - 指定开始、结束、步长：`@range(start, stop, step)`
 
 ```javascript
-@range(10)  
+@range(10)
 // [0,1,2,3,4,5,6,7,8,9]
 
 @range(3, 7)
@@ -231,8 +269,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // 98-08-03
 ```
 
-
-
 ### @time
 
 随机获得一个时间
@@ -253,7 +289,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // 09:35:22
 ```
 
-
 ### @datetime
 
 随机获得一个时间
@@ -273,9 +308,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 @time("HH:mm:ss")
 // 09:35:22
 ```
-
-
-
 
 ### @now
 
@@ -318,7 +350,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 
 - 指定内容 `@image(size, background, foreground, format, text)`
 
-
 ```javascript
 @image
 // https://dummyimage.com/200x200
@@ -341,7 +372,7 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 
 ### @dataImage
 
-随机获得一个base64图片
+随机获得一个 base64 图片
 
 - 指定内容 `@dataImage(size, text)`
 
@@ -367,10 +398,9 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // #79f2b4
 ```
 
-
 ### @hex
 
-随机获得一个hex格式的颜色值
+随机获得一个 hex 格式的颜色值
 
 ```javascript
 @hex
@@ -379,17 +409,16 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 
 ### @rgb
 
-随机获得一个rgb格式的颜色值
+随机获得一个 rgb 格式的颜色值
 
 ```javascript
 @rgb
 // rgb(242, 211, 121)
 ```
 
-
 ### @rgba
 
-随机获得一个rgba格式的颜色值
+随机获得一个 rgba 格式的颜色值
 
 ```javascript
 @rgba
@@ -398,7 +427,7 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 
 ### @hsl
 
-随机获得一个hsl格式的颜色值
+随机获得一个 hsl 格式的颜色值
 
 ```javascript
 @hsl
@@ -425,7 +454,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // "Khrquxgdv viabvdx yuzlshy rpeoeh xxqgye lclfasktcl dogp jeiii kyxyxvbb esrv esxa uljsshg. Yhp ejfhlun nce xua keakdu llrqxoq ewnyvcyl ecoinwq iifnejlgme wbkwdhec foxdulztyj fqups zfdlqva ptppkz."
 ```
 
-
 ### @sentence
 
 随机获得一个句子
@@ -443,7 +471,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 @sentence(3, 5)
 // "Indo rebn ocon ycwpgj."
 ```
-
 
 ### @word
 
@@ -463,8 +490,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // "xqdy"
 ```
 
-
-
 ### @title
 
 随机获得一个标题
@@ -482,7 +507,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 @title(3, 5)
 // "Vtqw Jct Loasetdthg Cghvwuk"
 ```
-
 
 ### @cparagraph
 
@@ -502,9 +526,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // "料难导利极些性通业照周亲员包思认铁。团学细化从查新做来者民细。"
 ```
 
-
-
-
 ### @csentence
 
 随机获得一句中文文本
@@ -522,7 +543,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 @csentence(3, 5)
 // "转米变。"
 ```
-
 
 ### @cword
 
@@ -554,7 +574,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // "一三四零二一"
 ```
 
-
 ### @ctitle
 
 随机获得一个中文标题
@@ -573,71 +592,56 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // "圆带火带"
 ```
 
-
 ## 姓名
 
 ### @first
 
 随机获得一个姓
 
-
 ```javascript
 @first
 // "Laura"
 ```
 
-
 ### @last
 
 随机获得一个名
-
 
 ```javascript
 @last
 // "White"
 ```
 
-
-
 ### @name
 
 随机获得一个姓名
-
 
 ```javascript
 @name
 // "James Thompson"
 ```
 
-
-
 ### @cfirst
 
 随机获得一个中文姓
-
 
 ```javascript
 @cfirst
 // "张"
 ```
 
-
 ### @clast
 
 随机获得一个中文名
-
 
 ```javascript
 @clast
 // "航"
 ```
 
-
-
 ### @cname
 
 随机获得一个中文姓名
-
 
 ```javascript
 @cname
@@ -648,25 +652,21 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 
 ### @url
 
-随机获得一个url地址
-
+随机获得一个 url 地址
 
 ```javascript
 @url
 // "http://atdcptravt.tc/wlrsdlbkwl"
 ```
 
-
 ### @domain
 
 随机获得一个域名
-
 
 ```javascript
 @domain
 // "suix.cn"
 ```
-
 
 ### @protocol
 
@@ -677,27 +677,23 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // "gopher"
 ```
 
-
 ### @email
 
-随机获得一个Email
-
+随机获得一个 Email
 
 ```javascript
 @email
 // "p.jldur@hgvxebirz.ca"
 ```
 
-
 ### @ip
 
-随机获得一个ip地址
+随机获得一个 ip 地址
 
 ```javascript
 @ip
 // "157.234.240.60"
 ```
-
 
 ## 地址
 
@@ -710,7 +706,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // "华东"
 ```
 
-
 ### @province
 
 随机获得一个省份
@@ -719,7 +714,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 @province
 // "天津"
 ```
-
 
 ### @city
 
@@ -736,8 +730,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 
 ```
 
-
-
 ### @county
 
 随机获得一个县/区
@@ -751,8 +743,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 @county(true)
 // "湖南省 株洲市 攸县"
 ```
-
-
 
 ### @zip
 
@@ -783,7 +773,6 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // "o"
 ```
 
-
 ### @shuffle
 
 重组数组中值的位置
@@ -793,32 +782,27 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 // ["u","i","o","a","e"]
 ```
 
-
-
 ### @guid
 
-获得一个guid字符串
+获得一个 guid 字符串
 
 ```javascript
 @guid
 // "D8AA2eAf-DcaD-749c-efAB-de4c826cD6FD"
 ```
 
-
 ### @id
 
-获得一个id
+获得一个 id
 
 ```javascript
 @id
 // "350000201612198267"
 ```
 
-
-
 ### @phone
 
-随机获得一个11位手机号
+随机获得一个 11 位手机号
 
 ```javascript
 @phone
@@ -827,13 +811,12 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 
 ### @idcard
 
-随机获得一个18位S·F·Z号码
+随机获得一个 18 位 S·F·Z 号码
 
 ```javascript
 @idcard
 // "450311198810100505"
 ```
-
 
 ### @regexp
 
@@ -845,50 +828,3 @@ PRIMARY KEY (`id`)↵) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8"
 @regexp('/\[a-z]{5,10}\-/',3)
 // "feyoiga-eqiig-pbyriaj-"
 ```
-
-
-## 自定义mock规则
-
-如果以上内置规则无法满足，你可以通过配置文件自定义规则来实现
-
-
-1、`config.js`配置文件中加入自定义规则，如下
-
-```js
-window.apidocFeConfig = {
-  //...
-   MOCK_EXTENDS:{
-    abc(a){
-      return `abc-${a}`
-    }
-  },
-}
-```
-
-2、注解中直接使用
-
-::: code-tabs#apiMock2
-
-@tab:active PHP8原生注解
-```php
-
-#[Apidoc\Param("abc",type:"string",mock:"@abc('666')")]
-public function index(Request $request){
-    //...
-}
-```
-@tab 原始注解
-```php
-
-/**
- * @Apidoc\Param("abc",type="string",mock="@abc('666')")
- */
-public function index(Request $request){
-    //...
-}
-```
-:::
-
-
-
-
