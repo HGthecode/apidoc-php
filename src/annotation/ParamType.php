@@ -15,6 +15,9 @@ use hg\apidoc\utils\AbstractAnnotation;
 #[Attribute(Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class ParamType extends AbstractAnnotation
 {
+
+    const formdata = 'formdata';
+
     /**
      * @param string $value 参数类型，formdata
      */

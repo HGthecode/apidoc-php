@@ -15,8 +15,18 @@ use hg\apidoc\utils\AbstractAnnotation;
 #[Attribute(Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class Method extends AbstractAnnotation
 {
+    const GET = 'GET';
+
+    const POST = 'POST';
+
+    const PUT = 'PUT';
+
+    const PATCH = 'PATCH';
+
+    const DELETE = 'DELETE';
+
     /**
-     * @param string $value 请求类型
+     * @param string|array $value 请求类型
      */
     public function __construct(...$value)
     {

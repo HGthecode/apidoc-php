@@ -373,7 +373,7 @@ class ParseApiDetail
         // 默认method
         if (!empty($methodInfo['method'])) {
             $apiMethods = Helper::handleApiMethod($methodInfo['method']);
-            $methodInfo['method'] = count($apiMethods)==1?$apiMethods[0]:$apiMethods;
+            $methodInfo['method'] = count($apiMethods)===1?$apiMethods[0]:$apiMethods;
         }else{
             $methodInfo['method'] = !empty($config['default_method']) ? strtoupper($config['default_method']) : '*';
         }

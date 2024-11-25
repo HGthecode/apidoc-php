@@ -51,6 +51,12 @@ class AddField extends ParamBase
      */
     public $md;
 
+    /**
+     * mock
+     * @var string
+     */
+    public $mock;
+
 
     /**
      * @param string $name 字段名

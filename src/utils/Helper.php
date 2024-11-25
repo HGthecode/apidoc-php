@@ -533,7 +533,9 @@ class Helper
      * @return array|false|string[]
      */
     public static function handleApiMethod($method){
-        if (is_array($method)){
+        if(!empty($method['name'])){
+            return $method['name'];
+        }else if (is_array($method)){
             return $method;
         }else if (strpos($method, ',') !== false){
             return explode(",", strtoupper($method));
