@@ -11,7 +11,7 @@ actions:
     type: primary
 
   - text: 演示 🏠
-    link: https://demo-tp6.apidoc.icu/apidoc/
+    link: http://demo-tp6.apidoc.icu/apidoc/
 
 features:
   - title: 开箱即用
@@ -50,9 +50,6 @@ features:
     icon: typescript
     details: 文档自动生成接口的Json及TypeScript
 
-  
-
 copyright: false
 footer: MIT Licensed | Copyright © 2020-present HG
 ---
-
