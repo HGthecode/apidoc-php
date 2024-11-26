@@ -24,7 +24,7 @@
 
 ## 🤷‍♀️ Apidoc是什么？
 
-Apidoc是一个通过解析注解生成Api接口文档的PHP composer扩展，兼容Laravel、ThinkPHP、Hyperf、Webman等框架；
+Apidoc是一个通过解析注解生成Api接口文档的PHP composer扩展，兼容Laravel、ThinkPHP、Hyperf、Webman、Yii 等框架；
 全面的注解引用、数据表字段引用，简单的注解即可生成Api文档，而Apidoc不仅于接口文档，在线接口调试、Mock调试数据、调试事件处理、Json/TypeScript生成、接口生成器、代码生成器等诸多实用功能，致力于提高Api接口开发效率。
 
 
@@ -51,6 +51,7 @@ Apidoc是一个通过解析注解生成Api接口文档的PHP composer扩展，�
 |Laravel|8.x、9.x、10.x|
 |Webman|1.x|
 |Hyperf|2.x、3.x|
+|Yii|2.x|
 
 
 ## 📖使用文档
