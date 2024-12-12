@@ -491,7 +491,7 @@ class Helper
     }
 
 
-    public static function getObjectFindByField(array $data,string $name = null)
+    public static function getObjectFindByField(array $data,?string $name = null)
     {
         // 无参数时获取所有
         if (empty($name)) {
