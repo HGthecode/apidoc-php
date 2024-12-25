@@ -1,18 +1,17 @@
 ---
 icon: log
-sidebarDepth: 2
+headerDepth: 2
 category: 指南
 ---
 
-
-
-# V4升级到V5
+# V4 升级到 V5
 
 ## 升级扩展
 
 ```sh
 composer require hg/apidoc:5.0.0
 ```
+
 或
 
 ```sh
@@ -31,12 +30,11 @@ composer require hg/apidoc
 
 config.js 配置文件，根据自身项目情况酌情替换
 
-
 ## 修改注解
 
 ## 1、子参数嵌套注解的变化
 
-V4版本中`Query`,`Param`,`Returned`的子参数，直接在参数注解中嵌套书写注解，如下：
+V4 版本中`Query`,`Param`,`Returned`的子参数，直接在参数注解中嵌套书写注解，如下：
 
 ```php
 /**
@@ -52,7 +50,8 @@ public function test(){
 }
 ```
 
-V5版本中`Query`,`Param`,`Returned`的子参数，使用children嵌套书写注解，如下：
+V5 版本中`Query`,`Param`,`Returned`的子参数，使用 children 嵌套书写注解，如下：
+
 ```php
 /**
  * @Apidoc\Title ("V5版本的子参数嵌套注解写法")
@@ -69,9 +68,9 @@ public function test(){
 
 ## 2、请求事件注解变化
 
-主要调整了ajax事件的前置和后置事件的注解方式
+主要调整了 ajax 事件的前置和后置事件的注解方式
 
-V4版本中的Ajax事件注解
+V4 版本中的 Ajax 事件注解
 
 ```php
 /**
@@ -87,7 +86,7 @@ public function test(){
 }
 ```
 
-V5版本中的Ajax事件注解
+V5 版本中的 Ajax 事件注解
 
 ```php
 /**
@@ -103,11 +102,11 @@ public function test(){
 }
 ```
 
-## 3、废弃mdRef处理
+## 3、废弃 mdRef 处理
 
-影响注解 `Header` `Query` `RouteParam` `Param` `Returned` `AddField` 
+影响注解 `Header` `Query` `RouteParam` `Param` `Returned` `AddField`
 
-V4版本可通过注解mdRef参数来引用markdown文档内容：
+V4 版本可通过注解 mdRef 参数来引用 markdown 文档内容：
 
 ```php
 /**
@@ -116,7 +115,7 @@ V4版本可通过注解mdRef参数来引用markdown文档内容：
  */
 ```
 
-V5版本直接将markdown地址注解到md参数中即可：
+V5 版本直接将 markdown 地址注解到 md 参数中即可：
 
 ```php
 /**
@@ -124,7 +123,6 @@ V5版本直接将markdown地址注解到md参数中即可：
  * @Apidoc\Param("name", type="string", desc="姓名",md="/docs/apiDesc.md#name字段" )
  */
 ```
-
 
 <script setup lang="ts">
 import DownloadFe from "@DownloadFe";

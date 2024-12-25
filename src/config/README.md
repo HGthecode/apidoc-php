@@ -1,16 +1,16 @@
 ---
 icon: config
 category: 配置
-# sidebarDepth: 2
-# sidebar: auto
 ---
 
 # 配置参数
+
 ::: tip
-安装插件后会生成一个apidoc.php的配置文件，以下为该文件可配置的参数说明
+安装插件后会生成一个 apidoc.php 的配置文件，以下为该文件可配置的参数说明
 :::
 
-:::: details 完整配置代码
+:::: details 完整配置代码（点击展开）
+
 ```php
 <?php
 return [
@@ -115,7 +115,7 @@ return [
         'secret_key' => "apidoc#hg_code",
         // 授权访问后的有效期
         'expire' => 24*60*60
-    ],    
+    ],
     // 全局参数
     'params'=>[
         // （选配）全局的请求Header
@@ -147,6 +147,23 @@ return [
             ['name'=>'message','desc'=>'业务信息','type'=>'string','require'=>1],
         ]
     ],
+    // （选配）全局响应状态码
+    'responses_status'=>[
+        [
+            // 状态码
+            'name'=>'200',
+            // 状态码描述
+            'desc'=>'请求成功'
+        ],
+        [
+            // 状态码
+            'name'=>'401',
+            // 状态码描述
+            'desc'=>'登录令牌无效',
+            // （选配）状态码内容类型
+            'contentType'=>'application/json'
+        ],
+    ],
     //（选配）全局事件
     'debug_events'=>[
         // 前置事件
@@ -170,8 +187,11 @@ return [
       * [Semantical Error] The annotation "@key" in method app\demo\controller\Base::index() was never imported. Did you maybe forget to add a "use" statement for this annotation?
       */
     'ignored_annitation'=>['key'],
-    
-    
+
+    // （选配）解析时忽略的方法
+    'ignored_methods'=>[],
+
+
      // （选配）数据库配置
     'database'=>[
         // 数据库表前缀
@@ -342,7 +362,7 @@ return [
                                 // 自增
                                 'incremental'=> true,
                                 //也可以添加自定义列的值
-                                'query'=>true, 
+                                'query'=>true,
                             ],
                             //...
                         ],
@@ -427,21 +447,22 @@ return [
     }
 ];
 ```
-::::
 
+::::
 
 ### 应用/版本变量说明
 
 #### 可用位置：
-docs配置中的path可用
 
-generator配置中的path、namespace、template可用
+docs 配置中的 path 可用
 
+generator 配置中的 path、namespace、template 可用
 
 - 变量写法`${app[N].key}`其中的`N`表示`apps`中配置的层级：
 - `${lang}`当前语言变量，`docs`的`path`可用。
 
 比如配置为如下
+
 ```php
 'apps' => [
     ['title'=>'后台管理','path'=>'app\admin\controller','key'=>'admin'],
@@ -459,8 +480,7 @@ generator配置中的path、namespace、template可用
     ['title'=>'Http状态码','path'=>'docs/${app[0].key}/HttpCode_${app[1].key}'],
 ]
 ```
+
 1、当应用/版本选为`后台管理`的应用时，此时`${app[0].key}`就等于`admin` 由于该应用配置无子级`items`此时的`${app[1].key}`也就为空。最终文件地址为`dosc/admin/HttpCode_.md`。
 
 2、当应用/版本选为`演示示例-V1.0`时，此时`${app[0].key}`就等于`demo` 由于该应用配置存在子级（多个版本）`items`此时的`${app[1].key}`也就为`v1`。最终文件地址为`dosc/demo/HttpCode_v1.md`。
-
-

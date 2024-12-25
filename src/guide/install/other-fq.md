@@ -1,31 +1,32 @@
 ---
 category: 安装
-sidebarDepth: 2
+headerDepth: 2
 ---
 
 <script setup lang="ts">
 import DownloadFe from "@DownloadFe";
 </script>
 
-
 # Webman/其它框架安装
 
 ::: tip 其它框架兼容
-理论上Apidoc可通过手动配置来兼容任何基于composer的框架，此处以Webman框架为例来手动适配兼容
+理论上 Apidoc 可通过手动配置来兼容任何基于 composer 的框架，此处以 Webman 框架为例来手动适配兼容
 :::
 
-
-
 ## 1、安装插件
+
 进入项目根目录，执行如下命令：
+
 ```
 composer require hg/apidoc
 ```
 
 ## 2、创建配置文件
-根据框架规范在指定目录创建配置文件，以webman为例。
+
+根据框架规范在指定目录创建配置文件，以 webman 为例。
 
 在 `config/plugin`目录下创建 `hg/apidoc/`目录，并在该目录下创建`app.php` `route.php`文件，创建后目录结构如下：
+
 ```
 |- config
    |- plugin
@@ -35,7 +36,7 @@ composer require hg/apidoc
          |- route.php
 ```
 
-:::: details app.php代码
+:::: details app.php 代码
 
 ```php
 <?php
@@ -134,9 +135,11 @@ return [
     ]
 ];
 ```
+
 ::::
 
-:::: details route.php代码
+:::: details route.php 代码
+
 ```php
 <?php
 use Webman\Route;
@@ -146,15 +149,17 @@ CommonService::registerApidocRoutes(function ($item){
     Route::any($item['uri'],[hg\apidoc\Controller::class,$item['route']]);
 });
 ```
-::::
 
+::::
 
 ## 3、创建中间件
 
-### （1）创建ApidocService中间件
-根据框架规范在指定目录创建中间件文件，以Webman为例在`app/middleware/`目录创建`ApidocServiceProvider.php`文件
+### （1）创建 ApidocService 中间件
 
-:::: details ApidocServiceProvider.php代码
+根据框架规范在指定目录创建中间件文件，以 Webman 为例在`app/middleware/`目录创建`ApidocServiceProvider.php`文件
+
+:::: details ApidocServiceProvider.php 代码
+
 ```php
 <?php
 namespace app\middleware;
@@ -258,10 +263,13 @@ class ApidocServiceProvider implements MiddlewareInterface
 
 }
 ```
+
 ::::
 
 ### （2）注册中间件
-以Webman为例，`config/middleware.php`注册全局中间件
+
+以 Webman 为例，`config/middleware.php`注册全局中间件
+
 ```php
 <?php
 return [
@@ -278,15 +286,13 @@ return [
 <DownloadFe ></DownloadFe>
 </ClientOnly>
 
+下载完成后解压，将 apidoc 文件夹拷贝到你的项目 public 目录下
 
-下载完成后解压，将apidoc文件夹拷贝到你的项目 public 目录下
-
-打开浏览器访问   http://你的域名/apidoc/index.html ，出现接口文档页面，表示安装成功。
-
+打开浏览器访问 http://你的域名/apidoc/index.html ，出现接口文档页面，表示安装成功。
 
 ## 配置异常响应
 
-由于框架会对全局异常进行处理，如apidoc的异常未被正确响应，会导致页面打不开或报错，配置以下异常处理来解决问题。
+由于框架会对全局异常进行处理，如 apidoc 的异常未被正确响应，会导致页面打不开或报错，配置以下异常处理来解决问题。
 
 ```php
 // 找到你的项目所配置的异常处理类，本示例为
@@ -299,7 +305,7 @@ public function render(Request $request, Throwable $exception): Response
             "message" => $exception->getMessage(),
         ],JSON_UNESCAPED_UNICODE), $exception->getStatusCode());
     }
-    
+
     return parent::render($request, $exception);
 }
 ```

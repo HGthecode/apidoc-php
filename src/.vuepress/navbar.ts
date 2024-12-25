@@ -2,10 +2,10 @@ import { navbar } from "vuepress-theme-hope";
 
 export default navbar([
   "/",
-  { 
+  {
     text: "指南",
     icon: "creative",
-    link: "/guide/"
+    link: "/guide/",
   },
   {
     text: "配置",
@@ -22,5 +22,4 @@ export default navbar([
     icon: "question",
     link: "/help/",
   },
-
 ]);

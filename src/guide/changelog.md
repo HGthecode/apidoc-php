@@ -1,6 +1,6 @@
 ---
 icon: log
-sidebarDepth: 2
+headerDepth: 2
 category: 指南
 ---
 
@@ -9,6 +9,16 @@ category: 指南
 - 主版本号：含有破坏性更新和新特性，不在发布周期内。
 - 次版本号：带有新特性的向下兼容的版本。
 - 修订版本号：日常 bugfix 更新
+
+## v5.3.0-rc.1
+
+`2024-12-25`
+
+> 需升级前端文件至 v3.2.0
+
+- 增加 ignored_methods 配置参数，用于过滤不需要解析的方法。
+- 增加请求响应状态码显示功能，用法请查看配置参数`responses_status`。
+- 增加 apidoc-export 导出插件，目前支持导出 swagger.json 格式；[使用说明](/use/function/apiExport)
 
 ## v5.2.7
 

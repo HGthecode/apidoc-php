@@ -7,32 +7,19 @@ export default sidebar({
       text: "安装",
       icon: "install",
       prefix: "install/",
-      children: [
-        "thinkphp",
-        "webman",
-        "laravel",
-        "hyperf",
-      ],
+      children: ["thinkphp", "webman", "laravel", "hyperf"],
     },
     "changelog",
     "update5",
-
   ],
-  "/config/": [
-    "",
-    "fe",
-  ],
+  "/config/": ["", "fe"],
   "/use/": [
     "",
     {
       text: "编写注释",
       icon: "edit",
       prefix: "notes/",
-      children: [
-        "useFile",
-        "controller",
-        "api",
-      ],
+      children: ["useFile", "controller", "api"],
     },
     {
       text: "功能使用",
@@ -52,7 +39,7 @@ export default sidebar({
         "autoRegisterRoutes",
         "parsesAnnotation",
         "apiShare",
-
+        "apiExport",
       ],
     },
   ],
@@ -61,13 +48,7 @@ export default sidebar({
       text: "常见问题",
       icon: "help",
       prefix: "problems/",
-      children: [
-        "notConfig",
-        "404",
-        "500",
-        "autoUrl",
-        "notApis",
-      ],
+      children: ["notConfig", "404", "500", "autoUrl", "notApis"],
     },
     {
       text: "使用教程",
@@ -82,7 +63,6 @@ export default sidebar({
         "custom-responses",
         "custom-debug-event",
       ],
-    }
+    },
   ],
 });
-
