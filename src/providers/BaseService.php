@@ -27,6 +27,7 @@ trait BaseService
         ['rule'=>'getApiShareDetail','route'=>'getApiShareDetail'],
         ['rule'=>'deleteApiShare','route'=>'deleteApiShare'],
         ['rule'=>'handleApiShareAction','route'=>'handleApiShareAction'],
+        ['rule'=>'exportSwagger','route'=>'exportSwagger'],
     ];
 
 

@@ -15,6 +15,7 @@ use hg\apidoc\utils\Helper;
 use hg\apidoc\utils\Lang;
 use hg\apidoc\utils\Request;
 use hg\apidoc\exception\ErrorException;
+use hg\apidoc\export\ExportSwagger;
 
 class Controller
 {
@@ -445,6 +446,28 @@ class Controller
             throw new ErrorException('field not found', ['field' => 'index']);
         }
         $res = (new ApiShare())->handleApiShareAction($config, $params['key'], $params['index']);
+        return Helper::showJson(0, "", $res);
+    }
+
+    /**
+     * 导出swagger.json
+     * @return array
+     */
+    public function exportSwagger()
+    {
+
+        $this->init(true);
+        $config = $this->config;
+        $params = $this->requestParams;
+        if($config['export_config']['enable'] === false){
+            throw new ErrorException('export config not enable');
+        }
+        if (empty($params['key'])) {
+            throw new ErrorException('field not found', ['field' => 'key']);
+        }
+        $searchData = (new ApiShare())->getShareData($config,$params['key']);
+
+        $res = (new ExportSwagger($config['export_config']))->exportJson($config,$searchData);
         return Helper::showJson(0, "", $res);
     }
 

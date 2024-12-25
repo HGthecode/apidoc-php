@@ -34,10 +34,14 @@ class HyperfMiddleware
     static function getApidocConfig()
     {
         $config = config("apidoc");
+        $exportConfig = config("apidoc-export");
         if (!(!empty($config['auto_url']) && !empty($config['auto_url']['filter_keys']))){
             $config['auto_url']['filter_keys'] = ['App','Controller'];
         }
         $config['app_frame'] = "hyperf";
+        if (!empty($exportConfig)){
+            $config['export_config'] = $exportConfig;
+        }
         return $config;
     }
 

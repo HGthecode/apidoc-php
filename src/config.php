@@ -74,6 +74,18 @@ return [
             ['name'=>'message','desc'=>'业务信息','type'=>'string','require'=>1],
         ]
     ],
+    // （选配）全局响应状态码
+    'responses_status'=>[
+        [
+            'name'=>'200',
+            'desc'=>'请求成功'
+        ],
+        [
+            'name'=>'401',
+            'desc'=>'登录令牌无效',
+            'contentType'=>''
+        ],
+    ],
     // （选配）apidoc路由前缀,默认apidoc
     'route_prefix'=>'/apidoc',
     //（选配）默认作者
@@ -87,6 +99,9 @@ return [
      * [Semantical Error] The annotation "@key" in method xxx() was never imported. Did you maybe forget to add a "use" statement for this annotation?
      */
     'ignored_annitation'=>[],
+
+    // （选配）解析时忽略的方法
+    'ignored_methods'=>[],
 
     // （选配）数据库配置
     'database'=>[],

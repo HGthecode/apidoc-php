@@ -56,6 +56,9 @@ class ConfigProvider
                 $config['responses']['error'] = Helper::handleArrayParams($config['responses']['error'],"desc",$config);
             }
         }
+        if (!empty($config['title'])){
+            $config['title'] = Lang::getLang($config['title'],$config);
+        }
         return $config;
     }
 
@@ -72,6 +75,7 @@ class ConfigProvider
             'generator'=>!empty($config['generator'])?$config['generator']:[],
             'code_template'=>!empty($config['code_template'])?$config['code_template']:[],
             'share'=>!empty($config['share'])?$config['share']:[],
+            'export_config'=>!empty($config['export_config'])?$config['export_config']:[],
         ];
         if (!empty($feConfig['apps']) && count($feConfig['apps'])){
             // 清除apps配置中的password

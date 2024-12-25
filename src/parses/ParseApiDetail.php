@@ -61,7 +61,10 @@ class ParseApiDetail
 
         }
         if (empty($refMethod->name)) {
-            return [];
+            return false;
+        }
+        if(!empty($config['ignored_methods']) && in_array($refMethod->name, $config['ignored_methods'])){
+            return false;
         }
         $classTextAnnotations = ParseAnnotation::parseTextAnnotation($refClass);
         $classAnnotations = (new ParseAnnotation($config))->getClassAnnotation($refClass);
@@ -69,9 +72,14 @@ class ParseApiDetail
         $textAnnotations = ParseAnnotation::parseTextAnnotation($refMethod);
         // 标注不解析的方法
         if (in_array("NotParse", $textAnnotations)) {
-            return [];
+            return false;
         }
         $methodAnnotations = $this->getMethodAnnotation($refMethod);
+
+        // 标注不解析的方法
+        if (isset($methodAnnotations['notParse']) || empty($methodAnnotations)) {
+            return false;
+        }
         $methodAnnotations = self::handleApiBaseInfo($methodAnnotations,$refClass->name,$refMethod->name,$textAnnotations,$config);
         // 是否开启debug
         if (
@@ -137,6 +145,25 @@ class ParseApiDetail
             $methodAnnotations['param'] = $this->mergeGlobalOrAppParams($params,'body');
         }
 
+        // 合并全局响应状态码
+        if (
+            !in_array("NotResponsesStatus", $textAnnotations) &&
+            !isset($methodAnnotations['notResponsesStatus'])
+        )
+        {
+            $globalResponseStatus = [];
+            if (!empty($config['responses_status'])){
+                $globalResponseStatus = $config['responses_status'];
+            }else if(!empty($this->currentApp['responses_status'])){
+                $globalResponseStatus = $this->currentApp['responses_status'];
+            }
+            if (count($globalResponseStatus)>0){
+                $responseStatus = !empty($methodAnnotations['responseStatus'])?$methodAnnotations['responseStatus']:[];
+                $methodAnnotations['responseStatus'] = Helper::arrayMergeAndUnique("name", $globalResponseStatus,$responseStatus);
+            }
+
+        }
+
         //添加成功响应体
         $methodAnnotations['responseSuccess'] = $this->handleApiResponseSuccess($methodAnnotations,$textAnnotations);
         //添加异常响应体
@@ -195,7 +222,7 @@ class ParseApiDetail
         if (!empty($refField)){
             $handleFields =  [$refField];
         }else{
-            $handleFields = ["header","query","param","routeParam","returned","before","after","responseSuccess","responseError"];
+            $handleFields = ["header","query","param","routeParam","returned","before","after","responseSuccess","responseError","responseStatus"];
         }
         foreach ($handleFields as $field) {
             if (!empty($annotations[$field])){
@@ -262,8 +289,8 @@ class ParseApiDetail
         $paramType='success';
         if (
             in_array("NotResponses", $textAnnotations) ||
-            in_array("NotResponseSuccess", $textAnnotations) || 
-            isset($methodAnnotations['notResponses']) || 
+            in_array("NotResponseSuccess", $textAnnotations) ||
+            isset($methodAnnotations['notResponses']) ||
             isset($methodAnnotations['notResponseSuccess'])
         ) {
             // 注解了不使用全局响应
@@ -325,8 +352,8 @@ class ParseApiDetail
         $mergeParams = [];
         if (
             in_array("NotResponses", $textAnnotations) ||
-            in_array("NotResponseError", $textAnnotations) || 
-            isset($methodAnnotations['notResponses']) || 
+            in_array("NotResponseError", $textAnnotations) ||
+            isset($methodAnnotations['notResponses']) ||
             isset($methodAnnotations['notResponseError'])
         ) {
             // 注解了不使用全局响应
@@ -363,6 +390,10 @@ class ParseApiDetail
 
 
     public static function handleApiBaseInfo($methodInfo,$className,$methodName,$textAnnotations,$config){
+        // 是否存在apidoc的注解
+        if (empty($methodInfo)) {
+            return false;
+        }
         // 无标题，且有文本注释
         if (empty($methodInfo['title']) && !empty($textAnnotations) && count($textAnnotations) > 0) {
             $methodInfo['title'] = Lang::getLang($textAnnotations[0]);
@@ -380,8 +411,8 @@ class ParseApiDetail
 
         // 默认default_author
         if (
-            empty($methodInfo['author']) && 
-            !empty($config['default_author']) && 
+            empty($methodInfo['author']) &&
+            !empty($config['default_author']) &&
             !in_array("NotDefaultAuthor", $textAnnotations) &&
             !isset($methodInfo['notDefaultAuthor'])
         ) {
@@ -668,8 +699,8 @@ class ParseApiDetail
 //        }
         return $refParams;
     }
-    
-    
+
+
 
 
 

@@ -58,10 +58,14 @@ class LaravelService extends ServiceProvider
     static function getApidocConfig()
     {
         $config = config("apidoc");
+        $exportConfig = config("apidoc-export");
         if (!(!empty($config['auto_url']) && !empty($config['auto_url']['filter_keys']))){
             $config['auto_url']['filter_keys'] = ['App','Http','Controllers'];
         }
         $config['app_frame'] = "laravel";
+        if (!empty($exportConfig)){
+            $config['export_config'] = $exportConfig;
+        }
         return $config;
     }
 

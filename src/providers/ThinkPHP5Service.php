@@ -43,10 +43,14 @@ class ThinkPHP5Service
     static function getApidocConfig()
     {
         $config = config("apidoc.");
+        $exportConfig = config("apidoc-export.");
         if (!(!empty($config['auto_url']) && !empty($config['auto_url']['filter_keys']))){
             $config['auto_url']['filter_keys'] = ['app','controller'];
         }
         $config['app_frame'] = "thinkphp5";
+        if (!empty($exportConfig)){
+            $config['export_config'] = $exportConfig;
+        }
         return $config;
     }
 

@@ -26,6 +26,7 @@ class ParseApiMenus
 
     protected $currentApp = [];
 
+    protected $appKey = "";
 
     public function __construct($config)
     {
@@ -43,6 +44,7 @@ class ParseApiMenus
         $currentAppConfig = Helper::getCurrentAppConfig($appKey);
         $currentApp = $currentAppConfig['appConfig'];
         $this->currentApp  = $currentApp;
+        $this->appKey = $appKey;
 
         $controllers = [];
         if (!empty($currentApp['controllers']) && count($currentApp['controllers']) > 0) {
@@ -173,6 +175,7 @@ class ParseApiMenus
     public function parseController($class,$isParseDetail=false)
     {
 
+
         $refClass             = new ReflectionClass($class);
         $classTextAnnotations = ParseAnnotation::parseTextAnnotation($refClass);
         $data = (new ParseAnnotation($this->config))->getClassAnnotation($refClass);
@@ -182,6 +185,7 @@ class ParseApiMenus
         $controllersName    = $refClass->getShortName();
         $data['controller'] = $controllersName;
         $data['path'] = $class;
+        $data['appKey'] = $this->appKey;
         if (!empty($data['group']) && !in_array($data['group'], $this->groups)) {
             $this->groups[] = $data['group'];
         }
@@ -225,16 +229,19 @@ class ParseApiMenus
         if (empty($refMethod->name)) {
             return false;
         }
+        if(!empty($config['ignored_methods']) && in_array($refMethod->name, $config['ignored_methods'])){
+            return false;
+        }
 
         try {
             $textAnnotations = ParseAnnotation::parseTextAnnotation($refMethod);
 
-            $methodInfo = (new ParseAnnotation($this->config))->getMethodAnnotation($refMethod);
+            $methodAnnotation = (new ParseAnnotation($this->config))->getMethodAnnotation($refMethod);
             // 标注不解析的方法
-            if (in_array("NotParse", $textAnnotations) || isset($methodInfo['notParse']) || empty($methodInfo)) {
+            if (in_array("NotParse", $textAnnotations) || isset($methodAnnotation['notParse']) || empty($methodAnnotation)) {
                 return false;
             }
-            $methodInfo = ParseApiDetail::handleApiBaseInfo($methodInfo,$refClass->name,$refMethod->name,$textAnnotations,$config);
+            $methodInfo = ParseApiDetail::handleApiBaseInfo($methodAnnotation,$refClass->name,$refMethod->name,$textAnnotations,$config);
             $methodInfo['appKey'] = !empty($this->currentApp['appKey'])?$this->currentApp['appKey']:"";
             return Helper::getArrayValuesByKeys($methodInfo,['title','method','url','author','tag','name','menuKey','appKey']);
         }catch (AnnotationException $e) {

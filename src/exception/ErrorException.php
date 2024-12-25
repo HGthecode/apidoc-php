@@ -37,6 +37,7 @@ class ErrorException extends HttpException
         'datatable create error' => ['status'=>412,'code' => 5006, 'msg' => '数据表[${table}]创建失败,error:${message},sql:${sql}'],
         'field not found' => ['status'=>412,'code' => 5006, 'msg' => '${field}字段不能为空'],
         'share not exists' => ['status'=>404,'code' => 4004, 'msg' => '该分享不存在'],
+        'export config not enable' => ['status'=>404,'code' => 4004, 'msg' => '导出配置未启用'],
     ];
 
     public function __construct(string $exceptionCode, array $data = [])
