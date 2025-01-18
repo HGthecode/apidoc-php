@@ -9,7 +9,7 @@
 ## 安装 apidoc-export 插件
 
 ```bash
-composer require hg/apidoc-export:^5.3.0-rc.1
+composer require hg/apidoc-export
 ```
 
 Laravel 框架需要执行以下命令生成配置文件
