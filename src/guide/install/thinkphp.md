@@ -48,6 +48,29 @@ composer require hg/apidoc
 
 打开浏览器访问 http://你的域名/apidoc/ ，出现接口文档页面，表示安装成功。
 
+::: warning 404 问题
+如果使用 `php think run` 命令行启动项目，apidoc 可能会出现 404 错误，这是因为命令行启动的项目并未对 apidoc 接口进行伪静态处理，解决方案：
+
+1、前端配置 host
+
+```php
+// public/apidoc/config.js
+var config = {
+  // 请求地址host
+  HTTP:{
+    HOSTS: [
+      {
+        title:"",
+        host:"/index.php"
+      }
+    ]
+  }
+};
+```
+
+2、在集成环境中运行，并正确配置伪静态
+:::
+
 ## TP5.1 配置
 
 1、TP5.1 版本需手动配置，让 Apidoc 在应用初始化时注册相关服务，如下：
