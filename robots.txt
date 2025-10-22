@@ -2,4 +2,4 @@
 User-agent:*
 Disallow:
 
-Sitemap: https://docs.apidoc.icu/sitemap.xml
+Sitemap: https://hgthecode.github.io/apidoc-php/apidoc-php/sitemap.xml
