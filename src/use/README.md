@@ -11,7 +11,7 @@ headerDepth: 2
 - 如果您使用的是 php8 以上版本，建议使用 PHP8 原生注解方式书写注解。
 - 如果你使用小于 PHP8 版本，并使用 PHPStorm 的话，建议安装[Annotations 插件](https://plugins.jetbrains.com/plugin/7320-php-annotations)，可以支持注解的语法提示及自动完成
 
-- 配合查看[演示项目](https://demo-tp6.apidoc.icu/apidoc/)与[演示源码](https://github.com/HGthecode/apidoc-demos)、[基于 Webman 的 PHP8 原生注解示例源码](https://github.com/HGthecode/apidoc-demos/tree/webman)上手更快哦！
+- 配合查看[演示项目](https://github.com/HGthecode/apidoc-demos)、[基于 Webman 的 PHP8 原生注解示例源码](https://github.com/HGthecode/apidoc-demos/tree/webman)上手更快哦！
 
 ## 书写规范
 

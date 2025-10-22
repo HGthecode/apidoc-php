@@ -4,7 +4,7 @@ import { path } from "@vuepress/utils";
 import theme from "./theme.js";
 
 export default defineUserConfig({
-  base: "/",
+  base: "/apidoc-php/",
 
   lang: "zh-CN",
   title: "Apidoc",

@@ -11,7 +11,7 @@ actions:
     type: primary
 
   - text: 演示 🏠
-    link: http://demo-tp6.apidoc.icu/apidoc/
+    link: https://github.com/HGthecode/apidoc-demos
 
 features:
   - title: 开箱即用

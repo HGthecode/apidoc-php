@@ -24,7 +24,7 @@ window.apidocFeConfig = {
     HOSTS: [
       {
         title: "tp6",
-        host: "http://tp6.apidoc.icu",
+        host: "http://tp6.demo.com",
       },
       //...
     ],

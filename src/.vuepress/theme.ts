@@ -4,7 +4,7 @@ import navbar from "./navbar.js";
 import sidebar from "./sidebar.js";
 
 export default hopeTheme({
-  hostname: "https://docs.apidoc.icu",
+  hostname: "https://hgthecode.github.io/apidoc-php/",
 
   author: {
     name: "HG",
@@ -131,6 +131,15 @@ export default hopeTheme({
       components: ["Badge", "VPCard"],
     },
     slimsearch: true,
+    notice: [
+      {
+        path: "/",
+        title: "重要提示",
+        showOnce:false,
+        confirm:true,
+        content: "原文档域名（apidoc.icu）即将于2026-01-01停止使用；请使用新的文档地址：<a href='https://hgthecode.github.io/apidoc-php/'>https://hgthecode.github.io/apidoc-php/</a>",
+      },
+    ]
 
     // 如果你需要 PWA。安装 @vuepress/plugin-pwa 并取消下方注释
     // pwa: {

@@ -51,7 +51,7 @@ composer require hg/apidoc
 ::: warning 404 问题
 如果使用 `php think run` 命令行启动项目，apidoc 可能会出现 404 错误，这是因为命令行启动的项目并未对 apidoc 接口进行伪静态处理，解决方案：
 
-1、前端配置 host
+1、前端配置 host，使用 `php think run`运行时
 
 ```php
 // public/apidoc/config.js
